@@ -22,8 +22,8 @@ session_start();
  * <https://developers.google.com/youtube/v3/guides/authentication>
  * Please ensure that you have enabled the YouTube Data API for your project.
  */
-$OAUTH2_CLIENT_ID = '88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com';
-$OAUTH2_CLIENT_SECRET = '4xobKsbsIv2nFo7XOhcadA6V';
+$OAUTH2_CLIENT_ID = "88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com";
+$OAUTH2_CLIENT_SECRET = "4xobKsbsIv2nFo7XOhcadA6V";
 
 $client = new Google_Client();
 $client->setClientId($OAUTH2_CLIENT_ID);
@@ -54,14 +54,20 @@ if (isset($_SESSION[$tokenSessionKey])) {
 
 if ($client->getAccessToken()) {
     $videoId = "wisbrPN9fbI";
-
-    $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",
+    /*
+    try {
+    $listResponse = $youtube->videos->listVideos("snippet",
     array('id' => $videoId));
     $video = $listResponse[0];
     $videoSnippet = $video['snippet'];
-    $videoContentDetails = $video['contentDetails'];
-    $videoStatistics = $video['statistics'];
-    $videoPlayer = $video['player'];
+  } catch (Google_Service_Exception $e) {
+    $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>',
+        htmlspecialchars($e->getMessage()));
+  } catch (Google_Exception $e) {
+    $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
+        htmlspecialchars($e->getMessage()));
+  }
+*/
     /*
     $htmlBody .= "<h3>Video Updated</h3><ul>";
     $htmlBody .= sprintf('<li>Tags "%s" and "%s" added for video %s (%s) </li>',
@@ -70,7 +76,26 @@ if ($client->getAccessToken()) {
         $htmlBody .= '</ul>';
         $_SESSION['token'] = $client->getAccessToken();
         */
-    
+
+        //$listCommentsResponse = $youtube->commentThreads->listCommentThreads("snippet, replies", array('videoId' => $videoId));
+        //$videoComments = $listCommentsResponse[0];
+        
+        try {
+    // Call the YouTube Data API's commentThreads.list method to retrieve video comment threads.
+    $videoCommentThreads = $youtube->commentThreads->listCommentThreads('snippet', array(
+      'videoId' => $videoId,
+      'textFormat' => 'plainText',
+      ));
+  
+      $parentId = $videoCommentThreads[0]['id'];
+        } catch (Google_Service_Exception $e) {
+          $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>',
+              htmlspecialchars($e->getMessage()));
+        } catch (Google_Exception $e) {
+          $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
+              htmlspecialchars($e->getMessage()));
+        }
+
 }else{
     $state = mt_rand();
     $client->setState($state);
@@ -82,9 +107,7 @@ if ($client->getAccessToken()) {
 <h3>Authorization Required</h3>
 <p>You need to <a href="$authUrl">authorize access</a> before proceeding.<p>
 END;
-
 }
-
 ?>
 
 <!doctype html>
@@ -93,7 +116,6 @@ END;
     <title>Video Updated</title>
     </head>
     <body>
-    <?=$videoSnippet['title'] ?>
-    <img src="<?=$videoSnippet['thumbnails']['default']['url'] ?>"/>
+      <p><?=$htmlBody?></p>
     </body>
     </html>
