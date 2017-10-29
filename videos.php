@@ -1,11 +1,10 @@
 <?php
 
 
-Class Videos{
+Class videosAPI{
 
 
-    function Videos(){
-        
+    function videosAPI(){
     }
 
     function getDetailsVideo($videoId){
@@ -67,6 +66,19 @@ Class Videos{
           }
         return $video;
     
+    }
+
+
+    function getDuration($duration){
+      // PT1H25M38S
+
+      $parametros = array("PT", "H", "M","S");
+      $salida   = array("", "h ", "m ", "s");
+
+      $newDuration = str_replace($parametros, $salida, $duration);
+
+      return $newDuration;
+
     }
 
 }

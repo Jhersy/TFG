@@ -54,7 +54,7 @@ if (isset($_SESSION[$tokenSessionKey])) {
 
 if ($client->getAccessToken()) {
     $videoId = "wisbrPN9fbI";
-    /*
+    
     try {
     $listResponse = $youtube->videos->listVideos("snippet",
     array('id' => $videoId));
@@ -67,7 +67,7 @@ if ($client->getAccessToken()) {
     $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
         htmlspecialchars($e->getMessage()));
   }
-*/
+
     /*
     $htmlBody .= "<h3>Video Updated</h3><ul>";
     $htmlBody .= sprintf('<li>Tags "%s" and "%s" added for video %s (%s) </li>',
@@ -79,7 +79,7 @@ if ($client->getAccessToken()) {
 
         //$listCommentsResponse = $youtube->commentThreads->listCommentThreads("snippet, replies", array('videoId' => $videoId));
         //$videoComments = $listCommentsResponse[0];
-        
+        /*
         try {
     // Call the YouTube Data API's commentThreads.list method to retrieve video comment threads.
     $videoCommentThreads = $youtube->commentThreads->listCommentThreads('snippet', array(
@@ -95,6 +95,7 @@ if ($client->getAccessToken()) {
           $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
               htmlspecialchars($e->getMessage()));
         }
+        */
 
 }else{
     $state = mt_rand();
@@ -117,5 +118,6 @@ END;
     </head>
     <body>
       <p><?=$htmlBody?></p>
+      <p><?=$videoSnippet?></p>
     </body>
     </html>

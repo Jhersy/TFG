@@ -1,27 +1,22 @@
 
 <?php
 
+// Para obtener información vía API de un vídeo
 include "videos.php";
 
-$logic = new Videos();
+$logic = new videosAPI();
 
-$arrayIds = array('wisbrPN9fbI', 'lQmDWuJCY7U');
 
-/*
-$video1 = $logic->getDetailsVideo($arrayIds[0]);
-$video2 = $logic->getDetailsVideo($arrayIds[1]);
+// Para obtener los identificadores de los vídeos
+include "src/logic/Videos.php";
 
-echo $video1['snippet']['title'];
-echo $video2['snippet']['title'];
-*/
+$categoria = $_GET["category"];
 
-//titulo (snippet-title), thumbnail (snippet-thumbnails-default-url), hd (contentDetails-definition), subtitulos (contentDetails-caption), visualizaciones (statistics - viewCount), likes (statistics - likeCount), duracion (ContentDetails - duration) 
- 
+$model = new Videos();
+
+$IdsVideos = $model->listVideos($categoria);
+
 ?>
-
-
-
-
 
 
 <!DOCTYPE HTML>
@@ -78,11 +73,9 @@ echo $video2['snippet']['title'];
 							</thead>
 							<tbody>
                                 <?php
-
-                                    for( $i = 0; $i < count($arrayIds); $i++) { 
-                                            $video = $logic->getDetailsVideo($arrayIds[$i]);
+                                    foreach($IdsVideos as $id_video) { 
+                                            $video = $logic->getDetailsVideo($id_video['id_video']);
                                         ?>
-
                                 <tr>
 									<td rowspan="2">
 										<br>
@@ -108,7 +101,7 @@ echo $video2['snippet']['title'];
 													<i class="fa fa-thumbs-o-up" aria-hidden="true"> <?= $video['statistics']['likeCount']?></i>
 												</li>
 												<li>
-													<i class="fa fa-clock-o" aria-hidden="true"> <?= $video['contentDetails']['duration']?></i>
+													<i class="fa fa-clock-o" aria-hidden="true"> <?= $logic->getDuration($video['contentDetails']['duration'])?></i>
 												</li>
 											</ul>
 										</p>
@@ -117,187 +110,13 @@ echo $video2['snippet']['title'];
 								<tr></tr>
                                     <?php
                                     }
-                                
                                 ?>
-<!--
-								<tr>
-									<td rowspan="2">
-										<br>
-										<a href="#" class="image">
-											<img src="resources/images/test.jpg" alt="" />
-										</a>
-									</td>
-									<td colspan="3">Cuando los gestos hablan (Núria Esteve)
-										<p>
-											<br>
-											<a class="button small">HD</a>
-											<a class="button small">Subtítulos</a>
-											<ul class="icons">
-													<li>
-														<i class="fa fa-eye" aria-hidden="true">123</i>
-													</li>
-													<li>
-														<i class="fa fa-thumbs-o-up" aria-hidden="true">12344</i>
-													</li>
-													<li>
-														<i class="fa fa-clock-o" aria-hidden="true">1H 23m 3s</i>
-													</li>
-												</ul>
-										</p>
-									</td>
-								</tr>
-								<tr>
-								</tr>
-								<tr>
-									<td rowspan="2">
-										<br>
-										<a href="#" class="image">
-											<img src="resources/images/test.jpg" alt="" />
-										</a>
-									</td>
-									<td colspan="3"> <a href="player.html">Música, lenguaje y cognición</a>  
-										<p>
-											<br>
-											<a class="button small">HD</a>
-											<a class="button disabled small">Subtítulos</a>
-											<ul class="icons">
-													<li>
-														<i class="fa fa-eye" aria-hidden="true">123</i>
-													</li>
-													<li>
-														<i class="fa fa-thumbs-o-up" aria-hidden="true">12344</i>
-													</li>
-													<li>
-														<i class="fa fa-clock-o" aria-hidden="true">1H 23m 3s</i>
-													</li>
-												</ul>
-										</p>
-									</td>
-								</tr>
-                                <tr></tr>
-                            !-->
 							</tbody>
 						</table>
 					</div>
-
-
-
-
-					<div class="posts">
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic01.jpg" alt="" />
-							</a>
-							<h3>Interdum aenean</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic02.jpg" alt="" />
-							</a>
-							<h3>Nulla amet dolore</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic03.jpg" alt="" />
-							</a>
-							<h3>Tempus ullamcorper</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic04.jpg" alt="" />
-							</a>
-							<h3>Sed etiam facilis</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic05.jpg" alt="" />
-							</a>
-							<h3>Feugiat lorem aenean</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image">
-								<img src="resources/images/pic06.jpg" alt="" />
-							</a>
-							<h3>Amet varius aliquam</h3>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-								amet lorem feugiat tempus aliquam.</p>
-							<ul class="actions">
-								<li>
-									<a href="#" class="button">More</a>
-								</li>
-							</ul>
-						</article>
-					</div>
 				</section>
-
-				<ul class="pagination">
-					<li>
-						<span class="button disabled">Prev</span>
-					</li>
-					<li>
-						<a href="#" class="page active">1</a>
-					</li>
-					<li>
-						<a href="#" class="page">2</a>
-					</li>
-					<li>
-						<a href="#" class="page">3</a>
-					</li>
-					<li>
-						<span>…</span>
-					</li>
-					<li>
-						<a href="#" class="page">8</a>
-					</li>
-					<li>
-						<a href="#" class="page">9</a>
-					</li>
-					<li>
-						<a href="#" class="page">10</a>
-					</li>
-					<li>
-						<a href="#" class="button">Next</a>
-					</li>
-				</ul>
-
 			</div>
 		</div>
-
 	</div>
 
 	<!-- Scripts -->
