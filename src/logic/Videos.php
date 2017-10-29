@@ -13,9 +13,6 @@ Class Videos{
     function listVideos($categoria){
         $listVideos = $this->daoVideos->getVideosByCategory($categoria);
         return $listVideos;
-        //return $categoria;
-
-        //'len_humano','len_mundo','semantica','linguistica'
       }
 }
 ?>

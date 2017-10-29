@@ -21,7 +21,7 @@ Class DAOVideos{
             $stmt->execute(["categoria" => $category]);
             $res = $stmt->fetchAll();
         } catch(PDOException $e) {
-            echo "ERROR EN DAOServicio: " . $e->getMessage();
+            echo "ERROR EN DAOVideos: " . $e->getMessage();
         }
         return $res;
     }
