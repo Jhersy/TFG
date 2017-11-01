@@ -1,5 +1,10 @@
 <?php
 
+require_once("src/App.php");
+$rol = isAdmin(); //Return session admin or null
+
+
+
 /**
  * Library Requirements
  *
@@ -186,9 +191,17 @@ END;
                     </div>
 
                     <ul class="icons">
-                        <li>
-                            <a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a>
-                        </li>
+                    <?php
+                        if (is_null($rol) ) {
+                            echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+                        }
+                        else {
+                            $name = getName();
+                            echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+                        }
+                    ?>
                     </ul>
 
                     <!-- Modal -->
@@ -201,7 +214,7 @@ END;
                                 <div class="modal-header">
                                     <a type="button" class="close" data-dismiss="modal">&times;</a>
                                     <h3>
-                                        <span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
+                                        <span class="glyphicon glyphicon-lock"></span> Iniciar sesión como Administrador</h3>
                                 </div>
                                 <div class="modal-body">
                                     <form role="form">

@@ -1,6 +1,10 @@
 
 <?php
 
+require_once("src/App.php");
+$rol = isAdmin(); //Return session admin or null
+
+
 // Para obtener información vía API de un vídeo
 include "videos.php";
 
@@ -50,11 +54,17 @@ $IdsVideos = $model->listVideos($categoria);
 						<strong>Zaragoza Lingüística</strong>
 					</a>
 					<ul class="icons">
-						<li>
-							<a href="#" class="icon fa-youtube">
-								<span class="label">Youtube</span>
-							</a>
-						</li>
+					<?php
+						if (is_null($rol) ) {
+							echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+						}
+						else {
+							$name = getName();
+							echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+							echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+						}
+					?>
 					</ul>
 				</header>
 

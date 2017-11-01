@@ -42,10 +42,6 @@ function getID() {
 }
 
 
-function isLogged() {
-    return !isnull(getRole());
-}
-
 function redirect($url, $secs = 0){
     header("Refresh: {$secs}; URL={$url}");
 }

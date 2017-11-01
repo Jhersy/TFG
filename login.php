@@ -15,13 +15,13 @@ if (is_null(isAdmin())) {
     if (!is_null($user)) {
         sessionLogin($user[0]["name_admin"], "admin", $user[0]["id_admin"]);
         //Redirigir a página del administrador
-        redirect("administracion.html");
+        redirect("administracion.php");
     } else {
-        redirect("index.html");
+        redirect("index.php");
     }
 } else {
     sessionLogout();
-    redirect("index.html");
+    redirect("index.php");
 }
 
 
