@@ -6,9 +6,17 @@ $categoria = "len_humano";
 
 $model = new Users();
 
-$users = $model->checkLogin("test");
 
-echo $users[0][1];
+//$idUser = $model->newUser("prueba2", "prueba2");
+//echo $idUser;
+//$users = $model->checkLogin("prueba2", "prueba2");
+
+//echo $users[0]['id_admin'];
+
+
+
+//$idUser = $model->newUser("prueba", "prueba");
+//echo $idUser;
 
 
 /*

@@ -10,15 +10,22 @@ Class Users{
         $this->daoUsuarios = new DAOUsuarios();
     }
 
-    function checkLogin($username){
-
+    function checkLogin($username, $password){
 
         $user = $this->daoUsuarios->findUserByName($username);
 
-       /* if (is_null($user) || !password_verify($password, $user["password_admin"])) {
-          return null;
-        }*/
+        if (is_null($user) || !password_verify($password, $user[0]['password_admin'])) {
+            return null;
+        }
         return $user;
       }
+
+
+    function newUser($name, $password) {
+        //Se encripta la password
+        $hpassword = password_hash($password, PASSWORD_BCRYPT);
+        echo $name;
+        return $this->daoUsuarios->insert($name, $hpassword);
+    }
 }
 ?>

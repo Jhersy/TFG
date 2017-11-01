@@ -26,5 +26,17 @@ Class DAOUsuarios{
         return $res;
     }
 
+    function insert($name, $hpassword){
+        try {
+            $sql = "INSERT INTO administradores (name_admin, password_admin) VALUES (:usuario, :pass)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["usuario" => $name, "pass" => $hpassword]);
+            $id = $this->conn->lastInsertId();
+          } catch(PDOException $e) {
+                return null;
+            }
+        return $id;
+    }
+
 }
 ?>
