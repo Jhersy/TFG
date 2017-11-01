@@ -20,6 +20,7 @@ $model = new Videos();
 
 $IdsVideos = $model->listVideos($categoria);
 
+
 ?>
 
 
@@ -77,7 +78,7 @@ $IdsVideos = $model->listVideos($categoria);
 						<table>
 							<thead>
 								<tr>
-									<th>Imagen</th>
+									<th>Vídeo</th>
 									<th>Título</th>
 								</tr>
 							</thead>

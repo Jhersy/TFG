@@ -59,7 +59,7 @@ if ($client->getAccessToken()) {
     $listResponse = $youtube->videos->listVideos("snippet",
     array('id' => $videoId));
     $video = $listResponse[0];
-    $videoSnippet = $video['snippet'];
+    //$videoSnippet = $video['snippet'];
   } catch (Google_Service_Exception $e) {
     $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>',
         htmlspecialchars($e->getMessage()));
@@ -118,6 +118,5 @@ END;
     </head>
     <body>
       <p><?=$htmlBody?></p>
-      <p><?=$videoSnippet?></p>
     </body>
     </html>

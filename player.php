@@ -4,7 +4,6 @@ require_once("src/App.php");
 $rol = isAdmin(); //Return session admin or null
 
 
-
 /**
  * Library Requirements
  *
@@ -282,7 +281,7 @@ END;
                     <hr class="major" />
 
                     <h4><strong> <?=$videoStatistics['commentCount']?> Comentarios</strong></h4>
-                    
+                    <img src="<?=$imagenComentario?>" alt="">
                     <dl>
                         <dt><?=$htmlBody1?></dt>
                         <dd>
