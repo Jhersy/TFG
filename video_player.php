@@ -1,6 +1,10 @@
 <?php
 
 
+$videoId = $_REQUEST["id"];
+
+
+
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
   }
@@ -43,7 +47,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   
   
   if ($client->getAccessToken()) {
-      $videoId = "wisbrPN9fbI";
+      //$videoId = "wisbrPN9fbI";
   
       $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",array('id' => $videoId));
       

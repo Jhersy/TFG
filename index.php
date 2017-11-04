@@ -1,6 +1,9 @@
 <?php
 //include "src/App.php";
 require_once("src/App.php");
+require_once("scraping.php");
+$categories = getAllCategories();
+$icons = array('icon fa fa-users', 'icon fa fa-language', 'icon fa fa-comments', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 $rol = isAdmin(); //Return session admin or null
 
 ?>
@@ -124,38 +127,19 @@ $rol = isAdmin(); //Return session admin or null
 						<h2>Categorías</h2>
 					</header>
 					<div class="features">
-						<article>
-							<span class="icon fa fa-users"></span>
-							<div class="content">
-								<h3><a href="list_videos.php?category=len_humano">Lenguaje humano, comunicación y cognición</a></h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-									amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
-						<article>
-							<span class="icon fa fa-language"></span>
-							<div class="content">
-								<h3> <a href="list_videos.php?category=len_mundo">Lenguas del mundo. Variedad y diversidad</a></h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-									amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
-						<article>
-							<span class="icon fa fa-comments"></span>
-							<div class="content">
-								<h3><a href="list_videos.php?category=len_mundo">Semántica, pragmática, morfosintaxis y análisis del discurso</a></h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-									amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
-						<article>
-							<span class="icon fa-pencil-square-o"></span>
-							<div class="content">
-								<h3>Lingüística aplicada</h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla
-									amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
+							<?php
+								$i = 0;
+								foreach ($categories as $category) { ?>
+									<article>
+										<span class="<?=$icons[$i];?>"></span>
+										<div class="content">
+											<h3><a href="list_videos.php?category=<?=$i?>"><?=$category?></a></h3>
+										</div>
+									</article>
+									<?php
+									$i++;
+								}
+							?>
 					</div>
 				</section>
 			</div>

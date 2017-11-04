@@ -10,7 +10,7 @@ include "videos.php";
 
 $logic = new videosAPI();
 
-
+/*
 // Para obtener los identificadores de los vídeos
 include "src/logic/Videos.php";
 
@@ -19,7 +19,11 @@ $categoria = $_GET["category"];
 $model = new Videos();
 
 $IdsVideos = $model->listVideos($categoria);
+*/
 
+require_once("scraping.php");
+$categoria = $_GET["category"];
+$IdsVideos = getIDsVideos($categoria);
 
 ?>
 

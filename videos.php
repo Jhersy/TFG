@@ -60,8 +60,7 @@ Class videosAPI{
               $_SESSION['state'] = $state;
           
               $authUrl = $client->createAuthUrl();
-              echo $authUrl;
-              $htmlBody = "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
+              echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
           
           }
         return $video;
