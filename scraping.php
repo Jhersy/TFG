@@ -26,6 +26,18 @@ function getAllCategories(){
     return $allCategories;
 }
 
+
+function getNameCategory($idCategory){
+    $allCategories = array();
+    $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
+    $html = file_get_html( $url );
+    $categories = $html->find('div[class=entry-content] ol li');
+    $title = "";
+        $link = $categories[$idCategory]->find('a',0);
+        $title = $link->innertext; // NOMBRE DE LAS CATEGORÍAS
+    return $title;
+}
+
 //echo getAllCategories()[0];
 
 

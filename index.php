@@ -33,7 +33,7 @@ $rol = isAdmin(); //Return session admin or null
 			<div class="inner">
 				<!-- Header -->
 				<header id="header" style="padding-top:2em;">
-					<a href="index.html" class="logo"><strong>Zaragoza Lingüística</strong></a>
+					<a href="index.php" class="logo"><strong>Zaragoza Lingüística</strong></a>
 					<ul class="icons">
                     <?php
                         if (is_null($rol) ) {

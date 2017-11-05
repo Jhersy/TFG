@@ -4,27 +4,85 @@
 require_once("src/App.php");
 $rol = isAdmin(); //Return session admin or null
 
-
-// Para obtener información vía API de un vídeo
-include "videos.php";
-
-$logic = new videosAPI();
-
-/*
-// Para obtener los identificadores de los vídeos
-include "src/logic/Videos.php";
-
-$categoria = $_GET["category"];
-
-$model = new Videos();
-
-$IdsVideos = $model->listVideos($categoria);
-*/
-
 require_once("scraping.php");
 $categoria = $_GET["category"];
+$categoryName = getNameCategory($categoria);
 $IdsVideos = getIDsVideos($categoria);
 
+$videos = array();
+
+
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+	throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
+  }
+  
+  require_once __DIR__ . '/vendor/autoload.php';
+  session_start();
+  
+  $OAUTH2_CLIENT_ID = "88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com";
+  $OAUTH2_CLIENT_SECRET = "4xobKsbsIv2nFo7XOhcadA6V";
+  
+  $client = new Google_Client();
+  $client->setClientId($OAUTH2_CLIENT_ID);
+  $client->setClientSecret($OAUTH2_CLIENT_SECRET);
+  $client->setScopes('https://www.googleapis.com/auth/youtube');
+  $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
+	FILTER_SANITIZE_URL);
+  $client->setRedirectUri($redirect);
+  
+  $youtube = new Google_Service_YouTube($client);
+  
+  // Check if an auth token exists for the required scopes
+  $tokenSessionKey = 'token-' . $client->prepareScopes();
+  if (isset($_GET['code'])) {
+	if (strval($_SESSION['state']) !== strval($_GET['state'])) {
+	  die('The session state did not match.');
+	}
+  
+	$client->authenticate($_GET['code']);
+	$_SESSION[$tokenSessionKey] = $client->getAccessToken();
+	header('Location: ' . $redirect);
+  }
+  
+  if (isset($_SESSION[$tokenSessionKey])) {
+	$client->setAccessToken($_SESSION[$tokenSessionKey]);
+  }
+  
+  
+  if ($client->getAccessToken()) {
+	  // $videoId = "wisbrPN9fbI";  
+
+	  // ESTADÍSTICAS DE UN VÍDEO
+	  foreach ($IdsVideos as $videoId) {
+		$listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",
+		array('id' => $videoId));
+		array_push($videos, $listResponse[0]);
+	  }
+
+	  
+  }else{
+	  $state = mt_rand();
+	  $client->setState($state);
+	  $_SESSION['state'] = $state;
+  
+	  $authUrl = $client->createAuthUrl();
+	  echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
+  
+  }
+
+
+
+  function getDuration($duration){
+	// PT1H25M38S
+
+	$parametros = array("PT", "H", "M","S");
+	$salida   = array("", "h ", "m ", "s");
+
+	$newDuration = str_replace($parametros, $salida, $duration);
+
+	return $newDuration;
+
+  }
 ?>
 
 
@@ -55,7 +113,7 @@ $IdsVideos = getIDsVideos($categoria);
 
 				<!-- Header -->
 				<header id="header">
-					<a href="index.html" class="logo">
+					<a href="index.php" class="logo">
 						<strong>Zaragoza Lingüística</strong>
 					</a>
 					<ul class="icons">
@@ -76,7 +134,7 @@ $IdsVideos = getIDsVideos($categoria);
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2>Lenguaje humano, comunicación y cognición</h2>
+						<h2><?=$categoryName?></h2>
 					</header>
 					<div class="table-wrapper">
 						<table>
@@ -87,36 +145,35 @@ $IdsVideos = getIDsVideos($categoria);
 								</tr>
 							</thead>
 							<tbody>
-                                <?php
-                                    foreach($IdsVideos as $id_video) { 
-                                            $video = $logic->getDetailsVideo($id_video['id_video']);
+                                <?php 
+                                    for ($i=0; $i < count($videos); $i++) { 
                                         ?>
                                 <tr>
 									<td rowspan="2">
 										<br>
 										<a href="#" class="image">
-											<img src=" <?= $video['snippet']['thumbnails']['default']['url'] ?>" alt="" />
+											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
 									</td>
-									<td colspan="3"> <?=$video['snippet']['title']?>
+									<td colspan="3"> <?=$videos[$i]['snippet']['title']?>
 										<p>
 											<br>
-											<a class="button small"> <?= $video['contentDetails']['definition']?></a>
+											<a class="button small"> <?= $videos[$i]['contentDetails']['definition']?></a>
                                             <?php
-                                                if($video['contentDetails']['caption'] == "false") ?>
+                                                if($videos[$i]['contentDetails']['caption'] == "false") ?>
                                                     <a class="button disabled small">Subtítulos</a>
                                                 <?php
                                             ?>
                                             
 											<ul class="icons">
 												<li>
-													<i class="fa fa-eye" aria-hidden="true"> <?= $video['statistics']['viewCount']?></i>
+													<i class="fa fa-eye" aria-hidden="true"> <?= $videos[$i]['statistics']['viewCount']?></i>
 												</li>
 												<li>
-													<i class="fa fa-thumbs-o-up" aria-hidden="true"> <?= $video['statistics']['likeCount']?></i>
+													<i class="fa fa-thumbs-o-up" aria-hidden="true"> <?= $videos[$i]['statistics']['likeCount']?></i>
 												</li>
 												<li>
-													<i class="fa fa-clock-o" aria-hidden="true"> <?= $logic->getDuration($video['contentDetails']['duration'])?></i>
+													<i class="fa fa-clock-o" aria-hidden="true"> <?= getDuration($videos[$i]['contentDetails']['duration'])?></i>
 												</li>
 											</ul>
 										</p>
@@ -124,7 +181,7 @@ $IdsVideos = getIDsVideos($categoria);
 								</tr>
 								<tr></tr>
                                     <?php
-                                    }
+									}
                                 ?>
 							</tbody>
 						</table>
