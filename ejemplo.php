@@ -6,14 +6,33 @@ $categoria = "len_humano";
 
 $model = new Users();
 */
+// $name = $_REQUEST["nameCategory"];
+//$ids= $_REQUEST["id_video"];
+// echo $name;
+ //var_dump($ids);
 
 
 
+/*
+ $resultado = $_POST['nombreCategoria'] .  $_POST['IdsVideos'] . $_POST['nombreVideo']; 
+ echo $resultado;
+*/
 
 
 
+$eje = "wisbrPN9fbI|lQmDWuJCY7U|";
+
+$arr = array();
+
+$arr = explode('|', $eje);
 
 
+var_dump($arr);
+
+
+for ($i=0; $i < count($arr) - 1; $i++) { 
+  echo $arr[$i] . " ";
+}
 
 
 
@@ -173,7 +192,7 @@ END;
 END;
 }
 */
-
+/*
 require_once("scraping.php");
 $IdsVideos = getIDsVideos(0);
 
@@ -235,6 +254,7 @@ if ($client->getAccessToken()) {
     echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
 
 }
+*/
 ?>
 
 <!doctype html>
@@ -243,7 +263,6 @@ if ($client->getAccessToken()) {
 <title>Insert, list, update, moderate, mark and delete comments.</title>
 </head>
 <body>
-  <?=$videos[1]['snippet']['title']?>
 </body>
 </html>
 

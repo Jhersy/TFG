@@ -10,9 +10,17 @@ Class Videos{
         $this->daoVideos = new DAOVideos();
     }
 
-    function listVideos($categoria){
-        $listVideos = $this->daoVideos->getVideosByCategory($categoria);
+    function listCategories(){
+        $listVideos = $this->daoVideos->getCategories();
         return $listVideos;
-      }
+    }
+
+
+    function setVideosWithCategory($category, $IdsVideos, $nameVideo){
+
+        for ($i=0; $i < count($IdsVideos) - 1; $i++) { 
+            $this->daoVideos->setVideosWithCategory($IdsVideos[$i], utf8_decode($nameVideo[$i]), $category);
+        }
+    }
 }
 ?>

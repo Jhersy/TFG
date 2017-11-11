@@ -18,6 +18,9 @@ if(!is_null($rol)){
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
 </head>
@@ -29,7 +32,7 @@ if(!is_null($rol)){
 
 		<!-- Main -->
 		<div id="main">
-			<div class="inner">
+			<div class="inner">if(!is_null($rol)){
 
 				<header id="header" style="padding-top:2em;">
 					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
@@ -46,80 +49,85 @@ if(!is_null($rol)){
 				<section>
 					<div class="row">
 						<div class="6u 12u$(small)">
-							<h3>Subir vídeo</h3>
-							<p>Para subir un vídeo necesitas: ..................................................................</p>
-							<button>Subir</button>
-						</div>
-
-						<div class="6u$ 12u$(small)">
-							<h3>Editar vídeo</h3>
-							<p>In arcu accumsan arcu adipiscing accumsan orci ac. Felis id enim aliquet. Accumsan ac integer lobortis commodo ornare
-								aliquet accumsan erat tempus amet porttitor. Ante commodo blandit adipiscing integer semper orci eget. Faucibus commodo
-								adipiscing mi eu nullam accumsan morbi arcu ornare odio mi adipiscing nascetur lacus ac interdum morbi accumsan vis
-								mi accumsan.</p>
+							<h3>Gestión de categorías</h3>
+							<a data-toggle="modal" data-target="#myModal" href="~"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
 						</div>
 						<div class="6u 12u$(small)">
-							<h3>Subir vídeo</h3>
-							<p>Para subir un vídeo necesitas: ..................................................................</p>
-							<button>Subir</button>
-						</div>
-
-						<div class="6u$ 12u$(small)">
-							<h3>Editar vídeo</h3>
-							<p>In arcu accumsan arcu adipiscing accumsan orci ac. Felis id enim aliquet. Accumsan ac integer lobortis commodo ornare
-								aliquet accumsan erat tempus amet porttitor. Ante commodo blandit adipiscing integer semper orci eget. Faucibus commodo
-								adipiscing mi eu nullam accumsan morbi arcu ornare odio mi adipiscing nascetur lacus ac interdum morbi accumsan vis
-								mi accumsan.</p>
+							<h3>Crear una nueva categoría</h3>
+							<a data-toggle="modal" data-target="#myModal"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
 						</div>
 					</div>
+				</section>
 
+					<div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-labelledby="gridSystemModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							<div class="modal-header">
+								<a type="button" class="close" data-dismiss="modal">&times;</a>
+								<h4 class="modal-title" id="gridSystemModalLabel">Crear una nueva categoría</h4>
+							</div>
+							<div class="modal-body">
+								<form enctype='multipart/form-data' method='POST' action='submitFormTo.php'>
+									<div class="form-group">
+										<label for="recipient-name" class="col-form-label">Nombre categoría:</label>
+										<input type="text" class="form-control" id="recipient-name">
+									</div>
+									<div class="form-group">
+									    <div style="width:100%; height:15em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
+											<ul class="alt">
+												<li>
+													<input type="checkbox" id="demo-priority-low" name="demo-priority" checked="">
+													<label for="demo-priority-low">Hola me llamo jhersy y esto es una prueba</label>
+												</li>
+												<li>
+													<input type="checkbox" id="a" name="a" checked="">
+													<label for="a">a</label>
+												</li>										
+												<li>
+													<input type="checkbox" id="b" name="b" checked="">
+													<label for="b">a</label>
+												</li>	
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+												<li>
+													<input type="checkbox" id="c" checked="">
+													<label for="c">a</label>
+												</li>
+
+											</ul>
+										</div>
+								  	</div>
+							</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save changes</button>
+							</div><div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+						</div>
+
+						</div>
+						</div>
+						</div>
 
 					<hr class="major" />
-
-					<h2>Interdum sed dapibus</h2>
-					<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet
-						dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur
-						id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus
-						ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque
-						enim turpis, hendrerit.</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu
-						ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum.
-						Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit
-						sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque
-						habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat
-						maximus. Pellentesque aliquam maximus risus, vel sed vehicula. Interdum et malesuada fames ac ante ipsum primis in
-						faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim
-						auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum
-						convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
-
-					<hr class="major" />
-
-					<h2>Magna etiam veroeros</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu
-						ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum.
-						Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit
-						sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque
-						habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat
-						maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
-					<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis.
-						Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet,
-						fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem
-						ipsum dolor.</p>
-
-					<hr class="major" />
-
-					<h2>Lorem aliquam bibendum</h2>
-					<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet
-						dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur
-						id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus
-						ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque
-						enim turpis, hendrerit.</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu
-						ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum.
-						Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit
-						sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque
-						habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat
-						maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
 
 				</section>
 
@@ -130,24 +138,22 @@ if(!is_null($rol)){
 		<div id="sidebar">
 			<div class="inner">
 
-				<!-- Search -->
+				<!-- Search 
 				<section id="search" class="alt">
 					<form method="post" action="#">
 						<input type="text" name="query" id="query" placeholder="Search" />
 					</form>
 				</section>
-
+				-->	
 				<!-- Menu -->
 				<nav id="menu">
 					<header class="major">
-						<h2>Menu</h2>
+						<h2>Menú</h2>
 					</header>
 					<ul>
-						<li><a href="index.html">Homepage</a></li>
-						<li><a href="generic.html">Generic</a></li>
-						<li><a href="elements.html">Elements</a></li>
+						<li><a href="index.php">Home</a></li>
 						<li>
-							<span class="opener">Submenu</span>
+							<span class="opener">Categorías</span>
 							<ul>
 								<li><a href="#">Lorem Dolor</a></li>
 								<li><a href="#">Ipsum Adipiscing</a></li>
@@ -155,66 +161,9 @@ if(!is_null($rol)){
 								<li><a href="#">Feugiat Veroeros</a></li>
 							</ul>
 						</li>
-						<li><a href="#">Etiam Dolore</a></li>
-						<li><a href="#">Adipiscing</a></li>
-						<li>
-							<span class="opener">Another Submenu</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="#">Maximus Erat</a></li>
-						<li><a href="#">Sapien Mauris</a></li>
-						<li><a href="#">Amet Lacinia</a></li>
+						<li><a href="index.php">Nueva Categoría</li>
 					</ul>
 				</nav>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Ante interdum</h2>
-					</header>
-					<div class="mini-posts">
-						<article>
-							<a href="#" class="image"><img src="resources/images/pic07.jpg" alt="" /></a>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-						</article>
-						<article>
-							<a href="#" class="image"><img src="resources/images/pic08.jpg" alt="" /></a>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-						</article>
-						<article>
-							<a href="#" class="image"><img src="resources/images/pic09.jpg" alt="" /></a>
-							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-						</article>
-					</div>
-					<ul class="actions">
-						<li><a href="#" class="button">More</a></li>
-					</ul>
-				</section>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Get in touch</h2>
-					</header>
-					<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore.
-						Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-					<ul class="contact">
-						<li class="fa-envelope-o"><a href="#">information@untitled.tld</a></li>
-						<li class="fa-phone">(000) 000-0000</li>
-						<li class="fa-home">1234 Somewhere Road #8254<br /> Nashville, TN 00000-0000</li>
-					</ul>
-				</section>
-
-				<!-- Footer -->
-				<footer id="footer">
-					<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-				</footer>
-
 			</div>
 		</div>
 

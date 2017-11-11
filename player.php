@@ -17,7 +17,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
-session_start();
+//session_start();
 
 /*
  * You can acquire an OAuth 2.0 client ID and client secret from the

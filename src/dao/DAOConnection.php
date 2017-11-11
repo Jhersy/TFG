@@ -1,6 +1,4 @@
 <?php
-use PDO;
-use PDOException;
 
 class Connection {
 
@@ -28,11 +26,11 @@ class Connection {
     return $conn;
     */
     $servername = "localhost";
-    $username = "root";
-    $password = "root";
+    $username = "user_tfg";
+    $password = "user_tfg";
     
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=TFG", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=tfg", $username, $password);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }

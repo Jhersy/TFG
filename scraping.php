@@ -68,9 +68,9 @@ function getIDsVideos($idCategory){
 
                 foreach( $videoPlayer as $idVideo ){
                     $src = $idVideo->attr['src'];
-                    $result = explode('?', $src);
-                    $r = explode('/embed/', $result[0]);
-                    //$r = multiexplode(array("/embed/","?"),$src);
+                    //$result = explode('?', $src);
+                    //$r = explode('/embed/', $result[0]);
+                    $r = multiexplode(array("/embed/","?"),$src);
                     //echo $r[1] . "\n";
                     array_push($IDsVideosCategory, $r[1]);
                     //$id = multiexplode(array("/embed/","?"),$src);
@@ -84,6 +84,40 @@ function getIDsVideos($idCategory){
     return $IDsVideosCategory;
 }
 
-//getIDsVideos(1);
+
+function getAllIDsVideos(){
+
+    $IDsVideosCategory = array();
+    $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
+    $html = file_get_html( $url );
+    $categories = $html->find('div[class=entry-content] ol li');
+
+    foreach( $categories as $category ){
+            $link = $category->find('a', 0);
+            $href = $link->href; // ENLACES DE CADA CATEGORÍA
+            $htmlCategory = file_get_html($href);
+            $listVideos = $htmlCategory->find('div[class=entry-content] p a');
+            foreach ($listVideos as $video) {
+                $hrefVideo = $video->href;
+                $titleVideo = $video->innertext;
+                //echo $titleVideo . "\n";
+
+                $urlVideo = $hrefVideo;
+                $htmlVideo = file_get_html($urlVideo);
+                $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
+
+                foreach( $videoPlayer as $idVideo ){
+                    $src = $idVideo->attr['src'];
+                    $r = multiexplode(array("/embed/","?"),$src);
+
+                    array_push($IDsVideosCategory,  array($r[1], $titleVideo));
+                }
+            }
+    }
+
+    return $IDsVideosCategory;
+}
+
+
 
 ?>
