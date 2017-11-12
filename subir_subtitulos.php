@@ -1,90 +1,39 @@
 <?php
-
-require_once("scraping.php");
-require_once("src/logic/Categorias.php");
 require_once("src/App.php");
+require_once("scraping.php");
 
 $rol = isAdmin(); //Return session admin or null
-
-if(!is_null($rol)){
-
-    
-$categories = new Categorias();
-
-$categorias = array();
-$categorias =  $categories->getCategories();
-
 //Scraping
 $videos = array();
 $videos = getAllIDsVideos();
 
-$icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
+if(!is_null($rol)){
+
 
 ?>
-<!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Modificar Categorías</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
-	<link rel="stylesheet" href="resources/assets/css/main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
-    <script>
-
-        function guardarCategoria(){
-
-            var $ids = "";
-            var $names = "";
-            $("input:checkbox:checked").each(function(){    
-            var $this = $(this);    
-                  $ids += $this.attr("id") + "|";
-                  $names += $this.next().text() + "|";
-            
-            });
-            var parametros = {
-                    "nombreCategoria" : $('#nombreCategoria').val(),
-                    "IdsVideos" : $ids,
-                    "nombreVideo" : $names
-            };
-            $.ajax({
-                    data:  parametros,
-                    url:   'nueva_categoria.php',
-                    type:  'post',
-                    success:  function () {
-                        $('#myModal').hide();
-                        alert('Categoría creada con éxito!');
-                        window.location.href = "conjunto_categorias.php";
-                    }
-            });
-        }
-
-    </script>
-
-
+    <title>Subir subtítulo</title>
 </head>
-
 <body>
-
-	<!-- Wrapper -->
-	<div id="wrapper">
+    
+<div id="wrapper">
 
 		<!-- Main -->
 		<div id="main">
 			<div class="inner">
 
 				<header id="header" style="padding-top:2em;">
-					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Gestión de Categorías</strong></a>
+					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Subir un subtítulo</strong></a>
 					<ul class="icons">
 					<?php
                         if (!is_null($rol)) {
@@ -222,12 +171,18 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="resources/assets/js/main.js"></script>
 
-</body>
 
+
+
+</body>
 </html>
+
+
 
 <?php
 }else{
-	redirect("index.php");
+    redirect("index.php");
 }
+
+
 ?>

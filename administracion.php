@@ -50,11 +50,11 @@ if(!is_null($rol)){
 					<div class="row">
 						<div class="6u 12u$(small)">
 							<h3>Gestión de categorías</h3>
-							<a href="gestion_categorias.php"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
+							<a href="gestion_categorias.php"><span class="image fit"><img src="resources/images/gestion.jpg" alt=""></span></a>
 						</div>
 						<div class="6u 12u$(small)">
 							<h3>Subir subtítulo</h3>
-							<a data-toggle="modal" data-target="#myModal"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
+							<a href=""><span class="image fit"><img src="resources/images/upload.jpg" alt=""></span></a>
 						</div>
 					</div>
 				</section>
@@ -92,7 +92,8 @@ if(!is_null($rol)){
 								<li><a href="#">Feugiat Veroeros</a></li>
 							</ul>
 						</li>
-						<li><a href="index.php">Nueva Categoría</li>
+						<li><a href="conjunto_categorias.php">Gestionar Categorías</a></li>
+						<li><a href="subir_subtitulos.php">Subir subtítulos</a></li>
 					</ul>
 				</nav>
 			</div>

@@ -117,7 +117,7 @@ $rol = isAdmin(); //Return session admin or null
 					</div>
 
 					<span class="image object">
-										<img src="resources/images/portada1.jpg" alt="" />
+										<img src="resources/images/index.png" alt="" />
 									</span>
 				</section>
 
@@ -127,19 +127,23 @@ $rol = isAdmin(); //Return session admin or null
 						<h2>Categorías</h2>
 					</header>
 					<div class="features">
+						<form action="list_videos.php" method="POST">
 							<?php
 								$i = 0;
+								//SI SE MUESTRA CATEGORIAS DE LA BBDD, USAR EL ID DE LA BBDD EN EL ONCLICK
 								foreach ($categories as $category) { ?>
 									<article>
 										<span class="<?=$icons[$i];?>"></span>
 										<div class="content">
-											<h3><a href="list_videos.php?category=<?=$i?>"><?=$category?></a></h3>
+											<h3><input type="submit" value="<?=$category?>"></h3>
+											<input type="hidden" name="category" value="<?=$i?>">
 										</div>
 									</article>
 									<?php
 									$i++;
 								}
 							?>
+							</form>
 					</div>
 				</section>
 			</div>

@@ -5,7 +5,7 @@ require_once("src/App.php");
 $rol = isAdmin(); //Return session admin or null
 
 require_once("scraping.php");
-$categoria = $_GET["category"];
+$categoria = $_POST["category"];
 $categoryName = getNameCategory($categoria);
 $IdsVideos = getIDsVideos($categoria);
 
