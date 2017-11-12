@@ -24,7 +24,6 @@ Class Users{
     function newUser($name, $password) {
         //Se encripta la password
         $hpassword = password_hash($password, PASSWORD_BCRYPT);
-        echo $name;
         return $this->daoUsuarios->insert($name, $hpassword);
     }
 }

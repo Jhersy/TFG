@@ -1,13 +1,20 @@
 <?php
 
 require_once("scraping.php");
-require_once("src/logic/Videos.php");
+require_once("src/logic/Categorias.php");
+require_once("src/App.php");
 
-$videosCategorias = new Videos();
+$rol = isAdmin(); //Return session admin or null
+
+if(!is_null($rol)){
+
+    
+$categories = new Categorias();
 
 $categorias = array();
-$categorias =  $videosCategorias->listCategories();
+$categorias =  $categories->getCategories();
 
+//Scraping
 $videos = array();
 $videos = getAllIDsVideos();
 
@@ -62,7 +69,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
             });
         }
 
-</script>
+    </script>
 
 
 </head>
@@ -80,9 +87,9 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Gestión de Categorías</strong></a>
 					<ul class="icons">
 					<?php
-                        if (true/*!is_null($rol) */) {
-							echo '<li>Bienvenido, '. /*getName()*/ '&nbsp;</li>';
-                            echo '<li><a href="administracion.html">Administrar &nbsp;</a></li>';
+                        if (!is_null($rol)) {
+							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
+                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
                             echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
 					?>
 					</ul>
@@ -90,24 +97,35 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 				<!-- Content -->
 				<section>
 
-                    <div class="features">
-                        <?php
-                        $i = 0;
-                            foreach ($categorias as $categoria) {
-                        ?>
-                            <article>
-                                <span class="<?= $icons[$i]?>"></span>
-                                <div class="content">
-                                    <h4><a data-toggle="modal" data-target="#myModal"><?=$categoria['categoria']?></a></h4>
-                                </div>
-                            </article>
-                        <?php
-                        $i++;
-                            }
-                        ?>
-                    </div>
+                <?php 
+                    if(count($categorias) > 0 ){
+                    
+                    ?>
+                        <header class="main">
+                            <h4>Categorías creadas:</h4>
+                        </header>                
+                        <div class="features">
 
+                            <?php
+                                $i = 0;
+                                foreach ($categorias as $categoria) {
+                            ?>
+                                <article>
+                                    <span class="<?= $icons[$i]?>"></span>
+                                    <div class="content">
+                                        <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categoria['nombre_categoria']?></a></h4>
+                                    </div>
+                                </article>
+                            <?php
+                                $i++;
+                            }
+                            ?>
+                        </div>
                     <hr class="major" />
+                        
+                    <?php                    
+                    }
+                    ?>
 
                     <div class="features">
                         <article>
@@ -118,9 +136,6 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         </article>
                     </div>
                 </section>
-
-
-
 			</div>
         </div>
 
@@ -210,3 +225,9 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 </body>
 
 </html>
+
+<?php
+}else{
+	redirect("index.php");
+}
+?>

@@ -17,9 +17,35 @@ $model = new Users();
  $resultado = $_POST['nombreCategoria'] .  $_POST['IdsVideos'] . $_POST['nombreVideo']; 
  echo $resultado;
 */
+require_once("src/logic/Videos.php");
+require_once("src/logic/Categorias.php");
+
+$videos = new Videos();
+$cate = new Categorias();
+
+$eje = "err|lQmDWuerrJCY7U|";
+$eje1 = "asd|asd|";
+
+$arr = array();
+$arr1 = array();
+
+$arr = explode('|', $eje);
+$arr1 = explode('|', $eje1);
 
 
+$id_categoria = $cate->setCategory("nueva 123");
 
+$videos->setVideosWithCategory($id_categoria, $arr, $arr1 );
+
+
+// var_dump($categorias);
+
+// foreach ($categorias as $cat) {
+//   # code...
+//   echo $cat['id_categoria'] . "  -  " . utf8_decode($cat['nombre_categoria']);
+// }
+
+/*
 $eje = "wisbrPN9fbI|lQmDWuJCY7U|";
 
 $arr = array();
@@ -34,7 +60,7 @@ for ($i=0; $i < count($arr) - 1; $i++) {
   echo $arr[$i] . " ";
 }
 
-
+*/
 
 //$idUser = $model->newUser("prueba2", "prueba2");
 //echo $idUser;

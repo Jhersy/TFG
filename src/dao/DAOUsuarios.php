@@ -1,8 +1,6 @@
 <?php
 
-include "DAOConnection.php";
-
-//use PDOException;
+require_once("Connection.php");
 
 Class DAOUsuarios{
 

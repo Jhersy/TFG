@@ -32,7 +32,7 @@ if(!is_null($rol)){
 
 		<!-- Main -->
 		<div id="main">
-			<div class="inner">if(!is_null($rol)){
+			<div class="inner">
 
 				<header id="header" style="padding-top:2em;">
 					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
@@ -50,83 +50,14 @@ if(!is_null($rol)){
 					<div class="row">
 						<div class="6u 12u$(small)">
 							<h3>Gestión de categorías</h3>
-							<a data-toggle="modal" data-target="#myModal" href="~"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
+							<a href="gestion_categorias.php"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
 						</div>
 						<div class="6u 12u$(small)">
-							<h3>Crear una nueva categoría</h3>
+							<h3>Subir subtítulo</h3>
 							<a data-toggle="modal" data-target="#myModal"><span class="image fit"><img src="resources/images/pic11.jpg" alt=""></span></a>
 						</div>
 					</div>
 				</section>
-
-					<div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-labelledby="gridSystemModalLabel">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-							<div class="modal-header">
-								<a type="button" class="close" data-dismiss="modal">&times;</a>
-								<h4 class="modal-title" id="gridSystemModalLabel">Crear una nueva categoría</h4>
-							</div>
-							<div class="modal-body">
-								<form enctype='multipart/form-data' method='POST' action='submitFormTo.php'>
-									<div class="form-group">
-										<label for="recipient-name" class="col-form-label">Nombre categoría:</label>
-										<input type="text" class="form-control" id="recipient-name">
-									</div>
-									<div class="form-group">
-									    <div style="width:100%; height:15em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
-											<ul class="alt">
-												<li>
-													<input type="checkbox" id="demo-priority-low" name="demo-priority" checked="">
-													<label for="demo-priority-low">Hola me llamo jhersy y esto es una prueba</label>
-												</li>
-												<li>
-													<input type="checkbox" id="a" name="a" checked="">
-													<label for="a">a</label>
-												</li>										
-												<li>
-													<input type="checkbox" id="b" name="b" checked="">
-													<label for="b">a</label>
-												</li>	
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-												<li>
-													<input type="checkbox" id="c" checked="">
-													<label for="c">a</label>
-												</li>
-
-											</ul>
-										</div>
-								  	</div>
-							</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save changes</button>
-							</div><div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-						</div>
-
-						</div>
-						</div>
-						</div>
-
 					<hr class="major" />
 
 				</section>

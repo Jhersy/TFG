@@ -10,8 +10,8 @@ Class Videos{
         $this->daoVideos = new DAOVideos();
     }
 
-    function listCategories(){
-        $listVideos = $this->daoVideos->getCategories();
+    function listCategories($category){
+        $listVideos = $this->daoVideos->getVideosOfCategory($category);
         return $listVideos;
     }
 

@@ -1,14 +1,14 @@
 <?php
 
 require_once("src/App.php");
-//$rol = isAdmin(); //Return session admin or null
+$rol = isAdmin(); //Return session admin or null
 
 require_once("scraping.php");
 $categories = getAllCategories();
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
 
-if(true/*!is_null($rol)*/){
+if(!is_null($rol)){
 ?>
 
 <!DOCTYPE HTML>
@@ -45,9 +45,9 @@ if(true/*!is_null($rol)*/){
 					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Gestión de Categorías</strong></a>
 					<ul class="icons">
 					<?php
-                        if (true/*!is_null($rol) */) {
+                        if (!is_null($rol)) {
 							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.html">Administrar &nbsp;</a></li>';
+                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
                             echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
 					?>
 					</ul>
@@ -96,7 +96,7 @@ if(true/*!is_null($rol)*/){
                             <article>
                                 <span class="icon fa fa-plus small"></span>
                                 <div class="content">
-                                    <h4><a data-toggle="modal" data-target="#myModal">Crear/Modificar conjunto de categorías</a></h4>
+                                    <h4><a href="conjunto_categorias.php">Crear/Modificar conjunto de categorías</a></h4>
                                 </div>
                             </article>
                         </div>
@@ -153,9 +153,9 @@ if(true/*!is_null($rol)*/){
 
 </html>
 
-
 <?php
 }else{
 	redirect("index.php");
 }
 ?>
+
