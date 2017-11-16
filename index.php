@@ -91,9 +91,9 @@ $rol = isAdmin(); //Return session admin or null
 							<div class="4u 12u$(small)" ></div>
 							
 							<div class="4u 12u$(small)" >
-									<form method="post" action="#">
-											<input type="text" name="query" id="query" placeholder="Search" />
-										</form>
+									<form method="post" action="search.php">
+											<input type="text" name="query" id="query" placeholder="Buscador" />
+									</form>
 							</div>
 
 
