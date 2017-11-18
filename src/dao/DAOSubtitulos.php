@@ -13,7 +13,7 @@ Class DAOSubtitulos{
 
     function findInCaption($query) {
         try {
-            $sql = "SELECT archivo FROM subtitulos WHERE archivo LIKE '%". $query . "%'";
+            $sql = "SELECT id_subtitulo, archivo FROM subtitulos WHERE archivo LIKE '%". $query . "%'";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $res = $stmt->fetchAll();
