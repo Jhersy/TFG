@@ -12,9 +12,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   define('SRT_STATE_BLANK', 3);
   
   require_once("src/logic/Subtitulos.php");
-  $query = "lingüística";
+  require_once("src/App.php");
   
-  if(!is_null($query/*$_POST['query']*/)){
+  $query = "lengua";
+  
+//   if(!is_null($query/*$_POST['query']*/)){
   
       session_start();
       
@@ -64,7 +66,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
           
           $resultSearchYoutube = array();
           $arrayBBDD = array();
-          $arrayBBDD = buscarSubtitulos($query);
+          $arrayBBDD = buscarSubtitulos($query); // SE TRAE LOS VIDEOS EN LOS QUE LA PALABRA APARECE EN SU SUBTITULO
       
           // Add each result to the appropriate list, and then display the lists of
           // matching videos, channels, and playlists.
@@ -76,30 +78,43 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                 $videos->title = $searchResult['snippet']['title'];
                 $videos->idVideo = $searchResult['id']['videoId'];
 
-               $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
-
+                $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
                 array_push($resultSearchYoutube , $videos);
-
                 break;
             }
           }
       
         //   $htmlBody =   "<h3>Videos</h3><ul>$videos</ul>";
-          var_dump($resultSearchYoutube);
-          var_dump($arrayBBDD);
+
+
+        //    var_dump($resultSearchYoutube);
+
+        $arrayVideosSubtitulos = array();
+         foreach ($arrayBBDD as $videoBBDD) {
+            $listResponse = $youtube->videos->listVideos("snippet",
+            array('id' => $videoBBDD->idVideo));
+            $datosVideo  = new stdClass();
+            $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
+            $datosVideo->titulo = $listResponse[0]['snippet']['title'];
+            $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
+            var_dump($datosVideo);
+            array_push($arrayVideosSubtitulos, $datosVideo);
+          }
+        //var_dump($arrayBBDD);
+
       }else{
           $state = mt_rand();
           $client->setState($state);
           $_SESSION['state'] = $state;
       
           $authUrl = $client->createAuthUrl();
-          echo $authUrl;  
+          redirect($authUrl);  
       }
-  }
+//   }
 
 
 
-  function buscarSubtitulos($query){
+    function buscarSubtitulos($query){
 
     $resultTotal = array();
     $caption = new Subtitulos();
@@ -153,11 +168,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     }
 
     return $resultTotal;
-  }
+    }
 
-/*Función que con el ID del vídeo de Youtube comprueba si la palabra buscada también aparece en los subtítulos de la BBDD */
-  function searchInCaption($idVideo, &$array){
-      $subtitulos = "";
+    /*Función que con el ID del vídeo de Youtube comprueba si la palabra buscada también aparece en los subtítulos de la BBDD */
+    function searchInCaption($idVideo, &$array){
+        $subtitulos = "";
         for ($i=0; $i < count($array) ; $i++) { 
             if($array[$i]->idVideo === $idVideo){
                 $subtitulos = $array[$i]->subtitulos;
@@ -166,11 +181,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
         }
         
     return $subtitulos;
-  }
- 
-  function getSeconds($time){
+    }
+
+    function getSeconds($time){
     return strtotime($time) - strtotime('TODAY');
-  }
+    }
 
     function quitar_tildes($cadena) {
         $no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
@@ -180,3 +195,124 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     }
 
 ?>
+
+
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Filosofía y Linguistica</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" href="resources/assets/css/main.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
+	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+</head>
+
+<body>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+
+				<!-- Header -->
+				<header id="header">
+					<a href="index.php" class="logo">
+						<strong>Zaragoza Lingüística</strong>
+					</a>
+					<ul class="icons">
+					<?php
+						// if (is_null($rol) ) {
+						// 	echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+						// }
+						// else {
+						// 	$name = getName();
+						// 	echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+						// 	echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+						// 	echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+						// }
+					?>
+					</ul>
+				</header>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Búsqueda</h2>
+					</header>
+					<div class="table-wrapper">
+						<table>
+							<thead>
+								<tr>
+									<th>Vídeo</th>
+									<th>Título</th>
+								</tr>
+							</thead>
+							<tbody>
+                                <?php 
+                                    for ($i=0; $i < count($arrayVideosSubtitulos); $i++) { 
+                                        ?>
+                                <tr>
+									<td rowspan="2">
+										<br>
+										<a href="#" class="image">
+											<img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
+										</a>
+									</td>
+									<td colspan="3"> <?=$arrayVideosSubtitulos[$i]->titulo?>
+									</td>
+									<td colspan="3"> <?=$arrayVideosSubtitulos[$i]->subtitulos?>
+									</td>
+								</tr>
+								<tr></tr>
+                                    <?php
+									}
+                                ?>
+
+                                <?php 
+                                    foreach ($resultSearchYoutube as $resultYoutube) {
+                                        ?>
+                                <tr>
+									<td rowspan="2">
+										<br>
+										<a href="#" class="image">
+											<img src=" <?= $resultYoutube->thumnail?>" alt="" />
+										</a>
+									</td>
+									<td colspan="3"> <?=$resultYoutube->title?>
+
+									</td>									
+                                    <td colspan="3"> <?=$resultYoutube->subtitulos?>
+
+									</td>
+								</tr>
+								<tr></tr>
+                                    <?php
+									}
+                                ?>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="resources/assets/js/jquery.min.js"></script>
+	<script src="resources/assets/js/skel.min.js"></script>
+	<script src="resources/assets/js/util.js"></script>
+	<!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="resources/assets/js/main.js"></script>
+
+</body>
+
+</html>
