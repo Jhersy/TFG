@@ -14,7 +14,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   require_once("src/logic/Subtitulos.php");
   require_once("src/App.php");
   
-  $query = "lengua";
+  $query = "lingüistica";
   
 //   if(!is_null($query/*$_POST['query']*/)){
   
@@ -153,7 +153,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
         
 
                         if(strpos(quitar_tildes($sub->text), quitar_tildes($query)) !== FALSE){
-                            $captions[] =  getSeconds(explode(",", $sub->startTime)[0]);
+                            $captions[] = explode(",", $sub->startTime)[0] . "|" .  strip_tags($sub->text);
                         }
                     } else{
                         $subText .= $line;
@@ -230,15 +230,15 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 					</a>
 					<ul class="icons">
 					<?php
-						// if (is_null($rol) ) {
-						// 	echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-						// }
-						// else {
-						// 	$name = getName();
-						// 	echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-						// 	echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-						// 	echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-						// }
+						if (is_null($rol) ) {
+							echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+						}
+						else {
+							$name = getName();
+							echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+							echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+						}
 					?>
 					</ul>
 				</header>
@@ -268,9 +268,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 										</a>
 									</td>
 									<td colspan="3"> <?=$arrayVideosSubtitulos[$i]->titulo?>
-									</td>
-									<td colspan="3"> <?=$arrayVideosSubtitulos[$i]->subtitulos?>
-									</td>
+									
+                                    <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
+                                        $arrayVideosSubtitulos[$i]->subtitulos;
+                                     } ?>
+
+                                    </td>
 								</tr>
 								<tr></tr>
                                     <?php
@@ -287,12 +290,32 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 											<img src=" <?= $resultYoutube->thumnail?>" alt="" />
 										</a>
 									</td>
-									<td colspan="3"> <?=$resultYoutube->title?>
-
-									</td>									
-                                    <td colspan="3"> <?=$resultYoutube->subtitulos?>
-
-									</td>
+									<td colspan="3"> 
+                                        <h4> <?=$resultYoutube->title?></h4>
+                                        <?php if(!empty($resultYoutube->subtitulos)){ ?>
+                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:</p>
+                                        <p>
+											<br>
+                                            <?php 
+                                                $subtitulos = array();
+                                                $subtitulos = explode(",", $resultYoutube->subtitulos);
+                                                foreach ($subtitulos as $subtitulo) {
+                                                    $infoSubtitulo = array();
+                                                    $infoSubtitulo =  explode("|" , $subtitulo);
+                                                    $lineaInfo = "<a>";
+                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
+                                                        $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
+                                                        // for ($i=0; $i < count($info); $i++) { 
+                                                        //     echo '<a class="button small">' .  $info[$i] . '</a>';
+                                                        // }
+                                                    }
+                                                    $lineaInfo .= "</a> <br>";
+                                                    echo $lineaInfo;
+                                                } 
+                                            ?>                                            
+										</p>
+                                        <?php } ?>
+									</td>	
 								</tr>
 								<tr></tr>
                                     <?php
