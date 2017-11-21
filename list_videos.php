@@ -2,12 +2,29 @@
 <?php
 
 require_once("src/App.php");
+require_once("scraping.php");
+require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
-require_once("scraping.php");
-$categoria = $_POST["category"];
-$categoryName = getNameCategory($categoria);
-$IdsVideos = getIDsVideos($categoria);
+
+$categoria = explode("|",  "1|categoría 1");//explode( "|", $_POST["category"]);
+
+var_dump($categoria);
+
+//$catBBDD = false;
+//if(count($categoria) > 1){
+	// [0] ID categoría [1] Nombre de la categoría
+	$catBBDD = true;
+	$categoriasBBDD = new Categorias();
+	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
+	
+//} else{
+// 	$categoryName = getNameCategory($categoria);
+// 	$IdsVideos = getIDsVideos($categoria);
+// }
+
+var_dump($IdsVideos);
+
 
 $videos = array();
 
@@ -54,8 +71,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 	  // ESTADÍSTICAS DE UN VÍDEO
 	  foreach ($IdsVideos as $videoId) {
+		   
 		$listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",
-		array('id' => $videoId));
+		array('id' => $catBBDD ? $videoId['id_video'] : $videoId));
 		array_push($videos, $listResponse[0]);
 	  }
 
@@ -67,6 +85,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   
 	  $authUrl = $client->createAuthUrl();
 	  echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
+	  redirect($authUrl);
   
   }
 
@@ -134,7 +153,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2><?=$categoryName?></h2>
+						<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
 					</header>
 					<div class="table-wrapper">
 						<table>

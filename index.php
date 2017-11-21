@@ -2,7 +2,8 @@
 //include "src/App.php";
 require_once("src/App.php");
 require_once("scraping.php");
-$categories = getAllCategories();
+require_once("src/logic/Categorias.php");
+
 $icons = array('icon fa fa-users', 'icon fa fa-language', 'icon fa fa-comments', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 $rol = isAdmin(); //Return session admin or null
 
@@ -130,13 +131,21 @@ $rol = isAdmin(); //Return session admin or null
 						<form action="list_videos.php" method="POST">
 							<?php
 								$i = 0;
-								//SI SE MUESTRA CATEGORIAS DE LA BBDD, USAR EL ID DE LA BBDD EN EL ONCLICK
-								foreach ($categories as $category) { ?>
+								//SI SE MUESTRA CATEGORIAS DE LA BBDD, PASAR EN VALUE OTRO CAMPO INDICANDO QUE SE MIRE EN LA BBDD
+								$categoriasBBDD = new Categorias();
+								$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
+								$categoriaScraping = false;
+								if(empty($categoriasVisibles)){
+									$categoriasVisibles = getAllCategories();
+									$categoriaScraping = true;
+								}
+								//$categories = getAllCategories();
+								foreach ($categoriasVisibles as $category) { ?>
 									<article>
 										<span class="<?=$icons[$i];?>"></span>
 										<div class="content">
-											<h3><input type="submit" value="<?=$category?>"></h3>
-											<input type="hidden" name="category" value="<?=$i?>">
+											<h3><input type="submit" value="<?= $categoriaScraping ?  $category : $category['nombre_categoria']?>"></h3>
+											<input type="hidden" name="category" value="<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . $category['nombre_categoria']?>">
 										</div>
 									</article>
 									<?php

@@ -36,6 +36,30 @@ Class DAOCategorias{
           }
           return $id;
     }
+    function getCategoriesVisible(){
+        try {
+            $sql = "SELECT id_categoria, nombre_categoria FROM categorias WHERE visible = '1'";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOCategorias: " . $e->getMessage();
+        }
+        return $res;
+    }
 
+    function getVideosOfCategory($id_categoria){
+        try {
+            $sql = "SELECT video.id_video FROM `categorias` AS cat , videos AS video WHERE cat.visible='1' and cat.id_categoria = '$id_categoria' and video.id_categoria = '$id_categoria'";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOCategorias: " . $e->getMessage();
+        }
+        return $res;
+    }
 }
 ?>

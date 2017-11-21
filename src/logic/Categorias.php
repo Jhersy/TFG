@@ -18,5 +18,14 @@ Class Categorias{
        return $this->daoCategorias->setNewCategory($category);        
     }
 
+    function getCategoriesVisibles(){
+        return  $this->daoCategorias->getCategoriesVisible();
+    }
+
+    function getVideosOfCategory($id_categoria){
+        return $this->daoCategorias->getVideosOfCategory($id_categoria);
+    }
+
+
 }
 ?>
