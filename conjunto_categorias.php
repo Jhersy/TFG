@@ -68,7 +68,32 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                     }
             });
         }
+        function editarCategoria($id_categoria, $accion){
 
+            var $ids = "";
+            var $names = "";
+            $("input:checkbox:checked").each(function(){    
+            var $this = $(this);    
+                  $ids += $this.attr("id") + "|";
+                  $names += $this.next().text() + "|";
+            
+            });
+            var parametros = {
+                    "nombreCategoria" : $('#nombreCategoria').val(),
+                    "IdsVideos" : $ids,
+                    "nombreVideo" : $names
+            };
+            $.ajax({
+                    data:  parametros,
+                    url:   'nueva_categoria.php',
+                    type:  'post',
+                    success:  function () {
+                        $('#myModal').hide();
+                        alert('Categoría creada con éxito!');
+                        window.location.href = "conjunto_categorias.php";
+                    }
+            });
+        }
     </script>
 
 
@@ -114,12 +139,16 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                     <span class="<?= $icons[$i]?>"></span>
                                     <div class="content">
                                         <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categoria['nombre_categoria']?></a></h4>
+                                        <button class="small"  onclick="editarCategoria(<?=$categoria['id_categoria']  . ", 0"?>)">Activar categoría</button>
+                                        <button class="small" onclick="editarCategoria(<?=$categoria['id_categoria'] . ", 1"?>)">Desactivar categoría</button>
+                                        <button class="small" onclick=editarCategoria(<?=$categoria['id_categoria'] . ", 2"?>)">Eliminar categoría</button>
                                     </div>
                                 </article>
                             <?php
                                 $i++;
                             }
                             ?>
+
                         </div>
                     <hr class="major" />
                         

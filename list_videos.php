@@ -7,23 +7,23 @@ require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
 
-$categoria = explode("|",  "1|categoría 1");//explode( "|", $_POST["category"]);
+$categoria = explode( "|", $_POST["category"]);
 
 var_dump($categoria);
 
-//$catBBDD = false;
-//if(count($categoria) > 1){
+$catBBDD = false;
+if(count($categoria) > 1){
 	// [0] ID categoría [1] Nombre de la categoría
 	$catBBDD = true;
 	$categoriasBBDD = new Categorias();
 	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
 	
-//} else{
-// 	$categoryName = getNameCategory($categoria);
-// 	$IdsVideos = getIDsVideos($categoria);
-// }
-
-var_dump($IdsVideos);
+} else{
+	$categoryName = getNameCategory($categoria[0]);
+	$IdsVideos = getIDsVideos($categoria[0]);
+}
+// echo "-----------";
+// var_dump($IdsVideos);
 
 
 $videos = array();

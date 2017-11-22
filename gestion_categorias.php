@@ -1,9 +1,11 @@
 <?php
 
 require_once("src/App.php");
+require_once("scraping.php");
+require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
-require_once("scraping.php");
+
 $categories = getAllCategories();
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
@@ -30,6 +32,14 @@ if(!is_null($rol)){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+    <script>
+    function foo($id, $valor)
+    {
+        alert("Submit button clicked!");
+    return true;
+    }
+    
+    </script>
 </head>
 
 <body>
@@ -58,50 +68,64 @@ if(!is_null($rol)){
 						<h4>Categorías del Blog:</h4>
                     </header>
                         <div class="features">
-                        <?php
-                            $i = 0;
-                            foreach ($categories as $category) { ?>
+                            
+                                <?php
+                                    $i = 0;
+                                    foreach ($categories as $category) { ?>
+                                        <form action="list_videos.php" method="POST">
+                                            <article>
+                                                <span class="<?=$icons[$i];?>"></span>
+                                                <div class="content" >
+                                                    <h3 style="font-size: 9px;"><input type="submit" value="<?=$category?>"></h3>
+                                                    <input  type="hidden" name="category" value="<?=$i?>">
+                                                </div>
+                                            </article>
+                                        </form>
+                                        <?php
+                                        $i++;
+                                    }
+                                ?>
+                            
+						</div>
+					</section>
+					
+					<section>
+                    <header class="main">
+						<h4>Categorías creadas y visibles:</h4>
+                    </header>
+                        <div class="features">
+                            
+                                <?php
+                                    $categoriasBBDD = new Categorias();
+                                    $categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
+                                    $j = 0;
+                                    foreach ($categoriasVisibles as $category) { ?>
+                                        <form action="list_videos.php" method="POST">
+                                            <article>
+                                                <span class="<?=$icons[$i];?>"></span>
+                                                <div class="content">
+                                                    <h3 style="font-size: 9px;"><input type="submit" value="<?=$category['nombre_categoria']?>"></h3>
+                                                    <input type="hidden" name="category" value="<?=$category['id_categoria'] . "|" . $category['nombre_categoria']?>">
+                                                </div>
+                                            </article>
+                                        </form>
+                                        <?php
+                                        $j++;
+                                    }
+                                ?>
+                            
+                        </div>
+                            <hr class="major" />
+                            <div class="features">
                                 <article>
-                                    <span class="<?=$icons[$i];?>"></span>
+                                    <span class="icon fa fa-plus small"></span>
                                     <div class="content">
-                                        <h4><a href="list_videos.php?category=<?=$i?>"><?=$category?></a></h4>
-                                    </div>
-                                    <div class="modal fade" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <a type="button" class="close" data-dismiss="modal">&times;</a>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Desea eliminar la categoría: <b><?=$category?></b>?
-                                                </div>
-                                                <form action="gestion_categorias.php">
-                                                    <input type="hidden" name="cat" value="<?=$i?>">
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                        <input type="submit" class="btn btn-primary" value="Aceptar">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                        <h4><a href="conjunto_categorias.php">Crear/Modificar conjunto de categorías</a></h4>
                                     </div>
                                 </article>
-                                <?php
-                                $i++;
-                            }
-						?>
-						</div>
-						<hr class="major" />
-						<div class="features">
-                            <article>
-                                <span class="icon fa fa-plus small"></span>
-                                <div class="content">
-                                    <h4><a href="conjunto_categorias.php">Crear/Modificar conjunto de categorías</a></h4>
-                                </div>
-                            </article>
-                        </div>
-					</section>
+                            </div>
 
+					</section>
 
 
 			</div>
