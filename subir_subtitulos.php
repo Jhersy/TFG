@@ -46,41 +46,11 @@ if(!is_null($rol)){
 				<!-- Content -->
 				<section>
 
-                <?php 
-                    if(count($categorias) > 0 ){
-                    
-                    ?>
-                        <header class="main">
-                            <h4>Categorías creadas:</h4>
-                        </header>                
-                        <div class="features">
-
-                            <?php
-                                $i = 0;
-                                foreach ($categorias as $categoria) {
-                            ?>
-                                <article>
-                                    <span class="<?= $icons[$i]?>"></span>
-                                    <div class="content">
-                                        <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categoria['nombre_categoria']?></a></h4>
-                                    </div>
-                                </article>
-                            <?php
-                                $i++;
-                            }
-                            ?>
-                        </div>
-                    <hr class="major" />
-                        
-                    <?php                    
-                    }
-                    ?>
-
                     <div class="features">
                         <article>
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
-                                <h4><a data-toggle="modal" data-target="#myModal">Crear/Modificar conjunto de categorías</a></h4>
+                                <h4><a data-toggle="modal" data-target="#myModal">Subir subtítulo</a></h4>
                             </div>
                         </article>
                     </div>
@@ -93,13 +63,13 @@ if(!is_null($rol)){
                 <div class="modal-content">
                     <div class="modal-header">
                         <a type="button" class="close" data-dismiss="modal">&times;</a>
-                        <h4 class="modal-title" id="gridSystemModalLabel">Crear una nueva categoría</h4>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Subir un subtítulo</h4>
                     </div>
                     <div class="modal-body">
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label" >Nombre de la categoría:</label>
-                                <input type="text" class="form-control" name="nameCategory" id="nombreCategoria" required>
+                                <label for="recipient-name" class="col-form-label" >Subir subtítulo:</label>
+                                <input name="uploadedfile" type="file"  required/>
                             </div>
                             <div class="form-group">
                                 <div style="width:100%; height:15em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
@@ -122,7 +92,7 @@ if(!is_null($rol)){
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button onclick="guardarCategoria()" type="button" class="btn btn-primary">Save changes</button>
+                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Save changes</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>
