@@ -17,10 +17,13 @@ Class Videos{
 
 
     function setVideosWithCategory($category, $IdsVideos, $nameVideo){
-
         for ($i=0; $i < count($IdsVideos) - 1; $i++) { 
             $this->daoVideos->setVideosWithCategory($IdsVideos[$i], utf8_decode($nameVideo[$i]), $category);
         }
+    }
+
+    function updateCategory(){
+        return $this->updateCategory();
     }
 }
 ?>
