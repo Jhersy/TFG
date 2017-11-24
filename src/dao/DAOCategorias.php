@@ -61,5 +61,16 @@ Class DAOCategorias{
         }
         return $res;
     }
+
+    function updateCategory($id_categoria, $visible){
+        try {
+            $sql = "UPDATE categorias SET visible = ". $visible ." WHERE id_categoria = " . $id_categoria .  " ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+          } catch(PDOException $e) {
+            return null;
+            }
+          return true;
+    }
 }
 ?>

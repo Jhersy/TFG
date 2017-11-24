@@ -1,14 +1,14 @@
 <?php
-
-
-$videoId = $_REQUEST["id"];
+require_once("src/App.php");
+$rol = isAdmin(); //Return session admin or null
+$videoId = "wisbrPN9fbI";//$_REQUEST["id"]; 
 
 
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
   }
-  
+
   require_once __DIR__ . '/vendor/autoload.php';
   session_start();
   

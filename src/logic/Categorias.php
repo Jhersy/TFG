@@ -26,6 +26,8 @@ Class Categorias{
         return $this->daoCategorias->getVideosOfCategory($id_categoria);
     }
 
-
+    function updateCategory($id_categoria, $visible){
+        return $this->daoCategorias->updateCategory($id_categoria, $visible);
+    }
 }
 ?>

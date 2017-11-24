@@ -16,7 +16,7 @@ $categorias =  $categories->getCategories();
 
 //Scraping
 $videos = array();
-$videos = getAllIDsVideos();
+//$videos = getAllIDsVideos();
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
@@ -69,30 +69,19 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
             });
         }
         function editarCategoria($id_categoria, $accion){
-
-            var $ids = "";
-            var $names = "";
-            $("input:checkbox:checked").each(function(){    
-            var $this = $(this);    
-                  $ids += $this.attr("id") + "|";
-                  $names += $this.next().text() + "|";
-            
-            });
             var parametros = {
-                    "nombreCategoria" : $('#nombreCategoria').val(),
-                    "IdsVideos" : $ids,
-                    "nombreVideo" : $names
-            };
+              "id_categoria" : $id_categoria,
+              "accion" : $accion
+            }
             $.ajax({
-                    data:  parametros,
-                    url:   'nueva_categoria.php',
-                    type:  'post',
-                    success:  function () {
-                        $('#myModal').hide();
-                        alert('Categoría creada con éxito!');
-                        window.location.href = "conjunto_categorias.php";
-                    }
-            });
+              data:  parametros,
+              url:   'editar_categoria.php',
+              type:  'post',
+              success:  function () {
+                  alert('Categoría procesada con éxito!');
+                  window.location.href = "conjunto_categorias.php";
+              }
+            })
         }
     </script>
 
@@ -139,9 +128,8 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                     <span class="<?= $icons[$i]?>"></span>
                                     <div class="content">
                                         <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categoria['nombre_categoria']?></a></h4>
-                                        <button class="small"  onclick="editarCategoria(<?=$categoria['id_categoria']  . ", 0"?>)">Activar categoría</button>
-                                        <button class="small" onclick="editarCategoria(<?=$categoria['id_categoria'] . ", 1"?>)">Desactivar categoría</button>
-                                        <button class="small" onclick=editarCategoria(<?=$categoria['id_categoria'] . ", 2"?>)">Eliminar categoría</button>
+                                        <button class="small" onclick="editarCategoria(<?=$categoria['id_categoria'] . ", 1"?>)">Activar categoría</button>
+                                        <button class="small"  onclick="editarCategoria(<?=$categoria['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
                                     </div>
                                 </article>
                             <?php
