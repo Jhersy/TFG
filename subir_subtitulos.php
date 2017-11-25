@@ -23,6 +23,47 @@ if(!is_null($rol)){
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Subir subtítulo</title>
+    <script>
+    function resetMeIfChecked(radio){           
+        if(radio.checked && radio.value == window.lastrv){
+            $(radio).removeAttr('checked');
+            window.lastrv = 0;
+        }
+        else
+            window.lastrv = radio.value;
+    }
+
+    function verInformacion(){
+        alert("La estructura de cada subtítulo es la siguiente:\n\nNúmero de subtítulo (En orden secuencial empezando en 1 para el primer subtítulo)\nTiempo inicial --> Tiempo final (En formato horas:minutos:segundos,milisegundos)\nTexto del subtítulo (Puede incluir una o varias líneas separadas por un salto de línea)\nLínea en blanco (Suele emplearse CRLF como salto de línea)\n\n Ejemplo archivo:\n1\n00:00:00,394 --> 00:00:03,031\n<i>Anteriormente en <font color='#FE00FE'>“Sons of Anarchy”</font></i>");
+    }
+
+    function subirSubtitulo(){
+        if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 ){
+            alert('Selecciona un vídeo y adjunta un archivo .srt');
+        }else{
+            var $id = "";
+            var archivo = $("#videoUploadFile").prop('files')[0];
+            var form_data = new FormData(); 
+            form_data.append('file', archivo);
+            $("input:radio:checked").each(function(){    
+                  $id = $(this).attr("id");            
+            });
+            $.ajax({
+                data:  form_data, 
+                contentType: false,
+                processData: false,
+                url:   'upload_caption.php?id=' + $id,
+                type:  'post',
+                success:  function (data) {
+                     window.alert(data);
+                     window.location.href = "subir_subtitulos.php";
+                    // var newWindow = window.open("", "new window", "width=800, height=800");
+                    // newWindow.document.write(data);
+                }
+            });
+        }
+    }
+    </script>
 </head>
 <body>
     
@@ -68,31 +109,31 @@ if(!is_null($rol)){
                     <div class="modal-body">
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label" >Subir subtítulo:</label>
-                                <input name="uploadedfile" type="file"  required/>
-                            </div>
-                            <div class="form-group">
-                                <div style="width:100%; height:15em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
+                                <label for="elegir">Selecciona un vídeo:</label>
+                                <br>
+                                <div style="width:100%; height:22em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
                                     <ul class="alt">
                                         <?php 
                                             foreach($videos as $video){ 
                                         ?>
                                         <li>
-                                        <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>">
-                                        <label for="<?=$video[0]?>"><?=$video[1]?></label>
-                                        </li>	
-                                        
+                                            <input type="radio" id="<?=$video[0]?>" name="<?=$video[0]?>" onclick="resetMeIfChecked(this)">
+                                            <label for="<?=$video[0]?>"><?=$video[1]?></label>                                    
+                                        </li>	                                        
                                         <?php
                                         }
                                         ?>						
                                     </ul>
                                 </div>
+                                <br>
+                                <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".srt" required/>
                             </div>
                         </form>
+                        <a onclick="verInformacion()">Ver formato del archivo del subtítulo (.srt)</a>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Save changes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button onclick="subirSubtitulo()" type="button" class="btn btn-default">Subir</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>

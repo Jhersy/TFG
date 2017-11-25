@@ -25,7 +25,7 @@ Class DAOSubtitulos{
 
     function insert($idVideo, $archivo){
         try {
-            $sql = "INSERT INTO subtitulos (id_video, archivo) VALUES (:id_video, :archivo)";
+            $sql = "INSERT INTO subtitulos (id_subtitulo, archivo) VALUES (:id_video, :archivo)";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["id_video" => $idVideo, "archivo" => $archivo]);
             $id = $this->conn->lastInsertId();

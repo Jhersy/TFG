@@ -2461,11 +2461,11 @@
 			content: '\f00c';
 		}
 
-		input[type="checkbox"]:focus + label:before,
+		/* input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
 			border-color: #f56a6a;
 			box-shadow: 0 0 0 1px #f56a6a;
-		}
+		} */
 
 	input[type="checkbox"] + label:before {
 		border-radius: 0.375em;

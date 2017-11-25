@@ -1,0 +1,118 @@
+<?php
+
+class MyException extends Exception { }
+class ExcepcionArchivo extends Exception { }
+
+require_once("src/logic/Subtitulos.php");
+
+$id_video = $_GET["id"];
+
+
+$fileName = $_FILES['file']['name'];
+$fileType = $_FILES['file']['type'];
+$fileError = $_FILES['file']['error'];
+// $fileId = $_FILES['id_video'];
+// $fileContent = file_get_contents($_FILES['file']['tmp_name']);
+//$lines = file($_FILES['file']['tmp_name']);
+
+
+
+$message = "";
+
+switch( $fileError ) {
+    case UPLOAD_ERR_OK:
+        $message = false;
+        break;
+    case UPLOAD_ERR_INI_SIZE:
+    case UPLOAD_ERR_FORM_SIZE:
+        $message .= ' - file too large (limit of '.get_max_upload().' bytes).';
+        break;
+    case UPLOAD_ERR_PARTIAL:
+        $message .= ' - file upload was not completed.';
+        break;
+    case UPLOAD_ERR_NO_FILE:
+        $message .= ' - zero-length file uploaded.';
+        break;
+    default:
+        $message .= ' - internal error #'.$_FILES['newfile']['error'];
+        break;
+}
+
+if( !$message ) { 
+
+    define('SRT_STATE_SUBNUMBER', 0);
+    define('SRT_STATE_TIME',      1);
+    define('SRT_STATE_TEXT',      2);
+    define('SRT_STATE_BLANK',     3);
+
+    try{
+
+        $lines = file($_FILES['file']['tmp_name']);
+        $numLine  = 1;
+        $subs    = array();
+        $longtext = "";
+        $state   = SRT_STATE_SUBNUMBER;
+        $subNum  = 0;
+        $subText = '';
+        $subTime = '';
+        try{
+            foreach($lines as $line) {
+                switch($state) {
+                    case SRT_STATE_SUBNUMBER:
+                        $subNum = trim($line);
+                        if(!is_numeric($subNum)){
+                            throw new ExcepcionArchivo('Línea ' .  $numLine . ' no es un número! ');
+                        }
+                        $state  = SRT_STATE_TIME;
+                        break;
+
+                    case SRT_STATE_TIME:
+                        $subTime = trim($line);
+                        $state   = SRT_STATE_TEXT;
+                        break;
+
+                    case SRT_STATE_TEXT:
+                        if (trim($line) == '') {                             
+
+                                // try{
+                                    $sub = new stdClass;
+                                    $sub->number = $subNum;    
+                                    list($sub->startTime, $sub->stopTime) = explode(' --> ', $subTime);
+                                    $sub->text   = $subText;
+                                    $subText     = '';
+                                    $state       = SRT_STATE_SUBNUMBER;    
+                                    $subs[]      = $sub;
+                                    
+                                // } catch(Exception $e){
+                                //     throw new ExcepcionArchivo('Línea ' .  $numLine . ' no tiene formato de segundos!');
+                                //     throw $e;
+                                // }
+
+
+                        } else {
+                            $subText .= $line;
+                        }
+                        break;
+                }
+                $numLine++;
+            }
+
+            if ($state == SRT_STATE_TEXT) {
+                $sub->text = $subText;
+                $subs[] = $sub;
+            }
+            // print_r($subs);
+            $subtitulos = new Subtitulos();
+            $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']));
+            echo "Subtítulo subido con éxito";
+        }catch(MyException $e){
+            throw $e;
+        }
+
+    }catch(Exception $e){
+        echo "Error en el archivo adjunto\n\n" . $e->getMessage() . "\n\nFormato correcto:\n  Número de subtítulo (Empezando en 1 para el primer subtítulo) \n  Tiempo inicial --> Tiempo final (Formato: mm:ss,ms) \n  Texto del subtítulo \n  Línea en blanco \n" ;
+    }
+}else{
+    echo  $message;
+}
+?>
