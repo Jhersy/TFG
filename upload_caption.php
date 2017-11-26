@@ -4,8 +4,10 @@ class MyException extends Exception { }
 class ExcepcionArchivo extends Exception { }
 
 require_once("src/logic/Subtitulos.php");
+require_once("src/logic/Videos.php");
 
 $id_video = $_GET["id"];
+$title_video = $_GET["title"];
 
 
 $fileName = $_FILES['file']['name'];
@@ -102,6 +104,9 @@ if( !$message ) {
                 $subs[] = $sub;
             }
             // print_r($subs);
+            $videos = new Videos();
+            $videos->insertNewVideo($id_video, $title_video);
+
             $subtitulos = new Subtitulos();
             $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']));
             echo "Subtítulo subido con éxito";

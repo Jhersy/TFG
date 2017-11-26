@@ -41,18 +41,20 @@ if(!is_null($rol)){
         if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 ){
             alert('Selecciona un vídeo y adjunta un archivo .srt');
         }else{
-            var $id = "";
+            var id = "";
+            var title = "";
             var archivo = $("#videoUploadFile").prop('files')[0];
             var form_data = new FormData(); 
             form_data.append('file', archivo);
             $("input:radio:checked").each(function(){    
-                  $id = $(this).attr("id");            
+                  id = $(this).attr("id");         
+                  title = $(this).next().text();   
             });
             $.ajax({
                 data:  form_data, 
                 contentType: false,
                 processData: false,
-                url:   'upload_caption.php?id=' + $id,
+                url:   'upload_caption.php?id=' + id + '&title=' + title,
                 type:  'post',
                 success:  function (data) {
                      window.alert(data);

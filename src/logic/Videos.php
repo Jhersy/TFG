@@ -18,12 +18,21 @@ Class Videos{
 
     function setVideosWithCategory($category, $IdsVideos, $nameVideo){
         for ($i=0; $i < count($IdsVideos) - 1; $i++) { 
-            $this->daoVideos->setVideosWithCategory($IdsVideos[$i], utf8_decode($nameVideo[$i]), $category);
+            if(empty($this->daoVideos->checkVideoById($id_video))){
+                $this->daoVideos->setVideosWithCategory($IdsVideos[$i], utf8_decode($nameVideo[$i]), $category);
+            }
         }
     }
 
     function updateCategory(){
         return $this->updateCategory();
+    }
+
+    function insertNewVideo($id_video, $title_video){
+        // SI EL VÍDEO YA ESTABA EN LA BBDD NO HACE FALTA VOLVER A INSERTARLO
+        if(empty($this->daoVideos->checkVideoById($id_video))){
+            $this->daoVideos->setVideosWithCategory($id_video, utf8_decode($title_video), "0");
+        }
     }
 }
 ?>

@@ -37,5 +37,17 @@ Class DAOVideos{
           return $id;
     }
 
+    function checkVideoById($id_video){
+        try {
+            $sql = "SELECT id_video FROM videos WHERE id_video =  (:video) ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["video" => $id_video]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOVideos: " . $e->getMessage();
+        }
+        return $res;
+    }
+
 }
 ?>
