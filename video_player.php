@@ -1,8 +1,8 @@
 <?php
 require_once("src/App.php");
+require_once("src/logic/Subtitulos.php");
 $rol = isAdmin(); //Return session admin or null
-$videoId = "wisbrPN9fbI";//$_REQUEST["id"]; 
-
+$videoId =  $_POST["id_video"]; // "wisbrPN9fbI";
 
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
@@ -10,7 +10,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   }
 
   require_once __DIR__ . '/vendor/autoload.php';
-  session_start();
+ // session_start();
   
   $OAUTH2_CLIENT_ID = '88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com';
   $OAUTH2_CLIENT_SECRET = '4xobKsbsIv2nFo7XOhcadA6V';
@@ -70,7 +70,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
       $_SESSION['state'] = $state;
   
       $authUrl = $client->createAuthUrl();
-      echo $authUrl;  
+      redirect($authUrl);  
   }
 
 ?>
@@ -96,6 +96,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
     <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+    <script>
+        function download(id_video){
+            document.myform.id_video.value = id_video;
+            return true;
+        }
+    </script>
 </head>
 
 <style type="text/css">
@@ -215,7 +221,15 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                             <i class="fa fa-thumbs-o-up" aria-hidden="true"> <?=$videoStatistics['likeCount'] ?></i>
                         </li>
                         <li>
-                            <a href="#" class="button small icon fa-download"> Descargar Subtítulos</a>
+                            <?php
+                                $subtitulos = new Subtitulos();
+                                if($subtitulos->existCaption($videoId)){                                
+                            ?>
+                                <form name="myform" method="post" action="download_subtitulo.php" onsubmit="download('<?=$videoId?>')">
+                                    <input type="hidden" name="id_video" value="" />
+                                    <input class="button small icon fa-download" type="submit" name="submit" value="Descargar Subtítulos" />
+                                </form>
+                            <?php } ?>
                         </li>
                     </ul>
                     <p><?=$videoSnippet['description']?></p>

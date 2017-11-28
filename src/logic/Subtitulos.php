@@ -23,10 +23,21 @@ Class Subtitulos{
         return $result;
       }
 
-
     function newCaption($idVideo, $archivo) {
         //Insertar en tabla subtítulos
         return $this->daoSubtitulos->insert($idVideo, $archivo);
+    }
+
+    function getCaption($id_video){
+        return $this->daoSubtitulos->getCaption($id_video);
+    }
+
+    function getTitleCaption($id_subtitulo){
+        return $this->daoSubtitulos->getTitleCaption($id_subtitulo);
+    }
+
+    function existCaption($id_subtitulo){
+        return count($this->daoSubtitulos->existCaption($id_subtitulo)) == 0 ? false : true;
     }
 }
 ?>

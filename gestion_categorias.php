@@ -32,14 +32,6 @@ if(!is_null($rol)){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
-    <script>
-    function foo($id, $valor)
-    {
-        alert("Submit button clicked!");
-    return true;
-    }
-    
-    </script>
 </head>
 
 <body>

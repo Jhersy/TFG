@@ -81,7 +81,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                   alert('Categoría procesada con éxito!');
                   window.location.href = "conjunto_categorias.php";
               }
-            })
+            });
         }
     </script>
 

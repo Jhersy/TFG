@@ -1,8 +1,17 @@
 <?php
-$filename = "yourfile.srt";
-$content = "HOLA TEXT";
+
+require_once("src/logic/Subtitulos.php");
+$id_subtitulo =  $_POST["id_video"];
+
+$subtitulos = new Subtitulos();
+$content = $subtitulos->getCaption($id_subtitulo);
+$titleCaption = $subtitulos->getTitleCaption($id_subtitulo);
+
+$caracteres = array("?", "¿");
+$titulo = str_replace($caracteres, "", $titleCaption[0]['titulo']);
+$filename = str_replace( " ",  "_", $titulo) . ".srt"; // "yourfile.srt";
 $f = fopen($filename, 'w');
-fwrite($f, $content);
+fwrite($f, $content[0]['archivo']);
 fclose($f);
 
 header("Cache-Control: public");
@@ -13,4 +22,5 @@ header("Content-Type: application/octet-stream; ");
 header("Content-Transfer-Encoding: binary");
 
 readfile($filename);
+
 ?>

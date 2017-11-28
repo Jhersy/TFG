@@ -35,5 +35,40 @@ Class DAOSubtitulos{
         return $id;
     }
 
+    function getCaption($id_video){
+        try {
+            $sql = "SELECT archivo FROM subtitulos WHERE id_subtitulo = :id_subtitulo";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_video]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
+        }
+        return $res;
+    }
+    
+    function getTitleCaption($id_subtitulo){
+        try {
+            $sql = "SELECT titulo FROM subtitulos, videos WHERE id_subtitulo = :id_subtitulo and id_video = :id_subtitulo";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_subtitulo]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
+        }
+        return $res;
+    }
+
+    function existCaption($id_subtitulo){
+        try {
+            $sql = "SELECT id_subtitulo FROM subtitulos WHERE id_subtitulo = :id_subtitulo";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_subtitulo]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
+        }
+        return $res;
+    }
 }
 ?>
