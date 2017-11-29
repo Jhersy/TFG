@@ -9,7 +9,7 @@ $rol = isAdmin(); //Return session admin or null
 
 $categoria = explode( "|", $_POST["category"]);
 
-var_dump($categoria);
+ var_dump($categoria);
 
 $catBBDD = false;
 if(count($categoria) > 1){
@@ -34,7 +34,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   }
   
   require_once __DIR__ . '/vendor/autoload.php';
-  session_start();
+//   session_start();
   
   $OAUTH2_CLIENT_ID = "88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com";
   $OAUTH2_CLIENT_SECRET = "4xobKsbsIv2nFo7XOhcadA6V";
@@ -42,7 +42,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   $client = new Google_Client();
   $client->setClientId($OAUTH2_CLIENT_ID);
   $client->setClientSecret($OAUTH2_CLIENT_SECRET);
-  $client->setScopes('https://www.googleapis.com/auth/youtube');
+  $client->setScopes('https://www.googleapis.com/auth/youtube.force-ssl');
   $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
 	FILTER_SANITIZE_URL);
   $client->setRedirectUri($redirect);
@@ -119,10 +119,19 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+
 </head>
 
 <body>
+<script >
+	function verVideo(idVideo){
+		//document.viewVideo.id_video.value = idVideo;
+		//document.viewVideo.submit();		
+		$("#valor").val(idVideo);
+		$("#viewVideo").submit();
+	}
 
+	</script>
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -156,6 +165,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 						<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
 					</header>
 					<div class="table-wrapper">
+						<form  id="viewVideo" action="video_player.php" method="post">
+							<input id="valor" type="hidden" name="id_video" value="">
+
+						</form>
 						<table>
 							<thead>
 								<tr>
@@ -170,17 +183,19 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
 										<br>
-										<a href="#" class="image">
+										
+										<a href="#" onclick="verVideo('<?=$videos[$i]['id']?>')" class="image">
 											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
+										<button class="small" onclick="verVideo('<?=$videos[$i]['id']?>')">VER</button>
 									</td>
 									<td colspan="3"> <?=$videos[$i]['snippet']['title']?>
 										<p>
 											<br>
 											<a class="button small"> <?= $videos[$i]['contentDetails']['definition']?></a>
                                             <?php
-                                                if($videos[$i]['contentDetails']['caption'] == "false") ?>
-                                                    <a class="button disabled small">Subtítulos</a>
+                                                // if($videos[$i]['contentDetails']['caption'] == "false") ?>
+                                                    <!-- <a class="button disabled small">Subtítulos</a> -->
                                                 <?php
                                             ?>
                                             
@@ -202,6 +217,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                     <?php
 									}
                                 ?>
+
 							</tbody>
 						</table>
 					</div>
