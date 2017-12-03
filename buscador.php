@@ -14,11 +14,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   require_once("src/logic/Subtitulos.php");
   require_once("src/App.php");
   
-  $query = "lingüistica";
+  $rol = isAdmin(); //Return session admin or null
+  $query = $_POST['query']; //"lingüistica";
   
 //   if(!is_null($query/*$_POST['query']*/)){
   
-      session_start();
+    //  session_start();
       
       $OAUTH2_CLIENT_ID = '88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com';
       $OAUTH2_CLIENT_SECRET = '4xobKsbsIv2nFo7XOhcadA6V';
@@ -36,23 +37,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
       
       // Define an object that will be used to make all API requests.
       $youtube = new Google_Service_YouTube($client);
-      
-      $tokenSessionKey = 'token-' . $client->prepareScopes();
-      
-      if (isset($_GET['code'])) {
-        if (strval($_SESSION['state']) !== strval($_GET['state'])) {
-          die('The session state did not match.');
-        }
-      
-        $client->authenticate($_GET['code']);
-        $_SESSION[$tokenSessionKey] = $client->getAccessToken();
-        header('Location: ' . $redirect);
-      }
-      
-      if (isset($_SESSION[$tokenSessionKey])) {
-        $client->setAccessToken($_SESSION[$tokenSessionKey]);
-      }
-      
+
+    if (isset($_SESSION['sesion'])) {
+	    $client->setAccessToken($_SESSION['sesion']);
+    }
       
       if ($client->getAccessToken()) {
           //$videoId = "wisbrPN9fbI";
@@ -97,7 +85,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
             $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
             $datosVideo->titulo = $listResponse[0]['snippet']['title'];
             $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
-            var_dump($datosVideo);
+
             array_push($arrayVideosSubtitulos, $datosVideo);
           }
         //var_dump($arrayBBDD);
@@ -129,11 +117,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     $subText = '';
     $subTime = '';
 
-
     for ($i=0; $i < count($result); $i++) { 
         $captions = array();
         $subject = $result[$i]['archivo'];
-        
+        /* Se recorre línea a línea el archivo del subtítulo */
         foreach (preg_split("/((\r?\n)|(\r\n?))/", $subject) as $line) {
             switch ($state) {
                 case SRT_STATE_SUBNUMBER:
@@ -150,9 +137,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                         $sub->text = $subText;
                         $subText = '';
                         $state = SRT_STATE_SUBNUMBER;
-        
+                        $palabraBusqueda = "/" . quitar_tildes($query) . "\b/";  //Expresión regular para buscar palabra exacta
+                        $linea_texto = quitar_tildes($sub->text);
 
-                        if(strpos(quitar_tildes($sub->text), quitar_tildes($query)) !== FALSE){
+
+                        
+                        if(preg_match($palabraBusqueda ,  strip_tags($linea_texto))){
                             $captions[] = explode(",", $sub->startTime)[0] . "|" .  strip_tags($sub->text);
                         }
                     } else{
@@ -213,6 +203,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
 </head>
+<script>
+    function verVideo(idVideo){
+		$("#valor").val(idVideo);
+		$("#viewVideo").submit();
+	}
+</script>
 
 <body>
 
@@ -225,7 +221,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 				<!-- Header -->
 				<header id="header">
-					<a href="index.php" class="logo">
+					<a href="inicio.php" class="logo">
 						<strong>Zaragoza Lingüística</strong>
 					</a>
 					<ul class="icons">
@@ -240,15 +236,69 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
 						}
 					?>
-					</ul>
+                    </ul>
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <a type="button" class="close" data-dismiss="modal">&times;</a>
+                                    <h3>
+                                        <span class="glyphicon glyphicon-lock"></span> Iniciar sesión como Administrador</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="usrname">
+                                                <span class="glyphicon glyphicon-user"></span> Usuario</label>
+                                            <input type="text" class="form-control" id="usrname" placeholder="Introduce identificador de usuario">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="psw">
+                                                <span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
+                                            <input type="password" class="form-control" id="psw" placeholder="Introduce contraseña">
+                                        </div>
+                                        <a type="submit" class="btn btn-success btn-block">
+                                            <span class="glyphicon glyphicon-off"></span> Login</a>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
 				</header>
 
 				<!-- Section -->
 				<section>
 					<header class="major">
 						<h2>Búsqueda</h2>
-					</header>
+                    </header>
+                    
+                    <section style = "padding: 10px 0px 10px 0px">
+					<div class="row uniform">
+							<div class="8u 12u$(small)" ></div>			
+							<div class="4u 12u$(small)">
+							<form method="post" action="buscador.php">
+								<div class="input-group">
+										<input type="text" name="query" class="form-control" placeholder="Buscador">
+										<span class="input-group-btn">
+											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</span>
+								</div>
+								</form>
+							</div>
+
+					</div>
+
+				</section>
+
+
 					<div class="table-wrapper">
+                    <form  id="viewVideo" action="video_player.php" method="post">
+							<input id="valor" type="hidden" name="id_video" value="">
+
+						</form>
 						<table>
 							<thead>
 								<tr>
@@ -267,10 +317,35 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 											<img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
 										</a>
 									</td>
-									<td colspan="3"> <?=$arrayVideosSubtitulos[$i]->titulo?>
+									<td colspan="3"> <h4><?=$arrayVideosSubtitulos[$i]->titulo?></h4>
 									
                                     <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
-                                        $arrayVideosSubtitulos[$i]->subtitulos;
+                                        ?>
+                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:</p>
+                                        <p>
+											<br>
+                                            <?php 
+                                                $subtitulos = array();
+                                                $subtitulos = explode(",", $arrayVideosSubtitulos[$i]->subtitulos);
+                                                foreach ($subtitulos as $subtitulo) {
+                                                    $infoSubtitulo = array();
+                                                    $infoSubtitulo =  explode("|" , $subtitulo);
+                                                    $lineaInfo = "<a>";
+                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
+                                                        $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
+                                                        // for ($i=0; $i < count($info); $i++) { 
+                                                        //     echo '<a class="button small">' .  $info[$i] . '</a>';
+                                                        // }
+                                                    }
+                                                    $lineaInfo .= "</a> <br>";
+                                                    echo $lineaInfo;
+                                                } 
+                                            ?>                                            
+										</p>
+
+
+
+                                    <?php
                                      } ?>
 
                                     </td>
@@ -281,14 +356,17 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 ?>
 
                                 <?php 
+
+                                
                                     foreach ($resultSearchYoutube as $resultYoutube) {
                                         ?>
                                 <tr>
 									<td rowspan="2">
-										<br>
-										<a href="#" class="image">
-											<img src=" <?= $resultYoutube->thumnail?>" alt="" />
+                                        <br>
+                                        <a href="#"  onclick="verVideo('<?php echo $resultYoutube->idVideo . "," .  $_POST["query"] ?>')" class="image">
+                                            <img src=" <?= $resultYoutube->thumnail?>" alt="" />
 										</a>
+
 									</td>
 									<td colspan="3"> 
                                         <h4> <?=$resultYoutube->title?></h4>

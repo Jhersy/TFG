@@ -50,7 +50,7 @@ require_once("src/logic/Subtitulos.php");
 $caption = new Subtitulos();
 
 $result = array();
-$query = "la sintaxis";
+$query = "lenguaje";
 $result =  $caption->findInCaption($query);
 
 
@@ -61,10 +61,11 @@ $subText = '';
 $subTime = '';
 
 $resultTotal = array();
-for ($i=0; $i < count($result); $i++) { 
 
+for ($i=0; $i < count($result); $i++) { 
+    $captions = array();
     $subject = $result[$i]['archivo'];
-    
+    $k = 0;
     foreach (preg_split("/((\r?\n)|(\r\n?))/", $subject) as $line) {
         switch ($state) {
             case SRT_STATE_SUBNUMBER:
@@ -86,13 +87,15 @@ for ($i=0; $i < count($result); $i++) {
                     $state = SRT_STATE_SUBNUMBER;
     
 
-                    if(strpos(quitar_tildes($sub->text), $query) !== FALSE){
+                    if(strpos(quitar_tildes($sub->text), quitar_tildes($query)) !== FALSE){
                         //array_push($resultado,  getSeconds(explode(",", $sub->startTime)[0]));
-                        $resultado = new stdClass();
+                        /*$resultado = new stdClass();
                         $resultado->idVideo = $i;
                         $resultado->second = getSeconds(explode(",", $sub->startTime)[0]);
 
-                        $resultTotal[] = $resultado;
+                        $resultArchivo[] = $resultado;
+                        */
+                        $captions[] = getSeconds(explode(",", $sub->startTime)[0]) . "|" .  strip_tags($sub->text);
                     }
                     
                     
@@ -103,12 +106,17 @@ for ($i=0; $i < count($result); $i++) {
                 }
             break;
         }
+        $k++;
     }
     /*
     if($state == SRT_STATE_TEXT){
         $sub->text = $subText;
         $subs[] = $sub;
     }*/
+    $resultado = new stdClass();
+    $resultado->idVideo = $result[$i]['id_subtitulo'];
+    $resultado->subtitulos = implode(",", $captions);// $captions
+    $resultTotal[$i] = $resultado;
 }
 var_dump($resultTotal);
 

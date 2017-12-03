@@ -1,4 +1,25 @@
 <?php
+
+if (preg_match("/PATRI\b/", "patrimonio de la humanidad")) 
+{
+echo "HAY COINCIDENCIA";
+}else 
+  {
+    echo "NO HAY COINCIDENCIA";
+  }
+// $test = $_POST['id_video'];
+
+// echo $test;
+// require_once("src/logic/Subtitulos.php");
+// $videoId = "wisbrPN9fbI";// $_POST["id_video"];
+
+// $subtitulos = new Subtitulos();
+// $archivo = $subtitulos->getCaption($videoId);
+
+
+// var_dump($archivo);
+
+
 /*
 include "src/logic/Users.php";
 
@@ -17,25 +38,25 @@ $model = new Users();
  $resultado = $_POST['nombreCategoria'] .  $_POST['IdsVideos'] . $_POST['nombreVideo']; 
  echo $resultado;
 */
-require_once("src/logic/Videos.php");
-require_once("src/logic/Categorias.php");
+// require_once("src/logic/Videos.php");
+// require_once("src/logic/Categorias.php");
 
-$videos = new Videos();
-$cate = new Categorias();
+// $videos = new Videos();
+// $cate = new Categorias();
 
-$eje = "err|lQmDWuerrJCY7U|";
-$eje1 = "asd|asd|";
+// $eje = "err|lQmDWuerrJCY7U|";
+// $eje1 = "asd|asd|";
 
-$arr = array();
-$arr1 = array();
+// $arr = array();
+// $arr1 = array();
 
-$arr = explode('|', $eje);
-$arr1 = explode('|', $eje1);
+// $arr = explode('|', $eje);
+// $arr1 = explode('|', $eje1);
 
 
-$id_categoria = $cate->setCategory("nueva 123");
+// $id_categoria = $cate->setCategory("nueva 123");
 
-$videos->setVideosWithCategory($id_categoria, $arr, $arr1 );
+// $videos->setVideosWithCategory($id_categoria, $arr, $arr1 );
 
 
 // var_dump($categorias);
@@ -283,14 +304,6 @@ if ($client->getAccessToken()) {
 */
 ?>
 
-<!doctype html>
-<html>
-<head>
-<title>Insert, list, update, moderate, mark and delete comments.</title>
-</head>
-<body>
-</body>
-</html>
 
 
 

@@ -1,8 +1,35 @@
 <?php
 require_once("src/App.php");
+require_once("scraping.php");
 require_once("src/logic/Subtitulos.php");
+require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
-$videoId = $_POST["id_video"]; //
+
+
+
+
+list($videoId, $categoria) =  explode( ",", $_POST["datos_video"]);
+
+
+$categoria = explode( "|", $categoria);
+/*******************/
+/**Categoria del vídeo*/
+
+$catBBDD = false;
+if(count($categoria) > 1){
+	// [0] ID categoría [1] Nombre de la categoría
+	$catBBDD = true;
+	$categoriasBBDD = new Categorias();
+	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
+	
+} else{
+	$categoryName = getNameCategory($categoria[0]);
+	$IdsVideos = getIDsVideos($categoria[0]);
+}
+
+
+
+
 
 $sesion = $_SESSION['sesion'];
 
@@ -26,21 +53,6 @@ $sesion = $_SESSION['sesion'];
   // Define an object that will be used to make all API requests.
   $youtube = new Google_Service_YouTube($client);
   
-//   $tokenSessionKey = 'token-' . $client->prepareScopes();
-  
-//   if (isset($_GET['code'])) {
-//     if (strval($_SESSION['state']) !== strval($_GET['state'])) {
-//       die('The session state did not match.');
-//     }
-  
-//     $client->authenticate($_GET['code']);
-//     $_SESSION[$tokenSessionKey] = $client->getAccessToken();
-//     header('Location: ' . $redirect);
-//   }
-  
-//   if (isset($_SESSION[$tokenSessionKey])) {
-//     $client->setAccessToken($_SESSION[$tokenSessionKey]);
-//   }
     if (isset($_SESSION['sesion'])) {
 	    $client->setAccessToken($_SESSION['sesion']);
     }
@@ -77,11 +89,6 @@ $sesion = $_SESSION['sesion'];
 
 
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 
 <head>
@@ -101,6 +108,32 @@ $sesion = $_SESSION['sesion'];
             return true;
 
         }
+
+        function volver(categoria){
+            $("#valor").val(categoria);
+            $("#atras").submit();
+        }
+
+        // function deshabilitaRetroceso(){
+        //     window.location.hash="no-back-button";
+        //     window.location.hash="Again-No-back-button" //chrome
+        //     window.onhashchange=function(){alert(window.location.hash="no-back-button";}
+        // }
+
+        // $(function(){
+        //     $(window).bind('hashchange', function(e) {
+        //         var url = $.param.fragment();
+        //         $('a.current').removeClass('current');
+        //         if (url) {
+        //             $('a[href="#' + url + '"]').addClass( 'current' );
+        //             $("#enlaces > div").hide();
+        //             $("#"+url).show();
+        //         }
+        //     });
+
+        //     $(window).trigger( 'hashchange' );
+
+        //     });
     </script>
 </head>
 
@@ -126,7 +159,7 @@ $sesion = $_SESSION['sesion'];
     }
 </style>
 
-<body>
+<body >
 
     <!-- Wrapper -->
     <div id="wrapper">
@@ -137,8 +170,11 @@ $sesion = $_SESSION['sesion'];
 
                 <header id="header" style="padding-top:2em;">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="inicio.php">
                             <strong>Zaragoza Lingüística</strong>
+                        </a>
+                        <a href="#" onclick="volver('<?=implode("|", $categoria);?>');">
+                            <strong> / <?php echo $catBBDD ?  $categoria[1] : $categoryName;?></strong>
                         </a>
 
                     </div>
@@ -191,12 +227,29 @@ $sesion = $_SESSION['sesion'];
                     </div>
 
                 </header>
+				<section style = "padding: 10px 0px 10px 0px">
+					<div class="row uniform">
+							<div class="8u 12u$(small)" ></div>			
+							<div class="4u 12u$(small)">
+							<form method="post" action="buscador.php">
+								<div class="input-group">
+										<input type="text" name="query" class="form-control" placeholder="Buscador">
+										<span class="input-group-btn">
+											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</span>
+								</div>
+								</form>
+							</div>
 
+					</div>
+
+				</section>
                 <!-- Content -->
-                <a href="videos.html">
-                    <strong> > Lenguaje humano, comunicación y cognición
-                    </strong>
-                </a>
+                <form id="atras" action="list_videos.php" method="POST">
+                    <input id="valor" type="hidden" name="category" value="">
+                </form>
+
+
 
 
                 <hr class="major" />

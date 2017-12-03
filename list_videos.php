@@ -9,7 +9,6 @@ $rol = isAdmin(); //Return session admin or null
 
 $categoria = explode( "|", $_POST["category"]);
 
- var_dump($categoria);
 
 $catBBDD = false;
 if(count($categoria) > 1){
@@ -18,12 +17,13 @@ if(count($categoria) > 1){
 	$categoriasBBDD = new Categorias();
 	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
 	
-} else{
+} else if(count($categoria) == 1){
 	$categoryName = getNameCategory($categoria[0]);
 	$IdsVideos = getIDsVideos($categoria[0]);
+} else{
+	// $categoryName = "NO HAY VÍDEOS";
+	// $IdsVideos = getIDsVideos($categoria[0]);
 }
-// echo "-----------";
-// var_dump($IdsVideos);
 
 
 $videos = array();
@@ -48,23 +48,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   $client->setRedirectUri($redirect);
   
   $youtube = new Google_Service_YouTube($client);
-  
-  // Check if an auth token exists for the required scopes
-  $tokenSessionKey = 'token-' . $client->prepareScopes();
-  if (isset($_GET['code'])) {
-	if (strval($_SESSION['state']) !== strval($_GET['state'])) {
-	  die('The session state did not match.');
+
+	if (isset($_SESSION['sesion'])) {
+		$client->setAccessToken($_SESSION['sesion']);
 	}
-  
-	$client->authenticate($_GET['code']);
-	$_SESSION[$tokenSessionKey] = $client->getAccessToken();
-	header('Location: ' . $redirect);
-  }
-  
-  if (isset($_SESSION[$tokenSessionKey])) {
-	$client->setAccessToken($_SESSION[$tokenSessionKey]);
-  }
-  
   
   if ($client->getAccessToken()) {
 	  // $videoId = "wisbrPN9fbI";  
@@ -88,8 +75,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	  redirect($authUrl);
   
   }
-
-
 
   function getDuration($duration){
 	// PT1H25M38S
@@ -124,9 +109,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 <body>
 <script >
-	function verVideo(idVideo){
-		//document.viewVideo.id_video.value = idVideo;
-		//document.viewVideo.submit();		
+	function verVideo(idVideo, categoria){
 		$("#valor").val(idVideo);
 		$("#viewVideo").submit();
 	}
@@ -141,7 +124,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 				<!-- Header -->
 				<header id="header">
-					<a href="index.php" class="logo">
+					<a href="inicio.php" class="logo">
 						<strong>Zaragoza Lingüística</strong>
 					</a>
 					<ul class="icons">
@@ -164,10 +147,27 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 					<header class="major">
 						<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
 					</header>
+					<section style = "padding: 10px 0px 10px 0px">
+					<div class="row uniform">
+							<div class="8u 12u$(small)" ></div>			
+							<div class="4u 12u$(small)">
+							<form method="post" action="buscador.php">
+								<div class="input-group">
+										<input type="text" name="query" class="form-control" placeholder="Buscador">
+										<span class="input-group-btn">
+											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</span>
+								</div>
+								</form>
+							</div>
+
+					</div>
+
+				</section>
+
 					<div class="table-wrapper">
 						<form  id="viewVideo" action="video_player.php" method="post">
-							<input id="valor" type="hidden" name="id_video" value="">
-
+							<input id="valor" type="hidden" name="datos_video" value="">
 						</form>
 						<table>
 							<thead>
@@ -183,11 +183,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
 										<br>
-										
-										<a href="#" onclick="verVideo('<?=$videos[$i]['id']?>')" class="image">
+										<a href="#" onclick="verVideo('<?php echo $videos[$i]['id'] . "," .  $_POST["category"] ?>')" class="image">
 											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
-										<button class="small" onclick="verVideo('<?=$videos[$i]['id']?>')">VER</button>
 									</td>
 									<td colspan="3"> <?=$videos[$i]['snippet']['title']?>
 										<p>
