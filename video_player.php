@@ -6,30 +6,42 @@ require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
 
+$videoId = $_POST['datos']['id_video'];
 
-
-list($videoId, $categoria) =  explode( ",", $_POST["datos_video"]);
-
-
-$categoria = explode( "|", $categoria);
-/*******************/
-/**Categoria del vídeo*/
 
 $catBBDD = false;
-if(count($categoria) > 1){
-	// [0] ID categoría [1] Nombre de la categoría
-	$catBBDD = true;
-	$categoriasBBDD = new Categorias();
-	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
-	
-} else{
-	$categoryName = getNameCategory($categoria[0]);
-	$IdsVideos = getIDsVideos($categoria[0]);
+$miga = "";
+$segundos = "";
+if(count($_POST['datos']) == 2){
+    if(!is_null($_POST['datos']['categoria'])){
+        $categoria = $_POST['datos']['categoria'];
+    }
+    $categoria = explode( "|", $categoria);
+
+    if(count($categoria) > 1){
+        // [0] ID categoría [1] Nombre de la categoría
+        $catBBDD = true;
+        $categoriasBBDD = new Categorias();
+        $IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
+        $miga = $categoria[1];
+        
+    } else{
+        $miga = getNameCategory($categoria[0]);
+        $IdsVideos = getIDsVideos($categoria[0]);
+    }
+
+}else if(count($_POST['datos']) > 2){
+    if(!empty($_POST['datos']['segundos'])){
+        $segundos = $_POST['datos']['segundos'];
+    }
+    
+    if(!empty($_POST['datos']['query'])){
+        $query = $_POST['datos']['query'];
+        $miga = "Resultado de búsqueda: " . $query;
+    }
 }
 
-
-
-
+// list($videoId, $categoria) =  explode( ",", $_POST["datos_video"]);
 
 $sesion = $_SESSION['sesion'];
 
@@ -174,7 +186,7 @@ $sesion = $_SESSION['sesion'];
                             <strong>Zaragoza Lingüística</strong>
                         </a>
                         <a href="#" onclick="volver('<?=implode("|", $categoria);?>');">
-                            <strong> / <?php echo $catBBDD ?  $categoria[1] : $categoryName;?></strong>
+                            <strong> / <?=$miga?></strong>
                         </a>
 
                     </div>
@@ -251,13 +263,16 @@ $sesion = $_SESSION['sesion'];
 
 
 
-
                 <hr class="major" />
 
                 <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-
+                        <?php 
+                        $segundoExacto = '"';
+                        if(!empty($segundos))
+                            $segundoExacto = "?start=" . $segundos . '"';        
+                        ?>
                     <div class="video-responsive">
-                        <iframe <?=explode(" ", $videoPlayer['embedHtml'])[3];?> frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                        <iframe <?php echo substr(explode(" ", $videoPlayer['embedHtml'])[3], 0, -1) . $segundoExacto;?> frameborder="0" allowfullscreen="allowfullscreen"></iframe>
                     </div>
                 </div>
 

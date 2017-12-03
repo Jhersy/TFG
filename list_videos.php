@@ -110,7 +110,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 <body>
 <script >
 	function verVideo(idVideo, categoria){
-		$("#valor").val(idVideo);
+		$("#id_video").val(idVideo);
+		$('#categoria').val(categoria);
 		$("#viewVideo").submit();
 	}
 
@@ -167,7 +168,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 					<div class="table-wrapper">
 						<form  id="viewVideo" action="video_player.php" method="post">
-							<input id="valor" type="hidden" name="datos_video" value="">
+							<input id="id_video" type="hidden" name="datos[id_video]" value="">
+							<input id="categoria" type="hidden" name="datos[categoria]" value="">
 						</form>
 						<table>
 							<thead>
@@ -183,7 +185,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
 										<br>
-										<a href="#" onclick="verVideo('<?php echo $videos[$i]['id'] . "," .  $_POST["category"] ?>')" class="image">
+										<a href="#" onclick="verVideo(<?php echo  "'" . $videos[$i]['id'] . "' , '" .  $_POST["category"] . "'" ?>)" class="image">
 											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
 									</td>

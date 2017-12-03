@@ -1,12 +1,7 @@
 <?php
 
-if (preg_match("/PATRI\b/", "patrimonio de la humanidad")) 
-{
-echo "HAY COINCIDENCIA";
-}else 
-  {
-    echo "NO HAY COINCIDENCIA";
-  }
+$rest = substr("abcdef", 0, -1);   
+echo $rest;
 // $test = $_POST['id_video'];
 
 // echo $test;

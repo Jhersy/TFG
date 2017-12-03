@@ -85,7 +85,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
             $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
             $datosVideo->titulo = $listResponse[0]['snippet']['title'];
             $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
-
+            $datosVideo->idVideo = $videoBBDD->idVideo;
             array_push($arrayVideosSubtitulos, $datosVideo);
           }
         //var_dump($arrayBBDD);
@@ -204,10 +204,13 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
 </head>
 <script>
-    function verVideo(idVideo){
-		$("#valor").val(idVideo);
+    function verVideo(idVideo, query, segundos){
+		$("#id_video").val(idVideo);
+		$("#query").val(query);
+        $('#segundos').val(segundos);
 		$("#viewVideo").submit();
 	}
+
 </script>
 
 <body>
@@ -296,9 +299,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 					<div class="table-wrapper">
                     <form  id="viewVideo" action="video_player.php" method="post">
-							<input id="valor" type="hidden" name="id_video" value="">
-
-						</form>
+                            <input id="id_video" type="hidden" name="datos[id_video]" value="">
+                            <input id="query" type="hidden" name="datos[query]" value="">
+                            <input id="segundos" type="hidden" name="datos[segundos]" value="">
+                    </form>
 						<table>
 							<thead>
 								<tr>
@@ -309,11 +313,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							<tbody>
                                 <?php 
                                     for ($i=0; $i < count($arrayVideosSubtitulos); $i++) { 
+                                         $id_video_subtitulo = $arrayVideosSubtitulos[$i]->idVideo;
                                         ?>
                                 <tr>
 									<td rowspan="2">
 										<br>
-										<a href="#" class="image">
+                                        <a href="#"  onclick="verVideo('<?php echo $arrayVideosSubtitulos[$i]->idVideo . "' , '" .  $_POST["query"] ?>','0')" class="image">
 											<img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
 										</a>
 									</td>
@@ -330,7 +335,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                    $lineaInfo = "<a>";
+                                                    $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_POST["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
                                                         // for ($i=0; $i < count($info); $i++) { 
@@ -363,7 +368,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
                                         <br>
-                                        <a href="#"  onclick="verVideo('<?php echo $resultYoutube->idVideo . "," .  $_POST["query"] ?>')" class="image">
+                                        <a href="#"  onclick="verVideo('<?php echo $resultYoutube->idVideo . "' , '" .  $_POST["query"] ?>','0')" class="image">
                                             <img src=" <?= $resultYoutube->thumnail?>" alt="" />
 										</a>
 
@@ -380,7 +385,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                    $lineaInfo = "<a>";
+                                                    $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_POST["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
                                                         // for ($i=0; $i < count($info); $i++) { 

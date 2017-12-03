@@ -41,6 +41,8 @@ require_once("src/App.php");
   
   
   if ($client->getAccessToken()) {
+
+    redirect("inicio.php");
     
   }else{
 	  $state = mt_rand();
