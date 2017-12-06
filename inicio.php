@@ -16,8 +16,13 @@ $rol = isAdmin(); //Return session admin or null
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+	
+
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- ESTILO PERSONALIZADO -->
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
+	<!-- #################### -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
@@ -34,20 +39,25 @@ $rol = isAdmin(); //Return session admin or null
 			<div class="inner">
 				<!-- Header -->
 				<header id="header" style="padding-top:2em;">
-					<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>
-					<ul class="icons">
-                    <?php
-                        if (is_null($rol) ) {
-                            echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-                        }
-                        else {
-                            $name = getName();
-                            echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-                        }
-                    ?>
-					</ul>
+					<div class="8u 8u$(small)">
+						<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
+					</div>
+					<div class="4u 3u$(small)">
+						<ul class="icons">
+						<?php
+							if (is_null($rol) ) {
+								echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+							}
+							else {
+								$name = getName();
+								echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+								echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+								echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+							}
+						?>
+						</ul>					
+					</div>
+					
 
 					<!-- Modal -->
 					<!-- Modal content-->
@@ -86,15 +96,15 @@ $rol = isAdmin(); //Return session admin or null
 						
 					-->
 				</header>
-				<section style = "padding: 10px 0px 10px 0px">
+				<div style = "padding: 10px 0px 10px 0px">
 					<div class="row uniform">
 							<div class="8u 12u$(small)" ></div>			
 							<div class="4u 12u$(small)">
-							<form method="post" action="buscador.php">
+							<form method="get" action="buscador.php">
 								<div class="input-group">
 										<input type="text" name="query" class="form-control" placeholder="Buscador">
 										<span class="input-group-btn">
-											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<button type="input" class="botonBusqueda btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</span>
 								</div>
 								</form>
@@ -102,13 +112,13 @@ $rol = isAdmin(); //Return session admin or null
 
 					</div>
 
-				</section>
+				</div>
 				<section id="banner">
 
 					<div class="content">
 
 						<header>
-							<h1>Zaragoza Lingüística<br /> a la carta</h1>
+							<h1 class="portada" >Zaragoza Lingüística a la carta</h1>
 							<p>Seminario Permanente de Investigaciones Lingüísticas. Grupo Psylex (Universidad de Zaragoza, España)</p>
 						</header>
 						<p>Zaragoza Lingüística a la carta" es un repositorio de archivos multimedia sobre el lenguaje y las lenguas. Estos archivos
@@ -141,14 +151,12 @@ $rol = isAdmin(); //Return session admin or null
 									$categoriaScraping = true;
 								}
 								//$categories = getAllCategories();
+
 								foreach ($categoriasVisibles as $category) { ?>
-									<article>
+									<article >
 										<span class="<?=$icons[$i];?>"></span>
 										<div class="content">
-											<form action="list_videos.php" method="POST">
-												<h3 style="font-size: 12px;"><input type="submit" value="<?= $categoriaScraping ?  $category : $category['nombre_categoria']?>"></h3>
-												<input type="hidden" name="category" value="<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . $category['nombre_categoria']?>">
-											</form>
+											<h3 class="categorias"><a href="list_videos.php?categoria=<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . $category['nombre_categoria']?>"><?= $categoriaScraping ?  $category : $category['nombre_categoria']?></a></h3>
 										</div>
 									</article>
 									<?php
@@ -157,6 +165,7 @@ $rol = isAdmin(); //Return session admin or null
 							?>
 							
 					</div>
+					
 				</section>
 			</div>
 		</div>

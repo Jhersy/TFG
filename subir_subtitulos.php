@@ -57,6 +57,7 @@ if(!is_null($rol)){
                 url:   'upload_caption.php?id=' + id + '&title=' + title,
                 type:  'post',
                 success:  function (data) {
+                    $('#myModal').hide();
                      window.alert(data);
                      window.location.href = "subir_subtitulos.php";
                     // var newWindow = window.open("", "new window", "width=800, height=800");
@@ -159,7 +160,7 @@ if(!is_null($rol)){
 						<h2>Menú</h2>
 					</header>
 					<ul>
-						<li><a href="index.php">Home</a></li>
+						<li><a href="inicio.php">Home</a></li>
 						<li>
 							<span class="opener">Categorías</span>
 							<ul>

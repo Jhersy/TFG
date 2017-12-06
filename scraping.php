@@ -1,8 +1,7 @@
 <?php
 require 'simple_html_dom.php';
 
-function multiexplode ($delimiters,$string) {
-    
+function multiexplode ($delimiters,$string) {    
     $ready = str_replace($delimiters, $delimiters[0], $string);
     $launch = explode($delimiters[0], $ready);
     return  $launch;
@@ -10,7 +9,7 @@ function multiexplode ($delimiters,$string) {
 
 
 
-
+/* Método que devuelve todas las categorías del blog */
 function getAllCategories(){
     $allCategories = array();
     $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
@@ -26,7 +25,7 @@ function getAllCategories(){
     return $allCategories;
 }
 
-
+/* Método que devuelve el nombre de una categoría específica */
 function getNameCategory($idCategory){
     $allCategories = array();
     $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
@@ -40,7 +39,7 @@ function getNameCategory($idCategory){
 
 //echo getAllCategories()[0];
 
-
+/* Método que devuelve los IDs de vídeos  de una categoría del blog */
 function getIDsVideos($idCategory){
     $IDsVideosCategory = array();
     $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
@@ -49,18 +48,13 @@ function getIDsVideos($idCategory){
 
     foreach( $categories as $category ){
             $link = $category->find('li a',$idCategory);
-            $href = $link->href; // ENLACES DE CADA CATEGORÍA
-            //$title = $link->innertext; // NOMBRE DE LAS CATEGORÍAS
-            //echo $title . "\n\n";
-            //echo $href. "\n";
+            $href = $link->href; 
 
             $urlCategory = $href;
             $htmlCategory = file_get_html($urlCategory);
             $listVideos = $htmlCategory->find('div[class=entry-content] p a');
             foreach ($listVideos as $video) {
                 $hrefVideo = $video->href;
-                //$titleVideo = $video->innertext;
-                //echo $titleVideo . "\n";
 
                 $urlVideo = $hrefVideo;
                 $htmlVideo = file_get_html($urlVideo);
@@ -68,23 +62,15 @@ function getIDsVideos($idCategory){
 
                 foreach( $videoPlayer as $idVideo ){
                     $src = $idVideo->attr['src'];
-                    //$result = explode('?', $src);
-                    //$r = explode('/embed/', $result[0]);
                     $r = multiexplode(array("/embed/","?"),$src);
-                    //echo $r[1] . "\n";
                     array_push($IDsVideosCategory, $r[1]);
-                    //$id = multiexplode(array("/embed/","?"),$src);
-                    //echo $id[1] . "\n";
-
                 }
             }
-
-    //echo count($IDsVideosCategory);
     }
     return $IDsVideosCategory;
 }
 
-
+/* Devuelve TODOS los IDs de vídeo del blog */
 function getAllIDsVideos(){
 
     $IDsVideosCategory = array();

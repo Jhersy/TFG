@@ -7,8 +7,8 @@ require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
 
-$categoria = explode( "|", $_POST["category"]);
-
+// $categoria = explode( "|", $_GET["category"]);
+$categoria = explode( "|", $_GET["categoria"]);
 
 $catBBDD = false;
 if(count($categoria) > 1){
@@ -98,8 +98,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- ESTILO PERSONALIZADO -->
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
+	<!-- #################### -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
@@ -108,14 +112,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 </head>
 
 <body>
-<script >
-	function verVideo(idVideo, categoria){
-		$("#id_video").val(idVideo);
-		$('#categoria').val(categoria);
-		$("#viewVideo").submit();
-	}
-
-	</script>
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -124,53 +120,81 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 			<div class="inner">
 
 				<!-- Header -->
-				<header id="header">
-					<a href="inicio.php" class="logo">
-						<strong>Zaragoza Lingüística</strong>
-					</a>
-					<ul class="icons">
-					<?php
-						if (is_null($rol) ) {
-							echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-						}
-						else {
-							$name = getName();
-							echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-							echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-						}
-					?>
-					</ul>
-				</header>
+				<header id="header" style="padding-top:2em;">
+				<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>
+				<ul class="icons">
+				<?php
+					if (is_null($rol) ) {
+						echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+					}
+					else {
+						$name = getName();
+						echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+						echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+						echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+					}
+				?>
+				</ul>
+
+				<!-- Modal -->
+				<!-- Modal content-->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<a type="button" class="close" data-dismiss="modal">&times;</a>
+								<h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
+							</div>
+							<div class="modal-body">
+								<form role="form" action="login.php" method="post">
+									<div class="form-group">
+										<label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
+										<input type="text" class="form-control" id="username" name="name" placeholder="Introduce identificador de usuario">
+									</div>
+									<div class="form-group">
+										<label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
+										<input type="password" class="form-control" id="password" name="password" placeholder="Introduce contraseña">
+									</div>
+									<button type="submit" class="btn btn btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!--
+				<ul class="icons">
+					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+					<li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
+				</ul>
+					
+				-->
+			</header>
 
 				<!-- Section -->
+				
 				<section>
-					<header class="major">
-						<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
-					</header>
-					<section style = "padding: 10px 0px 10px 0px">
 					<div class="row uniform">
-							<div class="8u 12u$(small)" ></div>			
-							<div class="4u 12u$(small)">
+						<div class="8u 12u$(small)" >
+							<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
+						</div>			
+						
+						<div class="4u 12u$(small)">
 							<form method="post" action="buscador.php">
 								<div class="input-group">
 										<input type="text" name="query" class="form-control" placeholder="Buscador">
 										<span class="input-group-btn">
-											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<button class="botonBusqueda btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</span>
 								</div>
-								</form>
-							</div>
-
+							</form>
+						</div>
 					</div>
-
 				</section>
-
 					<div class="table-wrapper">
-						<form  id="viewVideo" action="video_player.php" method="post">
-							<input id="id_video" type="hidden" name="datos[id_video]" value="">
-							<input id="categoria" type="hidden" name="datos[categoria]" value="">
-						</form>
 						<table>
 							<thead>
 								<tr>
@@ -185,11 +209,15 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
 										<br>
-										<a href="#" onclick="verVideo(<?php echo  "'" . $videos[$i]['id'] . "' , '" .  $_POST["category"] . "'" ?>)" class="image">
+										<a href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>">
 											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
 									</td>
-									<td colspan="3"> <?=$videos[$i]['snippet']['title']?>
+									<td colspan="3"> 
+										<a class="titulo_video" href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>">
+											<?=$videos[$i]['snippet']['title']?>
+										</a>						
+									
 										<p>
 											<br>
 											<a class="button small"> <?= $videos[$i]['contentDetails']['definition']?></a>
@@ -221,7 +249,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							</tbody>
 						</table>
 					</div>
-				</section>
 			</div>
 		</div>
 	</div>

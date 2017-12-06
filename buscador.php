@@ -15,9 +15,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   require_once("src/App.php");
   
   $rol = isAdmin(); //Return session admin or null
-  $query = $_POST['query']; //"lingüistica";
+  $query = $_GET['query']; //"lingüistica";
   
-//   if(!is_null($query/*$_POST['query']*/)){
+//   if(!is_null($query/*$_GET['query']*/)){
   
     //  session_start();
       
@@ -198,6 +198,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- ESTILO PERSONALIZADO -->
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
+	<!-- #################### -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
@@ -223,77 +226,78 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 			<div class="inner">
 
 				<!-- Header -->
-				<header id="header">
-					<a href="inicio.php" class="logo">
-						<strong>Zaragoza Lingüística</strong>
-					</a>
-					<ul class="icons">
-					<?php
-						if (is_null($rol) ) {
-							echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-						}
-						else {
-							$name = getName();
-							echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-							echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-						}
-					?>
-                    </ul>
-                    <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog">
+				<header id="header" style="padding-top:2em;">
+                <a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>
+                <ul class="icons">
+                <?php
+                    if (is_null($rol) ) {
+                        echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+                    }
+                    else {
+                        $name = getName();
+                        echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
+                        echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
+                        echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
+                    }
+                ?>
+                </ul>
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <a type="button" class="close" data-dismiss="modal">&times;</a>
-                                    <h3>
-                                        <span class="glyphicon glyphicon-lock"></span> Iniciar sesión como Administrador</h3>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="usrname">
-                                                <span class="glyphicon glyphicon-user"></span> Usuario</label>
-                                            <input type="text" class="form-control" id="usrname" placeholder="Introduce identificador de usuario">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="psw">
-                                                <span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
-                                            <input type="password" class="form-control" id="psw" placeholder="Introduce contraseña">
-                                        </div>
-                                        <a type="submit" class="btn btn-success btn-block">
-                                            <span class="glyphicon glyphicon-off"></span> Login</a>
-                                    </form>
-                                </div>
+                <!-- Modal -->
+                <!-- Modal content-->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <a type="button" class="close" data-dismiss="modal">&times;</a>
+                                <h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
                             </div>
-
+                            <div class="modal-body">
+                                <form role="form" action="login.php" method="post">
+                                    <div class="form-group">
+                                        <label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
+                                        <input type="text" class="form-control" id="username" name="name" placeholder="Introduce identificador de usuario">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Introduce contraseña">
+                                    </div>
+                                    <button type="submit" class="btn btn btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
+                                </form>
+                            </div>
                         </div>
+
                     </div>
-				</header>
+                </div>
+                <!--
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
+                </ul>
+                    
+                -->
+            </header>
 
 				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Búsqueda</h2>
-                    </header>
-                    
-                    <section style = "padding: 10px 0px 10px 0px">
+                <section>
 					<div class="row uniform">
-							<div class="8u 12u$(small)" ></div>			
-							<div class="4u 12u$(small)">
+						<div class="8u 12u$(small)" >
+                            <h2>Resultados de búsqueda:  "<?=$_GET['query']?>"</h2>
+						</div>			
+						
+						<div class="4u 12u$(small)">
 							<form method="post" action="buscador.php">
 								<div class="input-group">
 										<input type="text" name="query" class="form-control" placeholder="Buscador">
 										<span class="input-group-btn">
-											<button style="font-size:10px; border:none;" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<button class="botonBusqueda btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</span>
 								</div>
-								</form>
-							</div>
-
+							</form>
+						</div>
 					</div>
-
 				</section>
 
 
@@ -318,9 +322,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
 										<br>
-                                        <a href="#"  onclick="verVideo('<?php echo $arrayVideosSubtitulos[$i]->idVideo . "' , '" .  $_POST["query"] ?>','0')" class="image">
-											<img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
-										</a>
+                                        <a href="video_player.php?id_video=<?php echo $arrayVideosSubtitulos[$i]->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
+                                            <img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
+                                        </a>
+
 									</td>
 									<td colspan="3"> <h4><?=$arrayVideosSubtitulos[$i]->titulo?></h4>
 									
@@ -335,8 +340,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                    $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_POST["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";
-                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
+                                                   /* $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
+                                                   $lineaInfo = "<a href='video_player.php?id_video=" . $id_video_subtitulo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
+                                                   for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
                                                         // for ($i=0; $i < count($info); $i++) { 
                                                         //     echo '<a class="button small">' .  $info[$i] . '</a>';
@@ -368,9 +374,10 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <tr>
 									<td rowspan="2">
                                         <br>
-                                        <a href="#"  onclick="verVideo('<?php echo $resultYoutube->idVideo . "' , '" .  $_POST["query"] ?>','0')" class="image">
+                                        <a href="video_player.php?id_video=<?php echo $resultYoutube->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
                                             <img src=" <?= $resultYoutube->thumnail?>" alt="" />
-										</a>
+                                        </a>
+
 
 									</td>
 									<td colspan="3"> 
@@ -385,7 +392,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                    $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_POST["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";
+                                                    /*$lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
+                                                   $lineaInfo = "<a href='video_player.php?id_video=" . $resultYoutube->idVideo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
                                                         // for ($i=0; $i < count($info); $i++) { 
@@ -407,7 +415,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							</tbody>
 						</table>
 					</div>
-				</section>
 			</div>
 		</div>
 	</div>

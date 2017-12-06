@@ -16,7 +16,7 @@ $categorias =  $categories->getCategories();
 
 //Scraping
 $videos = array();
-//$videos = getAllIDsVideos();
+$videos = getAllIDsVideos();
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
@@ -190,7 +190,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button onclick="guardarCategoria()" type="button" class="btn btn-primary">Save changes</button>
+                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Save changes</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>
@@ -214,7 +214,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 						<h2>Menú</h2>
 					</header>
 					<ul>
-						<li><a href="index.php">Home</a></li>
+						<li><a href="inicio.php">Home</a></li>
 						<li>
 							<span class="opener">Categorías</span>
 							<ul>
