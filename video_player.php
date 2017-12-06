@@ -72,12 +72,10 @@ $sesion = $_SESSION['sesion'];
   if ($client->getAccessToken()) {
       //$videoId = "wisbrPN9fbI";
   
-      $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",array('id' => $videoId));
+      $listResponse = $youtube->videos->listVideos("snippet, statistics, player",array('id' => $videoId));
       
       $video = $listResponse[0];
       $videoSnippet = $video['snippet'];
-      $videoSnippet = $video['snippet'];
-      $videoContentDetails = $video['contentDetails'];
       $videoStatistics = $video['statistics'];
       $videoPlayer = $video['player'];
 
@@ -86,7 +84,17 @@ $sesion = $_SESSION['sesion'];
         'videoId' => $videoId,
         'textFormat' => 'plainText',
         ));
-      
+
+    /* CARRUSEL DE VIDEOS DE LA MISMA CATEGORÍA*/
+    if(!$busqueda){
+        $videos = array();
+        foreach ($IdsVideos as $videoId) {        
+            $carrusel = $youtube->videos->listVideos("snippet",
+            array('id' => $catBBDD ? $videoId['id_video'] : $videoId));
+            array_push($videos, $carrusel[0]);
+        }
+    }
+
   }else{
       $state = mt_rand();
       $client->setState($state);
@@ -122,6 +130,16 @@ $sesion = $_SESSION['sesion'];
             document.myform.id_video.value = id_video;
             return true;
         }
+
+        $(document).ready(function() {
+            $('#Carousel').carousel({
+                interval: 100000
+            })
+          });
+
+          $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
     </script>
 </head>
 
@@ -145,8 +163,40 @@ $sesion = $_SESSION['sesion'];
         width: 100%;
         height: 100%;
     }
-</style>
 
+    .carousel {
+        margin-bottom: 0;
+        padding: 0 40px 30px 40px;
+    }
+    /* The controlsy */
+    .carousel-control {
+        left: -12px;
+        height: 40px;
+        width: 40px;
+        background: none repeat scroll 0 0 #222222;
+        border: 4px solid #FFFFFF;
+        border-radius: 23px 23px 23px 23px;
+        margin-top: 90px;
+    }
+    .carousel-control.right {
+        right: -12px;
+    }
+    /* The indicators */
+    .carousel-indicators {
+        right: 50%;
+        top: auto;
+        bottom: -10px;
+        margin-right: -19px;
+    }
+    /* The colour of the indicators */
+    .carousel-indicators li {
+        background: #cecece;
+    }
+    .carousel-indicators .active {
+    background: #428bca;
+    }
+  
+  </style>
 <body >
 
     <!-- Wrapper -->
@@ -217,7 +267,7 @@ $sesion = $_SESSION['sesion'];
                     </div>			
                     
                     <div class="4u 12u$(small)">
-                        <form method="post" action="buscador.php">
+                        <form method="get" action="buscador.php">
                             <div class="input-group">
                                     <input type="text" name="query" class="form-control" placeholder="Buscador">
                                     <span class="input-group-btn">
@@ -274,6 +324,102 @@ $sesion = $_SESSION['sesion'];
                     ?>
                     <hr class="major" />
 
+
+                    <!-- CARRUSEL DE VIDEOS SUGERIDOS -->
+                    <!-- Solo se mostrará el carrusel cuando se esté visualizando vídeos de una categoría, no para las búsquedas -->
+                    <?php    if(!$busqueda){ ?>
+                    <div class="col-md-12">
+                        <h4>Vídeos relacionados con la categoría: </h4>
+                    <div id="Carousel" class="carousel slide">                     
+
+                    <?php 
+                        $nextItem = 0;
+                        $aux = 0;
+                        $items = count($videos) / 4;
+                        $final = count($videos);
+                    ?>
+                    <ol class="carousel-indicators">
+                        <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                        <?php
+                        for ($i=1; $i < $items; $i++) { ?>
+                            <li data-target="#Carousel" data-slide-to="<?=$i?>"></li>
+                        <?php
+                        }
+                        ?>
+                    </ol>
+
+                     
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        
+                    <div class="item active">
+                      <div class="row">
+                        <?php
+                        if($final < 4){
+                            $aux = $final;
+                        }else{
+                            $aux = 4;
+                            $final -= 4; 
+                        }
+                        for ($i=0; $i < $aux; $i++) {  ?>
+                            <div class="col-md-3" style="height: 12em;" >
+                                    <a data-toggle="tooltip" title="<?=$videos[$i]['snippet']['title']?>" data-placement="bottom" href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>" class="thumbnail">
+                                    <img src="<?=$videos[$i]['snippet']['thumbnails']['default']['url']?>" alt="Image" style="max-width:100%;">
+                                    </a>
+                            </div>                          
+                        <?php
+                        }
+                        $nextItem += $aux;
+                        ?>
+                      </div><!--.row-->
+                    </div><!--.item-->
+                    <?php
+                    if($items > 1){
+                        for($j=1; $j < $items; $j++){ ?>
+                            <div class="item">
+                            <div class="row"> 
+                            <?php
+                            if($final < 4){
+                                $aux = $final;
+                            }else{
+                                $aux = 4;
+                                $final -= 4; 
+                            }
+                            for ($i=0; $i < $aux; $i++) { ?>
+                                <div class="col-md-3" style="height: 12em;">
+                                    <a data-toggle="tooltip"  title="<?=$videos[$i]['snippet']['title']?>" data-placement="bottom" href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>" class="thumbnail">
+                                    <img src="<?=$videos[$nextItem + $i]['snippet']['thumbnails']['default']['url']?>" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+
+                            <?php
+                            }
+                            $nextItem += $aux;
+
+                            ?>
+                      </div><!--.row-->
+                    </div><!--.item-->
+
+                    <?php
+                        }
+                    }
+                    ?>
+ 
+                </div><!--.carousel-inner-->
+                <a data-slide="prev" href="#Carousel" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#Carousel" class="right carousel-control">›</a>
+                </div><!--.Carousel-->
+                
+                </div>
+
+
+                <hr class="major" />
+
+                <?php } ?>
+
+
+
+
                     <h4><strong> <?=$videoStatistics['commentCount']?> Comentarios</strong></h4>
                     <dl>
                     <?php 
@@ -299,11 +445,11 @@ $sesion = $_SESSION['sesion'];
     </div>
 
     <!-- Scripts -->
-    <script src="resources/assets/js/jquery.min.js"></script>
+    <!-- <script src="resources/assets/js/jquery.min.js"></script>
     <script src="resources/assets/js/skel.min.js"></script>
     <script src="resources/assets/js/util.js"></script>
     <!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
-    <script src="resources/assets/js/main.js"></script>
+    <!-- <script src="resources/assets/js/main.js"></script> -->
 
 </body>
 

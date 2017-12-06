@@ -183,7 +183,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 						</div>			
 						
 						<div class="4u 12u$(small)">
-							<form method="post" action="buscador.php">
+							<form method="get" action="buscador.php">
 								<div class="input-group">
 										<input type="text" name="query" class="form-control" placeholder="Buscador">
 										<span class="input-group-btn">
