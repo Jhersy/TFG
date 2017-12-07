@@ -8,6 +8,7 @@ $rol = isAdmin(); //Return session admin or null
 
 $videoId = $_GET['id_video'];
 
+$categoria = "";
 
 $catBBDD = false;
 $busqueda = false;
@@ -38,7 +39,7 @@ if(count($_GET) == 2){
     
     if(!empty( $_GET['query'])){
         $query = $_GET['query'];
-        $miga = "<a href='buscador.php?query=" . $query . "' > Resultado de búsqueda: " . $query . " </a>";
+        $miga = "<a href='buscador.php?query=" . $query . "' > Resultado de búsqueda: \"" . $query . "\"</a>";
     }
 }
 
@@ -79,7 +80,7 @@ $sesion = $_SESSION['sesion'];
       $videoStatistics = $video['statistics'];
       $videoPlayer = $video['player'];
 
-      // ESTADÍSTICAS DE UN VÍDEO
+      // COMENTARIOS DE UN VÍDEO
       $videoCommentThreads = $youtube->commentThreads->listCommentThreads('snippet, replies', array(
         'videoId' => $videoId,
         'textFormat' => 'plainText',
@@ -88,9 +89,9 @@ $sesion = $_SESSION['sesion'];
     /* CARRUSEL DE VIDEOS DE LA MISMA CATEGORÍA*/
     if(!$busqueda){
         $videos = array();
-        foreach ($IdsVideos as $videoId) {        
+        foreach ($IdsVideos as $videoBusqueda) {        
             $carrusel = $youtube->videos->listVideos("snippet",
-            array('id' => $catBBDD ? $videoId['id_video'] : $videoId));
+            array('id' => $catBBDD ? $videoBusqueda['id_video'] : $videoBusqueda));
             array_push($videos, $carrusel[0]);
         }
     }
@@ -135,11 +136,28 @@ $sesion = $_SESSION['sesion'];
             $('#Carousel').carousel({
                 interval: 100000
             })
-          });
-
-          $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();   
+
         });
+
+        function insertComment(id_video, categoria){
+            var parametros = {
+                "id_video" : id_video,
+                "textComment" : $('#textarea').val()
+            };
+            $.ajax({
+                    data:  parametros,
+                    url:   'comentarios.php',
+                    type:  'post',
+                    success:  function () {
+                        window.location.href = "video_player.php?id_video=" + id_video + "&categoria=" + categoria;
+                    }
+            });
+        }
+
+        function cancelComment(){
+            $('#textarea').val("");
+        }
     </script>
 </head>
 
@@ -387,7 +405,7 @@ $sesion = $_SESSION['sesion'];
                             }
                             for ($i=0; $i < $aux; $i++) { ?>
                                 <div class="col-md-3" style="height: 12em;">
-                                    <a data-toggle="tooltip"  title="<?=$videos[$i]['snippet']['title']?>" data-placement="bottom" href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>" class="thumbnail">
+                                    <a data-toggle="tooltip"  title="<?=$videos[$nextItem + $i]['snippet']['title']?>" data-placement="bottom" href="video_player.php?id_video=<?php echo $videos[$nextItem + $i]['id'] . "&categoria=" . $_GET["categoria"] ?>" class="thumbnail">
                                     <img src="<?=$videos[$nextItem + $i]['snippet']['thumbnails']['default']['url']?>" alt="Image" style="max-width:100%;">
                                     </a>
                                 </div>
@@ -420,7 +438,17 @@ $sesion = $_SESSION['sesion'];
 
 
 
-                    <h4><strong> <?=$videoStatistics['commentCount']?> Comentarios</strong></h4>
+                    <h4><strong> <?=$videoCommentThreads['pageInfo']['totalResults']?> Comentarios</strong></h4>
+
+                    <div class="12u 12u$(small)" style="padding-bottom: 1em;">
+                        <textarea id="textarea"  placeholder="Inserta un nuevo comentario" style=" margin-bottom: 10px; height: 50px; resize:vertical;"></textarea>
+                        <ul class="icons">
+                            <li style="float:right; padding: 0 0 0 0.5em;"><a onclick="insertComment(<?php echo "'" . $videoId . "','" . $categoria[0] . "'"; ?>)" class="button special small">Comentar</a></li>
+                            <li style="float:right; padding: 0 0 0 0;"><a id="cancelComment" onclick="cancelComment()"  class="button small">Cancelar</a></li>                           
+                        </ul>
+                    </div>
+                    <br>
+                    <br>
                     <dl>
                     <?php 
                     

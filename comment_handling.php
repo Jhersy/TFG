@@ -151,11 +151,9 @@ if ($client->getAccessToken()) {
     $htmlBody .= '</ul>';
 
   } catch (Google_Service_Exception $e) {
-    $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>',
-        htmlspecialchars($e->getMessage()));
+    $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
   } catch (Google_Exception $e) {
-    $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
-        htmlspecialchars($e->getMessage()));
+    $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
   }
 
   $_SESSION[$tokenSessionKey] = $client->getAccessToken();

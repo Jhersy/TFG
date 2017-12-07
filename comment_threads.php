@@ -41,7 +41,7 @@ $OAUTH2_CLIENT_SECRET = '4xobKsbsIv2nFo7XOhcadA6V';
  */
 $VIDEO_ID = 'BHGx77p6rl4';
 $CHANNEL_ID = 'REPLACE_ME';
-$TEXT = 'REPLACE_ME';
+$TEXT = 'COMENTARIO DE PRUEBA';
 
 $client = new Google_Client();
 $client->setClientId($OAUTH2_CLIENT_ID);
@@ -79,13 +79,16 @@ if (isset($_SESSION[$tokenSessionKey])) {
 if ($client->getAccessToken()) {
   try {
     # All the available methods are used in sequence just for the sake of an example.
+    # Insert channel comment by omitting videoId.
+    # Create a comment snippet with text.
+    $commentSnippet = new Google_Service_YouTube_CommentSnippet();
+    $commentSnippet->setTextOriginal($TEXT);
 
-
-/*
+    
     # Create a top-level comment with snippet.
     $topLevelComment = new Google_Service_YouTube_Comment();
     $topLevelComment->setSnippet($commentSnippet);
-*/
+
     # Create a comment thread snippet with channelId and top-level comment.
     $commentThreadSnippet = new Google_Service_YouTube_CommentThreadSnippet();
     $commentThreadSnippet->setChannelId($CHANNEL_ID);
@@ -96,7 +99,7 @@ if ($client->getAccessToken()) {
     $commentThread->setSnippet($commentThreadSnippet);
 
     // Call the YouTube Data API's commentThreads.insert method to create a comment.
-    $channelCommentInsertResponse = $youtube->commentThreads->insert('snippet', $commentThread);
+    // $channelCommentInsertResponse = $youtube->commentThreads->insert('snippet', $commentThread);
 
 
     # Insert video comment
