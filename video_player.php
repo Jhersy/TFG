@@ -13,7 +13,7 @@ $categoria = "";
 $catBBDD = false;
 $busqueda = false;
 $miga = "";
-$segundos = "";
+$segundos = 0;
 if(count($_GET) == 2){
     if(!is_null($_GET['categoria'])){
         $categoria = $_GET['categoria'];
@@ -140,7 +140,7 @@ $sesion = $_SESSION['sesion'];
 
         });
 
-        function insertComment(id_video, categoria){
+        function insertComment(id_video, param){
             var parametros = {
                 "id_video" : id_video,
                 "textComment" : $('#textarea').val()
@@ -150,7 +150,7 @@ $sesion = $_SESSION['sesion'];
                     url:   'comentarios.php',
                     type:  'post',
                     success:  function () {
-                        window.location.href = "video_player.php?id_video=" + id_video + "&categoria=" + categoria;
+                        window.location.href = "video_player.php?id_video=" + id_video + param;
                     }
             });
         }
@@ -333,12 +333,14 @@ $sesion = $_SESSION['sesion'];
                     </ul>
                     <p><?=$videoSnippet['description']?></p>
 
-                    <p><strong>Publicado el: </strong><?=substr($videoSnippet['publishedAt'], 0,10)?></p>
+                    <p><strong>Publicado el: </strong><?=date("d-m-Y", strtotime(substr($videoSnippet['publishedAt'], 0,10)));?></p>
 
                     <?php
+                    if(!is_null($videoSnippet['tags'])){
                         foreach($videoSnippet['tags'] as $tag){ ?>
                             <span class="label label-danger"><?=$tag?></span>
                        <?php }
+                    }
                     ?>
                     <hr class="major" />
 
@@ -443,7 +445,19 @@ $sesion = $_SESSION['sesion'];
                     <div class="12u 12u$(small)" style="padding-bottom: 1em;">
                         <textarea id="textarea"  placeholder="Inserta un nuevo comentario" style=" margin-bottom: 10px; height: 50px; resize:vertical;"></textarea>
                         <ul class="icons">
-                            <li style="float:right; padding: 0 0 0 0.5em;"><a onclick="insertComment(<?php echo "'" . $videoId . "','" . $categoria[0] . "'"; ?>)" class="button special small">Comentar</a></li>
+                            <?php
+                                $parametros = "";
+                                if($busqueda){
+                                    $parametros = "&query=" . $query  . "&segundos=" . $segundos;
+                                }else{
+                                    if($catBBDD){
+                                        $parametros = "&categoria=" . implode("|" , $categoria);
+                                    }else{
+                                        $parametros = "&categoria=" . $categoria[0];
+                                    }                                  
+                                }
+                            ?>
+                            <li style="float:right; padding: 0 0 0 0.5em;"><a onclick="insertComment(<?php echo "'" . $videoId . "','" . $parametros . "'"; ?>)" class="button special small">Comentar</a></li>
                             <li style="float:right; padding: 0 0 0 0;"><a id="cancelComment" onclick="cancelComment()"  class="button small">Cancelar</a></li>                           
                         </ul>
                     </div>
