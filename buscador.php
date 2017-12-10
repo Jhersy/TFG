@@ -15,7 +15,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   require_once("src/App.php");
   
   $rol = isAdmin(); //Return session admin or null
-  $query = $_GET['query']; //"lingüistica";
+  $query = strtolower($_GET['query']); 
   
 //   if(!is_null($query/*$_GET['query']*/)){
   
@@ -300,7 +300,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 					</div>
 				</section>
 
-
+                    
+                    <?php
+                    if(count($arrayVideosSubtitulos) + count($resultSearchYoutube) == 0){
+                        echo "<p><span>No hay resultados para tu búsqueda</span></p>";
+                    }else{
+                    ?>
 					<div class="table-wrapper">
                     <form  id="viewVideo" action="video_player.php" method="post">
                             <input id="id_video" type="hidden" name="datos[id_video]" value="">
@@ -354,17 +359,16 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                             ?>                                            
 										</p>
 
-
-
                                     <?php
-                                     } ?>
+                                     } 
+                                     ?>
 
                                     </td>
 								</tr>
 								<tr></tr>
                                     <?php
 									}
-                                ?>
+                                    ?>
 
                                 <?php 
 
@@ -415,6 +419,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							</tbody>
 						</table>
 					</div>
+                                <?php } ?>
 			</div>
 		</div>
 	</div>
