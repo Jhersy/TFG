@@ -23,13 +23,13 @@ Class Subtitulos{
         return $result;
       }
 
-    function newCaption($idVideo, $archivo) {
+    function newCaption($idVideo, $archivo, $idioma) {
         //Insertar en tabla subtítulos
-        return $this->daoSubtitulos->insert($idVideo, $archivo);
+        return $this->daoSubtitulos->insert($idVideo, $archivo, $idioma);
     }
 
-    function getCaption($id_video){
-        return $this->daoSubtitulos->getCaption($id_video);
+    function getCaption($id_video, $idioma){
+        return $this->daoSubtitulos->getCaption($id_video, $idioma);
     }
 
     function getTitleCaption($id_subtitulo){
@@ -38,6 +38,10 @@ Class Subtitulos{
 
     function existCaption($id_subtitulo){
         return count($this->daoSubtitulos->existCaption($id_subtitulo)) == 0 ? false : true;
+    }
+
+    function getLanguageCaption($id_subtitulo){
+        return $this->daoSubtitulos->getLanguageCaption($id_subtitulo);
     }
 }
 ?>

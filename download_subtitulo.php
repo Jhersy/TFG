@@ -2,9 +2,10 @@
 
 require_once("src/logic/Subtitulos.php");
 $id_subtitulo =  $_POST["id_video"];
+$idioma =  $_POST["idioma"];
 
 $subtitulos = new Subtitulos();
-$content = $subtitulos->getCaption($id_subtitulo);
+$content = $subtitulos->getCaption($id_subtitulo, $idioma);
 $titleCaption = $subtitulos->getTitleCaption($id_subtitulo);
 
 $caracteres = array("?", "¿");

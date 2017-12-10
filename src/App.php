@@ -12,8 +12,8 @@ function sessionLogin($name, $role, $id) {
 function sessionLogout() {
     unset($_SESSION["name"]);
     unset($_SESSION["role"]);
-    session_destroy();
-    session_start();
+    // session_destroy();
+    // session_start();
 }
 
 function isAdmin() {

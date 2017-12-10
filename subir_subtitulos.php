@@ -38,11 +38,12 @@ if(!is_null($rol)){
     }
 
     function subirSubtitulo(){
-        if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 ){
-            alert('Selecciona un vídeo y adjunta un archivo .srt');
+        if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_idioma option:selected" ).val() == "" ){
+            alert('Selecciona un vídeo, un idioma y adjunta un archivo .srt');
         }else{
             var id = "";
             var title = "";
+            var idioma = $( "#select_idioma option:selected" ).val();
             var archivo = $("#videoUploadFile").prop('files')[0];
             var form_data = new FormData(); 
             form_data.append('file', archivo);
@@ -54,7 +55,7 @@ if(!is_null($rol)){
                 data:  form_data, 
                 contentType: false,
                 processData: false,
-                url:   'upload_caption.php?id=' + id + '&title=' + title,
+                url:   'upload_caption.php?id=' + id + '&title=' + title + "&idioma=" + idioma,
                 type:  'post',
                 success:  function (data) {
                     $('#myModal').hide();
@@ -129,7 +130,26 @@ if(!is_null($rol)){
                                     </ul>
                                 </div>
                                 <br>
+                                <div class="12u$">
+                                    <div class="select-wrapper">
+                                        <select id="select_idioma" name="idioma">
+                                            <option value="">- Selecciona un idioma -</option>
+                                            <option value="castellano">Castellano</option>
+                                            <option value="catalan">Catalán</option>
+                                            <option value="vasco">Vasco</option>
+                                            <option value="gallego">Gallego</option>
+                                            <option value="ingles">Inglés</option>
+                                            <option value="frances">Francés</option>
+                                            <option value="italiano">Italiano</option>
+                                            <option value="portugues">Portugués</option>
+                                            <option value="aleman">Alemán</option>
+                                        </select>                                           
+                                    </div>
+                                </div>
+
+                                <br>
                                 <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".srt" required/>
+
                             </div>
                         </form>
                         <a onclick="verInformacion()">Ver formato del archivo del subtítulo (.srt)</a>

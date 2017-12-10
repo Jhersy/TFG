@@ -8,6 +8,7 @@ require_once("src/logic/Videos.php");
 
 $id_video = $_GET["id"];
 $title_video = $_GET["title"];
+$idioma = $_GET["idioma"];
 
 
 $fileName = $_FILES['file']['name'];
@@ -105,10 +106,11 @@ if( !$message ) {
             }
             // print_r($subs);
             $videos = new Videos();
+            //Si no está el video lo inserto, sino no lo actualizo
             $videos->insertNewVideo($id_video, $title_video);
 
             $subtitulos = new Subtitulos();
-            $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']));
+            $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma);
             echo "Subtítulo subido con éxito";
         }catch(MyException $e){
             throw $e;

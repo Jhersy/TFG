@@ -23,23 +23,22 @@ Class DAOSubtitulos{
         return $res;
     }
 
-    function insert($idVideo, $archivo){
+    function insert($idVideo, $archivo, $idioma){
         try {
-            $sql = "INSERT INTO subtitulos (id_subtitulo, archivo) VALUES (:id_video, :archivo)";
+            $sql = "INSERT INTO subtitulos (id_subtitulo, archivo, idioma) VALUES (:id_video, :archivo, :idioma)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["id_video" => $idVideo, "archivo" => $archivo]);
-            $id = $this->conn->lastInsertId();
+            $stmt->execute(["id_video" => $idVideo, "archivo" => $archivo, "idioma" => $idioma]);
           } catch(PDOException $e) {
                 return null;
             }
-        return $id;
+        return true;
     }
 
-    function getCaption($id_video){
+    function getCaption($id_video, $idioma){
         try {
-            $sql = "SELECT archivo FROM subtitulos WHERE id_subtitulo = :id_subtitulo";
+            $sql = "SELECT archivo FROM subtitulos WHERE id_subtitulo = :id_subtitulo AND idioma = :idioma";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["id_subtitulo" => $id_video]);
+            $stmt->execute(["id_subtitulo" => $id_video, "idioma" => $idioma]);
             $res = $stmt->fetchAll();
         } catch(PDOException $e) {
             echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
@@ -70,5 +69,18 @@ Class DAOSubtitulos{
         }
         return $res;
     }
+
+    function getLanguageCaption($id_subtitulo){
+        try {
+            $sql = "SELECT idioma FROM subtitulos WHERE id_subtitulo = :id_subtitulo ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_subtitulo]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
+        }
+        return $res;
+    }
+
 }
 ?>

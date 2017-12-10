@@ -137,7 +137,6 @@ $sesion = $_SESSION['sesion'];
                 interval: 100000
             })
             $('[data-toggle="tooltip"]').tooltip();   
-
         });
 
         function insertComment(id_video, param){
@@ -319,18 +318,35 @@ $sesion = $_SESSION['sesion'];
                         <li>
                             <i class="fa fa-thumbs-o-up" aria-hidden="true"> <?=$videoStatistics['likeCount'] ?></i>
                         </li>
-                        <li>
-                            <?php
-                                $subtitulos = new Subtitulos();
-                                if($subtitulos->existCaption($videoId)){                                
-                            ?>
-                                <form name="myform" method="post" action="download_subtitulo.php" onsubmit="download('<?=$videoId?>')">
-                                    <input type="hidden" name="id_video" value="" />
-                                    <input class="button small icon fa-download" type="submit" name="submit" value="Descargar Subtítulos" />
-                                </form>
-                            <?php } ?>
-                        </li>
                     </ul>
+                    <?php
+                        $subtitulos = new Subtitulos();
+                        if($subtitulos->existCaption($videoId)){ 
+                            $idiomas =  $subtitulos->getLanguageCaption($videoId);                               
+                    ?>                        
+                    <p><strong>Descargar subtítulo: </strong></p>
+                    <form name="myform" method="post" action="download_subtitulo.php" onsubmit="download('<?=$videoId?>')">
+                        <div class="row uniform">
+                            <div class="3u 12u$(small)">
+                                <div class="select-wrapper">
+                                    <select id="select_idioma" name="idioma" style="height: 32px;">
+                                        <option value="<?=$idiomas[0]['idioma']?>">- Selecciona un idioma -</option>
+                                        <?php 
+                                        foreach($idiomas as $idioma){?>
+                                            <option value="<?=$idioma['idioma']?>"><?=$idioma['idioma']?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>                                           
+                                </div>
+                            </div>
+                            <div class="9u 12u$(small)">
+                                <input type="hidden" name="id_video" value="" />
+                                <input class="button small icon fa-download" type="submit" name="submit" value="Descargar" />
+                            </div>
+                        </div>                        
+                    </form>
+                    <?php } ?>
                     <p><?=$videoSnippet['description']?></p>
 
                     <p><strong>Publicado el: </strong><?=date("d-m-Y", strtotime(substr($videoSnippet['publishedAt'], 0,10)));?></p>
