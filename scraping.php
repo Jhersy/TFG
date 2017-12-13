@@ -54,17 +54,20 @@ function getIDsVideos($idCategory){
             $htmlCategory = file_get_html($urlCategory);
             $listVideos = $htmlCategory->find('div[class=entry-content] p a');
             foreach ($listVideos as $video) {
-                $hrefVideo = $video->href;
-
-                $urlVideo = $hrefVideo;
+                $urlVideo = $video->href;
                 $htmlVideo = file_get_html($urlVideo);
-                $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
+                foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
+                    $cadena = explode("/", $element->content);
+                    array_push($IDsVideosCategory, $cadena[4]);
+                    // echo $cadena[4] . "<br>";
+                  }
+                // $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
 
-                foreach( $videoPlayer as $idVideo ){
-                    $src = $idVideo->attr['src'];
-                    $r = multiexplode(array("/embed/","?"),$src);
-                    array_push($IDsVideosCategory, $r[1]);
-                }
+                // foreach( $videoPlayer as $idVideo ){
+                //     $src = $idVideo->attr['src'];
+                //     $r = multiexplode(array("/embed/","?"),$src);
+                //     array_push($IDsVideosCategory, $r[1]);
+                // }
             }
     }
     return $IDsVideosCategory;
