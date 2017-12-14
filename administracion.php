@@ -56,6 +56,10 @@ if(!is_null($rol)){
 							<h3>Subir subtítulo</h3>
 							<a href="subir_subtitulos.php"><span class="image fit"><img src="resources/images/upload.jpg" alt=""></span></a>
 						</div>
+						<div class="6u 12u$(small)">
+							<h3>Añadir administrador</h3>
+							<a href="anadir_administrador.php"><span class="image fit"><img src="resources/images/upload.jpg" alt=""></span></a>
+						</div>
 					</div>
 				</section>
 					<hr class="major" />

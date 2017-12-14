@@ -14,7 +14,7 @@ Class Users{
 
         $user = $this->daoUsuarios->findUserByName($username);
 
-        if (is_null($user) || !password_verify($password, $user[0]['password_admin'])) {
+        if (empty($user) || !password_verify($password, $user[0]['password_admin'])) {
             return null;
         }
         return $user;
@@ -22,9 +22,17 @@ Class Users{
 
 
     function newUser($name, $password) {
-        //Se encripta la password
-        $hpassword = password_hash($password, PASSWORD_BCRYPT);
-        return $this->daoUsuarios->insert($name, $hpassword);
+        //Se comprueba que le administrador no está dado de alta 
+        $user = $this->daoUsuarios->findUserByName($name);
+
+        $insertado = "";
+
+        if (empty($user)) {
+            //Se encripta la password
+            $hpassword = password_hash($password, PASSWORD_BCRYPT);
+            $insertado = $this->daoUsuarios->insert($name, $hpassword);
+        }
+        return !empty($insertado);
     }
 }
 ?>

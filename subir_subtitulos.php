@@ -78,7 +78,7 @@ if(!is_null($rol)){
 			<div class="inner">
 
 				<header id="header" style="padding-top:2em;">
-					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Subir un subtítulo</strong></a>
+					<a href="administracion.php" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
 					<ul class="icons">
 					<?php
                         if (!is_null($rol)) {

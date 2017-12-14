@@ -12,7 +12,6 @@ foreach( $categories as $category ){
         $listVideos = $htmlCategory->find('div[class=entry-content] p a');
         foreach ($listVideos as $video) {
             $hrefVideo = $video->href;
-            $titleVideo = $video->innertext;
             //echo $titleVideo . "\n";
 
             $urlVideo = $hrefVideo;

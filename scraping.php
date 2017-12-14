@@ -48,9 +48,7 @@ function getIDsVideos($idCategory){
 
     foreach( $categories as $category ){
             $link = $category->find('li a',$idCategory);
-            $href = $link->href; 
-
-            $urlCategory = $href;
+            $urlCategory = $link->href; 
             $htmlCategory = file_get_html($urlCategory);
             $listVideos = $htmlCategory->find('div[class=entry-content] p a');
             foreach ($listVideos as $video) {
@@ -87,20 +85,26 @@ function getAllIDsVideos(){
             $htmlCategory = file_get_html($href);
             $listVideos = $htmlCategory->find('div[class=entry-content] p a');
             foreach ($listVideos as $video) {
-                $hrefVideo = $video->href;
+                $urlVideo = $video->href;
                 $titleVideo = $video->innertext;
                 //echo $titleVideo . "\n";
-
-                $urlVideo = $hrefVideo;
+                // $urlVideo = $hrefVideo;
                 $htmlVideo = file_get_html($urlVideo);
-                $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
+                // $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
 
-                foreach( $videoPlayer as $idVideo ){
-                    $src = $idVideo->attr['src'];
-                    $r = multiexplode(array("/embed/","?"),$src);
-
-                    array_push($IDsVideosCategory,  array($r[1], $titleVideo));
+                foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
+                    $cadena = explode("/", $element->content);
+                    array_push($IDsVideosCategory, array($cadena[4], $titleVideo));
+                    // echo $cadena[4] . "<br>";
                 }
+
+
+                // foreach( $videoPlayer as $idVideo ){
+                //     $src = $idVideo->attr['src'];
+                //     $r = multiexplode(array("/embed/","?"),$src);
+
+                //     array_push($IDsVideosCategory,  array($r[1], $titleVideo));
+                // }
             }
     }
 
