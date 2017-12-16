@@ -7,6 +7,7 @@ $rol = isAdmin(); //Return session admin or null
 
 
 $categories = getAllCategories();
+
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
 
@@ -50,7 +51,8 @@ if(!is_null($rol)){
                         if (!is_null($rol)) {
 							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
                             echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
+							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        
+						}
 					?>
 					</ul>
 				</header>
@@ -112,7 +114,7 @@ if(!is_null($rol)){
                                 <article>
                                     <span class="icon fa fa-plus small"></span>
                                     <div class="content">
-                                        <h4><a href="conjunto_categorias.php">Crear/Modificar conjunto de categorías</a></h4>
+                                        <h4><a href="conjunto_categorias.php">Administrar categorías</a></h4>
                                     </div>
                                 </article>
                             </div>

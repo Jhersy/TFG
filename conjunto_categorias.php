@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(300);
 require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 require_once("src/App.php");
@@ -14,9 +14,15 @@ $categories = new Categorias();
 $categorias = array();
 $categorias =  $categories->getCategories();
 
-//Scraping
-$videos = array();
-$videos = getAllIDsVideos();
+
+try {
+    //Scraping
+    $videos = array();
+    $videos = getAllIDsVideos();
+} catch (Exception $e) {
+    redirect("conjunto_categorias.php");
+}
+
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
@@ -43,31 +49,48 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
     <script>
 
         function guardarCategoria(){
+            /* Primero se verifica si los vídeos seleccionados tienen o no categoría asociada */
 
-            var $ids = "";
-            var $names = "";
-            $("input:checkbox:checked").each(function(){    
-            var $this = $(this);    
-                  $ids += $this.attr("id") + "|";
-                  $names += $this.next().text() + "|";
+
+
+            /* Se pregunta si se desea continuar (esto podría actualizar la categoría del vídeo) */
             
-            });
-            var parametros = {
-                    "nombreCategoria" : $('#nombreCategoria').val(),
-                    "IdsVideos" : $ids,
-                    "nombreVideo" : $names
-            };
-            $.ajax({
-                    data:  parametros,
-                    url:   'nueva_categoria.php',
-                    type:  'post',
-                    success:  function () {
-                        $('#myModal').hide();
-                        alert('Categoría creada con éxito!');
-                        window.location.href = "conjunto_categorias.php";
+                if($('#nombreCategoria').val().trim() == ""){
+                    alert("El nombre de la categoría no puede ser vacía");
+                }else if ($("input:checkbox:checked").length == 0){
+                    alert("Seleccione un vídeo para crear la categoría")
+                }else{
+                    var aceptar = confirm("Recuerda que puede haber vídeos que pertenezcan a otra categoría. En este caso, los vídeos seleccionados pasarán a formar parte de la nueva");
+                    if(aceptar){
+                        var $ids = "";
+                        var $names = "";
+                        $("input:checkbox:checked").each(function(){    
+                        var $this = $(this);    
+                            $ids += $this.attr("id") + "|";
+                            $names += $this.next().text() + "|";                    
+                        });
+        
+                        var parametros = {
+                                "nombreCategoria" : $('#nombreCategoria').val().trim(),
+                                "IdsVideos" : $ids,
+                                "nombreVideo" : $names
+                        };
+                        $.ajax({
+                                data:  parametros,
+                                url:   'nueva_categoria.php',
+                                type:  'post',
+                                success:  function () {
+                                    $('#myModal').hide();
+                                    alert('Categoría creada con éxito!');
+                                    window.location.href = "conjunto_categorias.php";
+                                }
+                        });
                     }
-            });
+                    
+                }
         }
+
+
         function editarCategoria($id_categoria, $accion){
             var parametros = {
               "id_categoria" : $id_categoria,
@@ -122,14 +145,15 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 
                             <?php
                                 $i = 0;
-                                foreach ($categorias as $categoria) {
+                                // foreach ($categorias as $categoria) {
+                                    for ($j=1; $j < count($categorias); $j++) { 
                             ?>
                                 <article>
                                     <span class="<?= $icons[$i]?>"></span>
                                     <div class="content">
-                                        <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categoria['nombre_categoria']?></a></h4>
-                                        <button class="small" onclick="editarCategoria(<?=$categoria['id_categoria'] . ", 1"?>)">Activar categoría</button>
-                                        <button class="small"  onclick="editarCategoria(<?=$categoria['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
+                                        <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
+                                        <button class="small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
+                                        <button class="small"  onclick="editarCategoria(<?=$categorias[$j]['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
                                     </div>
                                 </article>
                             <?php
@@ -148,7 +172,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <article>
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
-                                <h4><a data-toggle="modal" data-target="#myModal">Crear/Modificar conjunto de categorías</a></h4>
+                                <h4><a data-toggle="modal" data-target="#myModal">Crear categoría</a></h4>
                             </div>
                         </article>
                     </div>
@@ -177,7 +201,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                         ?>
                                         <li>
                                         <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>">
-                                        <label for="<?=$video[0]?>"><?=$video[1]?></label>
+                                        <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>
                                         </li>	
                                         
                                         <?php
@@ -190,7 +214,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Save changes</button>
+                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Aceptar</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>

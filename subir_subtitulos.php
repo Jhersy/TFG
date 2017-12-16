@@ -1,11 +1,16 @@
 <?php
+set_time_limit(300);
 require_once("src/App.php");
 require_once("scraping.php");
 
 $rol = isAdmin(); //Return session admin or null
-//Scraping
-$videos = array();
-$videos = getAllIDsVideos();
+try {
+    //Scraping
+    $videos = array();
+    $videos = getAllIDsVideos();
+} catch (Exception $e) {
+    redirect("subir_subtitulos.php");
+}
 
 if(!is_null($rol)){
 
@@ -122,7 +127,7 @@ if(!is_null($rol)){
                                         ?>
                                         <li>
                                             <input type="radio" id="<?=$video[0]?>" name="<?=$video[0]?>" onclick="resetMeIfChecked(this)">
-                                            <label for="<?=$video[0]?>"><?=$video[1]?></label>                                    
+                                            <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>                                    
                                         </li>	                                        
                                         <?php
                                         }

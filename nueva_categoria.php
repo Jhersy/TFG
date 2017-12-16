@@ -27,8 +27,6 @@ if(!is_null($rol)){
     $id_categoria = $categorias->setCategory(utf8_encode($category));
     $videos->setVideosWithCategory($id_categoria, $array_ids, $array_name_videos);
 
-    redirect("conjunto_categorias.php");
-
     /*
     echo '<div class="features">
             <article>

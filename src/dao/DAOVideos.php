@@ -48,6 +48,17 @@ Class DAOVideos{
         }
         return $res;
     }
-
+    function updateCategory($id_video, $categoria){
+        try{
+            $sql = "UPDATE videos SET id_categoria = :categoria WHERE id_video = :id_video";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_video" => $id_video, "categoria" => $categoria]);
+            $id = $this->conn->lastInsertId();
+          } catch(PDOException $e) {
+                echo "ERROR EN DAOVideos: " . $e->getMessage();
+            return null;
+            }
+          return $id;
+    }
 }
 ?>
