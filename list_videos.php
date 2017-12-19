@@ -59,7 +59,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	  // ESTADÍSTICAS DE UN VÍDEO
 	  foreach ($IdsVideos as $videoId) {
 		   
-		$listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics, player",
+		$listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
 		array('id' => $catBBDD ? $videoId['id_video'] : $videoId));
 		array_push($videos, $listResponse[0]);
 	  }
@@ -206,39 +206,48 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                 <?php 
                                     for ($i=0; $i < count($videos); $i++) { 
                                         ?>
-                                <tr>
+                                <tr class="fila_videos">
 									<td rowspan="2">
 										<br>
 										<a href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>">
-											<img src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
+											<img class="image_video" src=" <?= $videos[$i]['snippet']['thumbnails']['default']['url'] ?>" alt="" />
 										</a>
 									</td>
 									<td colspan="3"> 
 										<a class="titulo_video" href="video_player.php?id_video=<?php echo $videos[$i]['id'] . "&categoria=" . $_GET["categoria"] ?>">
 											<?=$videos[$i]['snippet']['title']?>
-										</a>						
-									
-										<p>
-											<br>
-											<a class="button small"> <?= $videos[$i]['contentDetails']['definition']?></a>
-                                            <?php
-                                                // if($videos[$i]['contentDetails']['caption'] == "false") ?>
-                                                    <!-- <a class="button disabled small">Subtítulos</a> -->
-                                                <?php
-                                            ?>
+										</a>		
                                             
 											<ul class="icons">
+												<br>
 												<li>
-													<i class="fa fa-eye" aria-hidden="true"> <?= $videos[$i]['statistics']['viewCount']?></i>
+													<p><i class="fa fa-eye" aria-hidden="true"> <?= $videos[$i]['statistics']['viewCount']?></i> visualizaciones</p>
 												</li>
+												<?php  if($videos[$i]['statistics']['commentCount'] !=  "0") { ?>
 												<li>
-													<i class="fa fa-thumbs-o-up" aria-hidden="true"> <?= $videos[$i]['statistics']['likeCount']?></i>
+													<p><i class="fa fa-comments-o" aria-hidden="true"> <?= $videos[$i]['statistics']['commentCount']?></i> comentarios</p>
 												</li>
+												<?php } else{ ?>
+
 												<li>
-													<i class="fa fa-clock-o" aria-hidden="true"> <?= getDuration($videos[$i]['contentDetails']['duration'])?></i>
+													<p>Sin comentarios</p>
 												</li>
+													
+												<?php } ?>
 											</ul>
-										</p>
+											<ul class="icons">
+												<li>
+													<p><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <?= $videos[$i]['statistics']['likeCount']?> </p>
+												</li>
+												<li>
+													<p><i class="fa fa-clock-o" aria-hidden="true"> </i> <?= getDuration($videos[$i]['contentDetails']['duration'])?></p>
+												</li>
+												<?php  if($videos[$i]['contentDetails']['definition'] == "hd") { ?>
+													<li>
+														<p><i class="fa fa-television" aria-hidden="true"> </i> <?= strtoupper($videos[$i]['contentDetails']['definition']);?></p>
+													</li>
+												<?php } ?>
+											</ul>
 									</td>
 								</tr>
 								<tr></tr>

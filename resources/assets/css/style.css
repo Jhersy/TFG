@@ -14,7 +14,7 @@
 }
 
 .categorias{
-    font-size: 10px;
+    font-size: 9px;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     background-color: transparent;
     border-radius: 0.375em;
@@ -37,7 +37,7 @@
 }
 
 .titulo_video{
-    text-decoration: none;
+    text-decoration: none !important;
     max-height: 4.8rem;
     overflow: hidden;
     font-size: 1.8rem;
@@ -46,6 +46,7 @@
     color: rgb(36, 48, 48);
 }
 
-a *{
-    text-decoration: none;
+
+.fila_videos{
+    height: 11em;
 }

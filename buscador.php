@@ -321,10 +321,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 							</thead>
 							<tbody>
                                 <?php 
+                                $filas = 0;
+                                $i = 0;
                                     for ($i=0; $i < count($arrayVideosSubtitulos); $i++) { 
                                          $id_video_subtitulo = $arrayVideosSubtitulos[$i]->idVideo;
                                         ?>
-                                <tr>
+                                <tr class="fila_videos">
 									<td rowspan="2">
 										<br>
                                         <a href="video_player.php?id_video=<?php echo $arrayVideosSubtitulos[$i]->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
@@ -336,8 +338,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 									
                                     <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
                                         ?>
-                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:</p>
-                                        <p>
+                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                        <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="fa fa-hand-o-down" aria-hidden="true"></i>
+                                        </a></p>
+                                        <p class="collapse" id="collapseExample<?=$i?>">
 											<br>
                                             <?php 
                                                 $subtitulos = array();
@@ -367,12 +372,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 								</tr>
 								<tr></tr>
                                     <?php
-									}
+                                    }
+                                    $filas = $i + 1;
                                     ?>
 
                                 <?php 
 
-                                
                                     foreach ($resultSearchYoutube as $resultYoutube) {
                                         ?>
                                 <tr>
@@ -387,8 +392,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 									<td colspan="3"> 
                                         <h4> <?=$resultYoutube->title?></h4>
                                         <?php if(!empty($resultYoutube->subtitulos)){ ?>
-                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:</p>
-                                        <p>
+                                            <p>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                                <a data-toggle="collapse" href="#collapseExample<?=$filas?>" aria-expanded="false" aria-controls="collapseExample">
+                                                <i class="fa fa-hand-o-down" aria-hidden="true"></i>
+          </a></p>
+                                                <p class="collapse" id="collapseExample<?=$filas?>">
 											<br>
                                             <?php 
                                                 $subtitulos = array();
@@ -414,6 +422,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 								</tr>
 								<tr></tr>
                                     <?php
+                                    $filas++;
 									}
                                 ?>
 							</tbody>

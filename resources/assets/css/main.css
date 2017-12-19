@@ -2143,7 +2143,7 @@
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 			color: inherit;
-			text-decoration: none;
+			text-decoration: none !important;
 		}
 
 	h1 {
@@ -3810,6 +3810,7 @@
 			color: inherit;
 			font-family: "Roboto Slab", serif;
 			font-size: 1.125em;
+			text-decoration: none;
 		}
 
 		#header .icons {

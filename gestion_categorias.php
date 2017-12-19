@@ -112,7 +112,7 @@ if(!is_null($rol)){
                             <hr class="major" />
                             <div class="features">
                                 <article>
-                                    <span class="icon fa fa-plus small"></span>
+                                    <span class="icon fa fa-cog"></span>
                                     <div class="content">
                                         <h4><a href="conjunto_categorias.php">Administrar categorías</a></h4>
                                     </div>

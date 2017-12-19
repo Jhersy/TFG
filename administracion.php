@@ -34,17 +34,33 @@ if(!is_null($rol)){
 		<div id="main">
 			<div class="inner">
 
-				<header id="header" style="padding-top:2em;">
-					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
-					<ul class="icons">
-					<?php
-                        if (!is_null($rol) ) {
-							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.html">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
-					?>
-					</ul>
-				</header>
+			<header id="header" style="padding-top:2em;">
+			<div class="8u 8u$(small)">
+				<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
+			</div>
+			<div class="4u 3u$(small)">
+				<ul class="icons">
+				<?php
+					if (is_null($rol) ) {
+						echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
+					}
+					else {
+						$name = getName();
+						echo '<li>Bienvenido, '. $name . ' <a id="enlace-logout" href="login.php">Salir</a></li>';
+					}
+				?>
+				</ul>					
+			</div>
+
+			<!--
+			<ul class="icons">
+				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
+			</ul>
+				
+			-->
+		</header>
 				<!-- Content -->
 				<section>
 					<div class="row">
