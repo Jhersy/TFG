@@ -61,7 +61,18 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
           foreach ($searchResponse['items'] as $searchResult) {
             switch ($searchResult['id']['kind']) {
               case 'youtube#video':
+                /*Información que no devuelve el método search de la API*/
                 $videos = new stdClass();
+                $listResponseSearch = $youtube->videos->listVideos("snippet, contentDetails, statistics",
+                array('id' => $searchResult['id']['videoId']));
+
+                $videos->visualizaciones = $listResponseSearch[0]['statistics']['viewCount'];
+                $videos->comentarios = $listResponseSearch[0]['statistics']['commentCount'];
+                $videos->likes = $listResponseSearch[0]['statistics']['likeCount'];
+                $videos->duracion = getDuration($listResponseSearch[0]['contentDetails']['duration']);
+                $videos->definicion = strtoupper($listResponseSearch[0]['contentDetails']['definition']);
+
+                /* Información que devuelve el método SEARCH de la API */                
                 $videos->thumnail = $searchResult['snippet']['thumbnails']['default']['url'];
                 $videos->title = $searchResult['snippet']['title'];
                 $videos->idVideo = $searchResult['id']['videoId'];
@@ -79,11 +90,17 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
         $arrayVideosSubtitulos = array();
          foreach ($arrayBBDD as $videoBBDD) {
-            $listResponse = $youtube->videos->listVideos("snippet",
+            $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
             array('id' => $videoBBDD->idVideo));
             $datosVideo  = new stdClass();
             $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
             $datosVideo->titulo = $listResponse[0]['snippet']['title'];
+            $datosVideo->visualizaciones = $listResponse[0]['statistics']['viewCount'];
+            $datosVideo->comentarios = $listResponse[0]['statistics']['commentCount'];
+            $datosVideo->likes = $listResponse[0]['statistics']['likeCount'];
+            $datosVideo->duracion = getDuration($listResponse[0]['contentDetails']['duration']);
+            $datosVideo->definicion = strtoupper($listResponse[0]['contentDetails']['definition']);
+            
             $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
             $datosVideo->idVideo = $videoBBDD->idVideo;
             array_push($arrayVideosSubtitulos, $datosVideo);
@@ -184,6 +201,17 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
         return $texto;
     }
 
+    function getDuration($duration){
+        // PT1H25M38S
+    
+        $parametros = array("PT", "H", "M","S");
+        $salida   = array("", "h ", "m ", "s");
+    
+        $newDuration = str_replace($parametros, $salida, $duration);
+    
+        return $newDuration;
+    
+      }
 ?>
 
 
@@ -331,17 +359,56 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 										<br>
                                         <a href="video_player.php?id_video=<?php echo $arrayVideosSubtitulos[$i]->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
                                             <img src=" <?= $arrayVideosSubtitulos[$i]->thumbnail ?>" alt="" />
+                                            
                                         </a>
 
 									</td>
-									<td colspan="3"> <h4><?=$arrayVideosSubtitulos[$i]->titulo?></h4>
+									<td colspan="3"> 
+                                    <a class="titulo_video" href="video_player.php?id_video=<?php echo $arrayVideosSubtitulos[$i]->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
+                                        <?=$arrayVideosSubtitulos[$i]->titulo?>
+                                    </a>	
+
+                                    <ul class="icons">
+                                        <br>
+                                        <li>
+                                            <p><i class="fa fa-eye" aria-hidden="true"> <?= $arrayVideosSubtitulos[$i]->visualizaciones ?></i> visualizaciones</p>
+                                        </li>
+                                        <?php  if($arrayVideosSubtitulos[$i]->comentarios !=  "0") { ?>
+                                        <li>
+                                            <p><i class="fa fa-comments-o" aria-hidden="true"> <?= $arrayVideosSubtitulos[$i]->comentarios ?></i> comentarios</p>
+                                        </li>
+                                        <?php } else{ ?>
+
+                                        <li>
+                                            <p>Sin comentarios</p>
+                                        </li>
+                                            
+                                        <?php } ?>
+                                    </ul>
+                                    <ul class="icons">
+                                        <li>
+                                            <p><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <?= $arrayVideosSubtitulos[$i]->likes?> </p>
+                                        </li>
+                                        <li>
+                                            <p><i class="fa fa-clock-o" aria-hidden="true"> </i> <?= $arrayVideosSubtitulos[$i]->duracion?></p>
+                                        </li>
+                                        <?php  if( $arrayVideosSubtitulos[$i]->definicion == "HD") { ?>
+                                            <li>
+                                                <p><i class="fa fa-television" aria-hidden="true"> </i> <?= $arrayVideosSubtitulos[$i]->definicion?></p>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
 									
+
+
                                     <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
                                         ?>
-                                        <p>Este término ha sido encontrado en las diferentes franjas de tiempo:
-                                        <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fa fa-hand-o-down" aria-hidden="true"></i>
-                                        </a></p>
+                                        <p> <strong>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                            <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a"></i>
+                                            </a>
+                                            </strong> 
+                                        </p>
                                         <p class="collapse" id="collapseExample<?=$i?>">
 											<br>
                                             <?php 
@@ -353,7 +420,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                    /* $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
                                                    $lineaInfo = "<a href='video_player.php?id_video=" . $id_video_subtitulo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
-                                                        $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
+                                                       if($i == 0){
+                                                        $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . '     ' ;
+                                                       }else{
+                                                            $lineaInfo .= "     Frase: \"" .  $infoSubtitulo[$i] . "\"";
+                                                       }
+                                                        
                                                         // for ($i=0; $i < count($info); $i++) { 
                                                         //     echo '<a class="button small">' .  $info[$i] . '</a>';
                                                         // }
@@ -390,12 +462,52 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 									</td>
 									<td colspan="3"> 
-                                        <h4> <?=$resultYoutube->title?></h4>
+                                    <a class="titulo_video" href="video_player.php?id_video=<?php echo $resultYoutube->idVideo . "&query=" . $_GET["query"] . "&segundos=0" ?>">
+                                        <?=$resultYoutube->title?>
+                                    </a>	
+
+
+
+                                    <ul class="icons">
+                                        <br>
+                                        <li>
+                                            <p><i class="fa fa-eye" aria-hidden="true"> <?= $resultYoutube->visualizaciones ?></i> visualizaciones</p>
+                                        </li>
+                                        <?php  if($resultYoutube->comentarios !=  "0") { ?>
+                                        <li>
+                                            <p><i class="fa fa-comments-o" aria-hidden="true"> <?= $resultYoutube->comentarios ?></i> comentarios</p>
+                                        </li>
+                                        <?php } else{ ?>
+
+                                        <li>
+                                            <p>Sin comentarios</p>
+                                        </li>
+                                            
+                                        <?php } ?>
+                                    </ul>
+                                    <ul class="icons">
+                                        <li>
+                                            <p><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <?= $resultYoutube->likes?> </p>
+                                        </li>
+                                        <li>
+                                            <p><i class="fa fa-clock-o" aria-hidden="true"> </i> <?= $resultYoutube->duracion?></p>
+                                        </li>
+                                        <?php  if( $resultYoutube->definicion == "HD") { ?>
+                                            <li>
+                                                <p><i class="fa fa-television" aria-hidden="true"> </i> <?= $resultYoutube->definicion?></p>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+
+
+
                                         <?php if(!empty($resultYoutube->subtitulos)){ ?>
-                                            <p>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                            <p> <strong>Este término ha sido encontrado en las diferentes franjas de tiempo:
                                                 <a data-toggle="collapse" href="#collapseExample<?=$filas?>" aria-expanded="false" aria-controls="collapseExample">
-                                                <i class="fa fa-hand-o-down" aria-hidden="true"></i>
-          </a></p>
+                                                <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a"></i>
+                                                </a>
+                                                </strong> 
+                                            </p>
                                                 <p class="collapse" id="collapseExample<?=$filas?>">
 											<br>
                                             <?php 
@@ -407,7 +519,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                     /*$lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
                                                    $lineaInfo = "<a href='video_player.php?id_video=" . $resultYoutube->idVideo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
-                                                        $lineaInfo .= $infoSubtitulo[$i] . ' ' ;
+                                                        if($i == 0){
+                                                            $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . '     ' ;
+                                                           }else{
+                                                                $lineaInfo .= "     Frase: \"" .  $infoSubtitulo[$i] . "\"";
+                                                           }
                                                         // for ($i=0; $i < count($info); $i++) { 
                                                         //     echo '<a class="button small">' .  $info[$i] . '</a>';
                                                         // }
