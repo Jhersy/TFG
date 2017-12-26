@@ -1,6 +1,8 @@
 <?php
 require 'simple_html_dom.php';
 
+set_time_limit(300);
+
 function multiexplode ($delimiters,$string) {    
     $ready = str_replace($delimiters, $delimiters[0], $string);
     $launch = explode($delimiters[0], $ready);

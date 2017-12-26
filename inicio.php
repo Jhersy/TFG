@@ -20,11 +20,11 @@ $rol = isAdmin(); //Return session admin or null
 
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- ESTILO PERSONALIZADO -->
-	<link rel="stylesheet" href="resources/assets/css/style.css" />
 	<!-- #################### -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- ESTILO PERSONALIZADO -->
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
 </head>
@@ -38,64 +38,9 @@ $rol = isAdmin(); //Return session admin or null
 		<div id="main">
 			<div class="inner">
 				<!-- Header -->
-				<header id="header" style="padding-top:2em;">
-					<div class="8u 8u$(small)">
-						<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
-					</div>
-					<div class="4u 3u$(small)">
-						<ul class="icons">
-						<?php
-							if (is_null($rol) ) {
-								echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-							}
-							else {
-								$name = getName();
-								echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-								echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-								echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-							}
-						?>
-						</ul>					
-					</div>
-					
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 
-					<!-- Modal -->
-					<!-- Modal content-->
-					<div class="modal fade" id="myModal" role="dialog">
-						<div class="modal-dialog">
-
-							<!-- Modal content-->
-							<div class="modal-content">
-								<div class="modal-header">
-									<a type="button" class="close" data-dismiss="modal">&times;</a>
-									<h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
-								</div>
-								<div class="modal-body">
-									<form role="form" action="login.php" method="post">
-										<div class="form-group">
-											<label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
-											<input type="text" class="form-control" id="username" name="name" placeholder="Introduce identificador de usuario">
-										</div>
-										<div class="form-group">
-											<label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
-											<input type="password" class="form-control" id="password" name="password" placeholder="Introduce contraseña">
-										</div>
-										<button type="submit" class="btn btn btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
-									</form>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<!--
-					<ul class="icons">
-						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
-					</ul>
-						
-					-->
-				</header>
 				<div style = "padding: 10px 0px 10px 0px">
 					<div class="row uniform">
 							<div class="8u 12u$(small)" ></div>			
@@ -113,26 +58,10 @@ $rol = isAdmin(); //Return session admin or null
 					</div>
 
 				</div>
-				<section id="banner">
 
-					<div class="content">
-
-						<header>
-							<h1 class="portada" >Zaragoza Lingüística a la carta</h1>
-							<p>Seminario Permanente de Investigaciones Lingüísticas. Grupo Psylex (Universidad de Zaragoza, España)</p>
-						</header>
-						<p>Zaragoza Lingüística a la carta" es un repositorio de archivos multimedia sobre el lenguaje y las lenguas. Estos archivos
-							provienen de las charlas divulgativas que tienen lugar todos los meses desde el año 2009 en el Seminario permanente
-							de ZARAGOZA LINGÜÍSTICA. Este seminario ZL está fomentado y organizado por el grupo de investigación Psylex de la
-							Universidad de Zaragoza. El repositorio incluye archivos desde el año 2013</p>
-
-					</div>
-
-					<span class="image object">
-						<img src="resources/images/index.png" alt="" />
-					</span>
-				</section>
-
+				<!--Contenido Portada -->
+				<?php require('includes/contenido_portada.php'); ?>
+				<!-- -->
 				<!-- Section -->
 				<section>
 					<header class="major">

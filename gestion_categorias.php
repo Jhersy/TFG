@@ -44,18 +44,10 @@ if(!is_null($rol)){
 		<div id="main">
 			<div class="inner">
 
-				<header id="header" style="padding-top:2em;">
-					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Gestión de Categorías</strong></a>
-					<ul class="icons">
-					<?php
-                        if (!is_null($rol)) {
-							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-							echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        
-						}
-					?>
-					</ul>
-				</header>
+				<!-- Header -->
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
+				
 				<!-- Content -->
 				<section>
                     <header class="main">

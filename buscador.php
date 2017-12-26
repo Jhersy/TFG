@@ -254,59 +254,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 			<div class="inner">
 
 				<!-- Header -->
-				<header id="header" style="padding-top:2em;">
-                <a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>
-                <ul class="icons">
-                <?php
-                    if (is_null($rol) ) {
-                        echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-                    }
-                    else {
-                        $name = getName();
-                        echo '<li>Bienvenido, '. $name . '&nbsp;</li>';
-                        echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                        echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';
-                    }
-                ?>
-                </ul>
-
-                <!-- Modal -->
-                <!-- Modal content-->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <a type="button" class="close" data-dismiss="modal">&times;</a>
-                                <h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
-                            </div>
-                            <div class="modal-body">
-                                <form role="form" action="login.php" method="post">
-                                    <div class="form-group">
-                                        <label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
-                                        <input type="text" class="form-control" id="username" name="name" placeholder="Introduce identificador de usuario">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Introduce contraseña">
-                                    </div>
-                                    <button type="submit" class="btn btn btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!--
-                <ul class="icons">
-                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                    <li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
-                </ul>
-                    
-                -->
-            </header>
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 
 				<!-- Section -->
                 <section>
@@ -403,9 +352,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
                                     <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
                                         ?>
-                                        <p> <strong>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                        <p> <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
                                             <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
-                                            <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a"></i>
+                                            <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a; font-size:18px"></i>
                                             </a>
                                             </strong> 
                                         </p>
@@ -418,12 +367,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
                                                    /* $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
-                                                   $lineaInfo = "<a href='video_player.php?id_video=" . $id_video_subtitulo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
+                                                   $lineaInfo = "<a style='text-decoration:none;' href='video_player.php?id_video=" . $id_video_subtitulo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                        if($i == 0){
-                                                        $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . '     ' ;
+                                                        $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . ' - "' ;
                                                        }else{
-                                                            $lineaInfo .= "     Frase: \"" .  $infoSubtitulo[$i] . "\"";
+                                                            $lineaInfo .=  $infoSubtitulo[$i] . " (...)\"";
                                                        }
                                                         
                                                         // for ($i=0; $i < count($info); $i++) { 
@@ -502,9 +451,9 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 
                                         <?php if(!empty($resultYoutube->subtitulos)){ ?>
-                                            <p> <strong>Este término ha sido encontrado en las diferentes franjas de tiempo:
+                                            <p> <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
                                                 <a data-toggle="collapse" href="#collapseExample<?=$filas?>" aria-expanded="false" aria-controls="collapseExample">
-                                                <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a"></i>
+                                                <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a; font-size:18px"></i>
                                                 </a>
                                                 </strong> 
                                             </p>
@@ -517,12 +466,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
                                                     /*$lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
-                                                   $lineaInfo = "<a href='video_player.php?id_video=" . $resultYoutube->idVideo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
+                                                   $lineaInfo = "<a c href='video_player.php?id_video=" . $resultYoutube->idVideo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         if($i == 0){
-                                                            $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . '     ' ;
+                                                            $lineaInfo .=  "Minuto: " . $infoSubtitulo[$i] . '    - "' ;
                                                            }else{
-                                                                $lineaInfo .= "     Frase: \"" .  $infoSubtitulo[$i] . "\"";
+                                                                $lineaInfo .=  $infoSubtitulo[$i] . " (...)\"";
                                                            }
                                                         // for ($i=0; $i < count($info); $i++) { 
                                                         //     echo '<a class="button small">' .  $info[$i] . '</a>';

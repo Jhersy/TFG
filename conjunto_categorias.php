@@ -1,5 +1,4 @@
 <?php
-set_time_limit(300);
 require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 require_once("src/App.php");
@@ -120,17 +119,9 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 		<div id="main">
 			<div class="inner">
 
-				<header id="header" style="padding-top:2em;">
-					<a href="administracion.html" class="logo"><strong>Zaragoza Lingüística - Gestión de Categorías</strong></a>
-					<ul class="icons">
-					<?php
-                        if (!is_null($rol)) {
-							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
-					?>
-					</ul>
-				</header>
+				<!-- Header -->
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 				<!-- Content -->
 				<section>
 

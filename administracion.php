@@ -19,6 +19,8 @@ if(!is_null($rol)){
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- ESTILO PERSONALIZADO -->
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
@@ -34,33 +36,10 @@ if(!is_null($rol)){
 		<div id="main">
 			<div class="inner">
 
-			<header id="header" style="padding-top:2em;">
-			<div class="8u 8u$(small)">
-				<a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
-			</div>
-			<div class="4u 3u$(small)">
-				<ul class="icons">
-				<?php
-					if (is_null($rol) ) {
-						echo '<li><a class="button special small" data-toggle="modal" data-target="#myModal">Iniciar sesión</a></li>';
-					}
-					else {
-						$name = getName();
-						echo '<li>Bienvenido, '. $name . ' <a id="enlace-logout" href="login.php">Salir</a></li>';
-					}
-				?>
-				</ul>					
-			</div>
-
-			<!--
-			<ul class="icons">
-				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-				<li><a href="#" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
-			</ul>
+				<!-- Header -->
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 				
-			-->
-		</header>
 				<!-- Content -->
 				<section>
 					<div class="row">
@@ -74,7 +53,7 @@ if(!is_null($rol)){
 						</div>
 						<div class="6u 12u$(small)">
 							<h3>Añadir administrador</h3>
-							<a href="anadir_administrador.php"><span class="image fit"><img src="resources/images/upload.jpg" alt=""></span></a>
+							<a href="anadir_administrador.php"><span class="image fit"><img src="resources/images/administrador.jpg" alt=""></span></a>
 						</div>
 					</div>
 				</section>
@@ -85,39 +64,7 @@ if(!is_null($rol)){
 			</div>
 		</div>
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search 
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
-					</form>
-				</section>
-				-->	
-				<!-- Menu -->
-				<nav id="menu">
-					<header class="major">
-						<h2>Menú</h2>
-					</header>
-					<ul>
-						<li><a href="index.php">Home</a></li>
-						<li>
-							<span class="opener">Categorías</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="conjunto_categorias.php">Gestionar Categorías</a></li>
-						<li><a href="subir_subtitulos.php">Subir subtítulos</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		<?php require('includes/menu_administrador.php'); ?>
 
 	</div>
 

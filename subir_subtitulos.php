@@ -1,5 +1,4 @@
 <?php
-set_time_limit(300);
 require_once("src/App.php");
 require_once("scraping.php");
 
@@ -82,17 +81,9 @@ if(!is_null($rol)){
 		<div id="main">
 			<div class="inner">
 
-				<header id="header" style="padding-top:2em;">
-					<a href="administracion.php" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
-					<ul class="icons">
-					<?php
-                        if (!is_null($rol)) {
-							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
-					?>
-					</ul>
-				</header>
+				<!-- Header -->
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 				<!-- Content -->
 				<section>
 
