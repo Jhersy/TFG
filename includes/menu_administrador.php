@@ -12,7 +12,7 @@ require_once("src/logic/Categorias.php");
 						<h2>Menú</h2>
 					</header>
 					<ul>
-						<li><a href="index.php">Inicio</a></li>
+						<li><a href="index.php">Página de inicio</a></li>
 						<li>
 							<span class="opener">Categorías</span>
 							<ul>
@@ -39,9 +39,17 @@ require_once("src/logic/Categorias.php");
 							?>
 							</ul>
 						</li>
-						<li><a href="conjunto_categorias.php">Gestionar Categorías</a></li>
-						<li><a href="subir_subtitulos.php">Subir subtítulo</a></li>
-						<li><a href="anadir_administrador.php">Añadir adminsitrador</a></li>
+
+						<li>
+							<span class="opener">Administración</span>
+							<ul>
+								<li><a href="administracion.php">Administrar</a></li>
+								<li><a href="conjunto_categorias.php">Gestionar Categorías</a></li>
+								<li><a href="subir_subtitulos.php">Subir subtítulo</a></li>
+								<li><a href="anadir_administrador.php">Añadir adminsitrador</a></li>
+							</ul>
+						</li>
+						
 					</ul>
 				</nav>
 			</div>

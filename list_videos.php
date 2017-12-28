@@ -124,25 +124,17 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 				<!-- 		-->
 
 				<!-- Section -->
-				
-				<section>
+				<div style="padding: 30px 0px 60px 0px">
 					<div class="row uniform">
 						<div class="8u 12u$(small)" >
-							<h2><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h2>
+							<h3><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h3>
 						</div>			
 						
-						<div class="4u 12u$(small)">
-							<form method="get" action="buscador.php">
-								<div class="input-group">
-										<input type="text" name="query" class="form-control" placeholder="Buscador">
-										<span class="input-group-btn">
-											<button class="botonBusqueda btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-										</span>
-								</div>
-							</form>
-						</div>
+						<!-- Buscador -->
+						<?php require('includes/buscador.php'); ?>
+  						<!-- 		  -->
 					</div>
-				</section>
+  				</div>
 					<div class="table-wrapper">
 						<table>
 							<thead>

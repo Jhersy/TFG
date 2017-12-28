@@ -59,17 +59,9 @@ if(!is_null($rol)){
 		<div id="main">
 			<div class="inner">
 
-				<header id="header" style="padding-top:2em;">
-					<a href="administracion.php" class="logo"><strong>Zaragoza Lingüística - Administración</strong></a>
-					<ul class="icons">
-					<?php
-                        if (!is_null($rol)) {
-							echo '<li>Bienvenido, '. getName() . '&nbsp;</li>';
-                            echo '<li><a href="administracion.php">Administrar &nbsp;</a></li>';
-                            echo '<li><a id="enlace-logout" href="login.php">Salir</a></li>';                        }
-					?>
-					</ul>
-				</header>
+				<!-- Cabecera -->
+				<?php require('includes/cabecera.php'); ?>
+				<!-- 		-->
 				<!-- Content -->
                 <section>
                 <header class="main">
@@ -96,38 +88,10 @@ if(!is_null($rol)){
 
 			</div>
         </div>
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search 
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
-					</form>
-				</section>
-				-->	
-				<!-- Menu -->
-				<nav id="menu">
-					<header class="major">
-						<h2>Menú</h2>
-					</header>
-					<ul>
-						<li><a href="inicio.php">Home</a></li>
-						<li>
-							<span class="opener">Categorías</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="index.php">Nueva Categoría</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+        
+        <!-- MENÚ ADMINSITRADOR -->
+        <?php require('includes/menu_administrador.php'); ?>
+        <!-- 					-->
 
 	</div>
 

@@ -223,28 +223,21 @@ $sesion = $_SESSION['sesion'];
         <div id="main">
             <div class="inner">
 
-				<!-- Header -->
-				<?php require('includes/cabecera.php'); ?>
-				<!-- 		-->
-				<section>
-                <section>
+            <!-- Header -->
+            <?php require('includes/cabecera.php'); ?>
+            <!-- 		-->
+            <div style="padding: 30px 0px 0px 0px">
                 <div class="row uniform">
                     <div class="8u 12u$(small)" >
                         <h3><?=$miga?></h3>
                     </div>			
-                    
-                    <div class="4u 12u$(small)">
-                        <form method="get" action="buscador.php">
-                            <div class="input-group">
-                                    <input type="text" name="query" class="form-control" placeholder="Buscador">
-                                    <span class="input-group-btn">
-                                        <button class="botonBusqueda btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                    </span>
-                            </div>
-                        </form>
-                    </div>
+
+                    <!-- Buscador -->
+                    <?php require('includes/buscador.php'); ?>
+                    <!-- 		  -->                
+
                 </div>
-            </section>
+            </div>
                 <div class="reproductor col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                         <?php 
                         $segundoExacto = '"';

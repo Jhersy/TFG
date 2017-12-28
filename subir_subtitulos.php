@@ -91,7 +91,7 @@ if(!is_null($rol)){
                         <article>
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
-                                <h4><a data-toggle="modal" data-target="#myModal">Subir subtítulo</a></h4>
+                                <h4><a data-toggle="modal" data-target="#myModal2">Subir subtítulo</a></h4>
                             </div>
                         </article>
                     </div>
@@ -99,7 +99,7 @@ if(!is_null($rol)){
 			</div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade" tabindex="-1" role="dialog" id="myModal2" aria-labelledby="gridSystemModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -151,46 +151,17 @@ if(!is_null($rol)){
                         <a onclick="verInformacion()">Ver formato del archivo del subtítulo (.srt)</a>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button onclick="subirSubtitulo()" type="button" class="btn btn-default">Subir</button>
+                            <button type="button" class="button" data-dismiss="modal">Cancelar</button>
+                            <button onclick="subirSubtitulo()" type="button" class="button special">Subir</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>
             </div>
         </div>
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search 
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
-					</form>
-				</section>
-				-->	
-				<!-- Menu -->
-				<nav id="menu">
-					<header class="major">
-						<h2>Menú</h2>
-					</header>
-					<ul>
-						<li><a href="inicio.php">Home</a></li>
-						<li>
-							<span class="opener">Categorías</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="index.php">Nueva Categoría</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		<!-- MENÚ ADMINSITRADOR -->
+		<?php require('includes/menu_administrador.php'); ?>
+		<!-- 					-->
 
 	</div>
 

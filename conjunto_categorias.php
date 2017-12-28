@@ -7,31 +7,21 @@ $rol = isAdmin(); //Return session admin or null
 
 if(!is_null($rol)){
 
-    
+/* Se recogen las categorías creadas en la base de datos*/
 $categories = new Categorias();
-
 $categorias = array();
 $categorias =  $categories->getCategories();
 
-
-try {
-    //Scraping
-    $videos = array();
-    $videos = getAllIDsVideos();
-} catch (Exception $e) {
-    redirect("conjunto_categorias.php");
-}
+/* Scrapping: Se recogen los vídeos disponibles en el blog para categorizarlos */
+$videos = array();
+$videos = getAllIDsVideos();
 
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
 
 ?>
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+
 <html>
 
 <head>
@@ -119,9 +109,10 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 		<div id="main">
 			<div class="inner">
 
-				<!-- Header -->
+				<!-- Cabecera -->
 				<?php require('includes/cabecera.php'); ?>
 				<!-- 		-->
+
 				<!-- Content -->
 				<section>
 
@@ -143,8 +134,8 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                     <span class="<?= $icons[$i]?>"></span>
                                     <div class="content">
                                         <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
-                                        <button class="small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
-                                        <button class="small"  onclick="editarCategoria(<?=$categorias[$j]['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
+                                        <button class="button special small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
+                                        <button class="button small"  onclick="editarCategoria(<?=$categorias[$j]['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
                                     </div>
                                 </article>
                             <?php
@@ -163,7 +154,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <article>
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
-                                <h4><a data-toggle="modal" data-target="#myModal">Crear categoría</a></h4>
+                                <h4><a data-toggle="modal" data-target="#myModal2">Crear categoría</a></h4>
                             </div>
                         </article>
                     </div>
@@ -171,7 +162,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 			</div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade" tabindex="-1" role="dialog" id="myModal2" aria-labelledby="gridSystemModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -185,6 +176,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                 <input type="text" class="form-control" name="nameCategory" id="nombreCategoria" required>
                             </div>
                             <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Selecciona los vídeos que formarán la categoría:</label>
                                 <div style="width:100%; height:15em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
                                     <ul class="alt">
                                         <?php 
@@ -204,46 +196,17 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         </form>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button onclick="guardarCategoria()" type="button" class="btn btn-default">Aceptar</button>
+                            <button type="button" class="button" data-dismiss="modal">Cancelar</button>
+                            <button onclick="guardarCategoria()" type="button" class="button special">Aceptar</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>
             </div>
         </div>
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search 
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
-					</form>
-				</section>
-				-->	
-				<!-- Menu -->
-				<nav id="menu">
-					<header class="major">
-						<h2>Menú</h2>
-					</header>
-					<ul>
-						<li><a href="inicio.php">Home</a></li>
-						<li>
-							<span class="opener">Categorías</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="index.php">Nueva Categoría</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		<!-- MENÚ ADMINSITRADOR -->
+		<?php require('includes/menu_administrador.php'); ?>
+		<!-- 					-->
 
 	</div>
 

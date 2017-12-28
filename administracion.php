@@ -64,8 +64,9 @@ if(!is_null($rol)){
 			</div>
 		</div>
 
+		<!-- MENÚ ADMINSITRADOR -->
 		<?php require('includes/menu_administrador.php'); ?>
-
+		<!-- 					-->
 	</div>
 
 	<!-- Scripts -->
