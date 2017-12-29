@@ -27,12 +27,31 @@ if(!is_null($rol)){
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
+	<link rel="stylesheet" href="resources/assets/css/style.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+
+	<script>
+		function visibleCategoriasBlog(){
+			var parametros = {
+			"visibleBlog" : "1"
+			}
+			$.ajax({
+			data:  parametros,
+			url:   'editar_categoria.php',
+			type:  'post',
+			success:  function () {
+				alert('Categorías del Blog visibles en la página de inicio.');
+				window.location.href = "conjunto_categorias.php";
+			}
+			});
+		}
+	</script>
 </head>
 
 <body>
@@ -58,21 +77,19 @@ if(!is_null($rol)){
                                 <?php
                                     $i = 0;
                                     foreach ($categories as $category) { ?>
-                                        <form action="list_videos.php" method="POST">
                                             <article>
                                                 <span class="<?=$icons[$i];?>"></span>
-                                                <div class="content" >
-                                                    <h3 style="font-size: 9px;"><input type="submit" value="<?=$category?>"></h3>
-                                                    <input  type="hidden" name="category" value="<?=$i?>">
-                                                </div>
+												<div class="content">
+													<a class="titulo_video" href="list_videos.php?categoria=<?=$i?>"><?=$category?></a>
+												</div>
                                             </article>
-                                        </form>
                                         <?php
                                         $i++;
                                     }
                                 ?>
                             
 						</div>
+						
 					</section>
 					
 					<section>
@@ -89,10 +106,9 @@ if(!is_null($rol)){
                                         <form action="list_videos.php" method="POST">
                                             <article>
                                                 <span class="<?=$icons[$i];?>"></span>
-                                                <div class="content">
-                                                    <h3 style="font-size: 9px;"><input type="submit" value="<?=$category['nombre_categoria']?>"></h3>
-                                                    <input type="hidden" name="category" value="<?=$category['id_categoria'] . "|" . $category['nombre_categoria']?>">
-                                                </div>
+												<div class="content">
+													<h3 ><a href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . $category['nombre_categoria']?>"><?=$category['nombre_categoria']?></a></h3>
+												</div>
                                             </article>
                                         </form>
                                         <?php
@@ -117,38 +133,9 @@ if(!is_null($rol)){
 			</div>
 		</div>
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search 
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
-					</form>
-				</section>
-				-->	
-				<!-- Menu -->
-				<nav id="menu">
-					<header class="major">
-						<h2>Menú</h2>
-					</header>
-					<ul>
-						<li><a href="index.php">Home</a></li>
-						<li>
-							<span class="opener">Categorías</span>
-							<ul>
-								<li><a href="#">Lorem Dolor</a></li>
-								<li><a href="#">Ipsum Adipiscing</a></li>
-								<li><a href="#">Tempus Magna</a></li>
-								<li><a href="#">Feugiat Veroeros</a></li>
-							</ul>
-						</li>
-						<li><a href="index.php">Nueva Categoría</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		<!-- MENÚ ADMINSITRADOR -->
+		<?php require('includes/menu_administrador.php'); ?>
+		<!-- 					-->
 
 	</div>
 

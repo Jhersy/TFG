@@ -3,8 +3,6 @@
 include "src/logic/Users.php";
 include "src/App.php";
 
-
-
 if (is_null(isAdmin())) {
 
     $name = $_REQUEST["name"];

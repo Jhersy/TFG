@@ -72,5 +72,16 @@ Class DAOCategorias{
             }
           return true;
     }
+
+    function disableCategories(){
+        try {
+            $sql = "UPDATE categorias SET visible = 0 ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+          } catch(PDOException $e) {
+            return null;
+            }
+          return true;
+    }
 }
 ?>

@@ -21,7 +21,6 @@ function getAllCategories(){
     foreach( $categories as $category ){
         $link = $category->find('a',0);
         $title = $link->innertext; // NOMBRE DE LAS CATEGORÍAS
-        //echo $title . "\n\n";
         array_push($allCategories, $title);
     }
     return $allCategories;
@@ -39,7 +38,6 @@ function getNameCategory($idCategory){
     return $title;
 }
 
-//echo getAllCategories()[0];
 
 /* Método que devuelve los IDs de vídeos  de una categoría del blog */
 function getIDsVideos($idCategory){
@@ -59,15 +57,7 @@ function getIDsVideos($idCategory){
                 foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
                     $cadena = explode("/", $element->content);
                     array_push($IDsVideosCategory, $cadena[4]);
-                    // echo $cadena[4] . "<br>";
                   }
-                // $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
-
-                // foreach( $videoPlayer as $idVideo ){
-                //     $src = $idVideo->attr['src'];
-                //     $r = multiexplode(array("/embed/","?"),$src);
-                //     array_push($IDsVideosCategory, $r[1]);
-                // }
             }
     }
     return $IDsVideosCategory;
@@ -89,24 +79,13 @@ function getAllIDsVideos(){
             foreach ($listVideos as $video) {
                 $urlVideo = $video->href;
                 $titleVideo = $video->innertext;
-                //echo $titleVideo . "\n";
-                // $urlVideo = $hrefVideo;
+
                 $htmlVideo = file_get_html($urlVideo);
-                // $videoPlayer = $htmlVideo->find('iframe[class=youtube-player]');
 
                 foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
                     $cadena = explode("/", $element->content);
                     array_push($IDsVideosCategory, array($cadena[4], $titleVideo));
-                    // echo $cadena[4] . "<br>";
                 }
-
-
-                // foreach( $videoPlayer as $idVideo ){
-                //     $src = $idVideo->attr['src'];
-                //     $r = multiexplode(array("/embed/","?"),$src);
-
-                //     array_push($IDsVideosCategory,  array($r[1], $titleVideo));
-                // }
             }
     }
 

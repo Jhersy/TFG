@@ -117,6 +117,7 @@ $sesion = $_SESSION['sesion'];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
     <link rel="stylesheet" href="resources/assets/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- ESTILO PERSONALIZADO -->
@@ -160,61 +161,7 @@ $sesion = $_SESSION['sesion'];
     </script>
 </head>
 
-<style type="text/css">
-    .video-responsive {
-        position: relative;
-        padding-bottom: 56.25%;
-        /* 16/9 ratio */
-        padding-top: 30px;
-        /* IE6 workaround*/
-        height: 0;
-        overflow: hidden;
-    }
-
-    .video-responsive iframe,
-    .video-responsive object,
-    .video-responsive embed {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .carousel {
-        margin-bottom: 0;
-        padding: 0 40px 30px 40px;
-    }
-    /* The controlsy */
-    .carousel-control {
-        left: -12px;
-        height: 40px;
-        width: 40px;
-        background: none repeat scroll 0 0 #222222;
-        border: 4px solid #FFFFFF;
-        border-radius: 23px 23px 23px 23px;
-        margin-top: 90px;
-    }
-    .carousel-control.right {
-        right: -12px;
-    }
-    /* The indicators */
-    .carousel-indicators {
-        right: 50%;
-        top: auto;
-        bottom: -10px;
-        margin-right: -19px;
-    }
-    /* The colour of the indicators */
-    .carousel-indicators li {
-        background: #cecece;
-    }
-    .carousel-indicators .active {
-    background: #428bca;
-    }
-  
-  </style>
-<body >
+<body>
 
     <!-- Wrapper -->
     <div id="wrapper">

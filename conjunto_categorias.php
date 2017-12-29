@@ -29,6 +29,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -133,7 +134,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                 <article>
                                     <span class="<?= $icons[$i]?>"></span>
                                     <div class="content">
-                                        <h4><a id= "<?=$categoria['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
+                                        <h4><a id= "<?=$categorias[$j]['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
                                         <button class="button special small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
                                         <button class="button small"  onclick="editarCategoria(<?=$categorias[$j]['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
                                     </div>

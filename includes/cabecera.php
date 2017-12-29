@@ -4,7 +4,7 @@ require_once("src/App.php");
 
 <header id="header" style="padding-top:2em;">
     <div class="8u 8u$(small)">
-        <a href="inicio.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
+        <a href="index.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
     </div>
     <div class="4u 3u$(small)">
         <ul class="icons">

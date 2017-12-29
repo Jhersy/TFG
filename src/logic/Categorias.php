@@ -15,7 +15,13 @@ Class Categorias{
     }
 
     function setCategory($category){
-       return $this->daoCategorias->setNewCategory($category);        
+
+            $categoria =  str_replace(array("á","é","í","ó","ú","ñ","Á","É","Í","Ó","Ú","Ñ","´p"),
+                                            array("&aacute","&eacute","&iacute","&oacute","&uacute","&ntilde",
+                                                    "&Aacute","&Eacute","&Iacute","&Oacute","&Uacute","&Ntilde", "&Ntilde"), $category);    
+
+
+       return $this->daoCategorias->setNewCategory($categoria);        
     }
 
     function getCategoriesVisibles(){
@@ -28,6 +34,10 @@ Class Categorias{
 
     function updateCategory($id_categoria, $visible){
         return $this->daoCategorias->updateCategory($id_categoria, $visible);
+    }
+
+    function disableCategories(){
+        return $this->daoCategorias->disableCategories();
     }
 }
 ?>
