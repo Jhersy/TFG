@@ -6,7 +6,7 @@ require_once("src/App.php");
     <div class="8u 8u$(small)">
         <a href="index.php" class="logo"><strong>Zaragoza Lingüística</strong></a>					
     </div>
-    <div class="4u 3u$(small)">
+    <div class="4u 4u$(small)">
         <ul class="icons">
         <?php
             if (is_null($rol) ) {
@@ -14,7 +14,7 @@ require_once("src/App.php");
             }
             else {
                 $name = getName();
-                echo '<li><i class="fa fa-user" aria-hidden="true"></i> '. $name . ' - <a href="administracion.php">Administrar &nbsp;</a> <a id="enlace-logout" href="login.php">Salir</a></li>';
+                echo '<li><i class="fa fa-user" aria-hidden="true"></i> '. $name . ' - <a href="administracion.php">Administrar <i class="fa fa-cog" aria-hidden="true"></i></a> <a id="enlace-logout" href="login.php">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>';
             }
         ?>
         </ul>					
@@ -39,7 +39,9 @@ require_once("src/App.php");
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Introduce contraseña">
                         </div>
-                        <button type="submit" class="btn btn btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
+                        <div>
+                            <button type="submit" class="btn special btn-block"<span class="glyphicon glyphicon-off"></span> Login</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -8,18 +8,13 @@ $rol = isAdmin(); //Return session admin or null
 
 $categories = getAllCategories();
 
-$icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
+$icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o' , 'icon fa fa-comments small');
 
 
 if(!is_null($rol)){
 ?>
 
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 
 <head>
@@ -45,9 +40,9 @@ if(!is_null($rol)){
 			data:  parametros,
 			url:   'editar_categoria.php',
 			type:  'post',
-			success:  function () {
-				alert('Categorías del Blog visibles en la página de inicio.');
-				window.location.href = "conjunto_categorias.php";
+			success:  function (data) {
+				alert(data);
+				window.location.href = "gestion_categorias.php";
 			}
 			});
 		}
@@ -70,7 +65,7 @@ if(!is_null($rol)){
 				<!-- Content -->
 				<section>
                     <header class="main">
-						<h4>Categorías del Blog:</h4>
+						<h4>Categorías del Blog:</h4>								
                     </header>
                         <div class="features">
                             
@@ -86,10 +81,13 @@ if(!is_null($rol)){
                                         <?php
                                         $i++;
                                     }
-                                ?>
-                            
+                                ?>                            
 						</div>
-						
+						<div class="9u 12u$(small)"></div>
+						<div class="3u 12u$(small)" style="float:right;">
+							<button class="button special small" onclick="visibleCategoriasBlog()">Usar este conjunto de categorías</button>		
+						</div>
+						<br>
 					</section>
 					
 					<section>
@@ -107,7 +105,7 @@ if(!is_null($rol)){
                                             <article>
                                                 <span class="<?=$icons[$i];?>"></span>
 												<div class="content">
-													<h3 ><a href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . $category['nombre_categoria']?>"><?=$category['nombre_categoria']?></a></h3>
+													<h3 ><a href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria']?></a></h3>
 												</div>
                                             </article>
                                         </form>
@@ -115,7 +113,6 @@ if(!is_null($rol)){
                                         $j++;
                                     }
                                 ?>
-                            
                         </div>
                             <hr class="major" />
                             <div class="features">

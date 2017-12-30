@@ -12,7 +12,7 @@ if(!is_null($rol)){
         $category = $_POST['id_categoria'];
     }
     if( isset($_POST['accion'])){
-        $category = $_POST['accion'];
+        $accion = $_POST['accion'];
     }
     $visibleBlog = 0;
     if( isset($_POST['visibleBlog']) ){
@@ -24,8 +24,12 @@ if(!is_null($rol)){
     if(!$visibleBlog){
         //Actualiza la categoría a Visible o No Visible en la web en la base de datos        
         $categorias->updateCategory($category, $accion);
+        echo 'Categoría visible en la página principal';
+        
     }else{
         $categorias->disableCategories();
+        echo 'Categorías del Blog visibles en la página principal';
+        
     }
 
 

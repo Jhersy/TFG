@@ -47,4 +47,10 @@ function redirect($url, $secs = 0){
 }
 
 
+function formato_utf8($cadena){
+    return str_replace(array("&aacute","&eacute","&iacute","&oacute","&uacute","&ntilde","&Aacute","&Eacute","&Iacute","&Oacute","&Uacute","&Ntilde", "&Ntilde") 
+                        ,array("á","é","í","ó","ú","ñ","Á","É","Í","Ó","Ú","Ñ","´p"), $cadena);
+}
+
+
 ?>

@@ -5,11 +5,7 @@ $rol = isAdmin(); //Return session admin or null
 if(!is_null($rol)){
 ?>
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+
 <html>
 
 <head>
@@ -45,16 +41,16 @@ if(!is_null($rol)){
 				<section>
 					<div class="row">
 						<div class="6u 12u$(small)">
-							<h3>Gestión de categorías</h3>
-							<a href="gestion_categorias.php"><span class="image fit"><img src="resources/images/gestion.jpg" alt=""></span></a>
+							<h3> <a href="gestion_categorias.php"> Gestión de categorías</a></h3>
+							<a href="gestion_categorias.php"><span><img width="304" height="236" class="rounded" src="resources/images/gestion_categorias.jpg" alt="Gestión de categorías"></span></a>
 						</div>
 						<div class="6u 12u$(small)">
-							<h3>Subir subtítulo</h3>
-							<a href="subir_subtitulos.php"><span class="image fit"><img src="resources/images/upload.jpg" alt=""></span></a>
+							<h3> <a href="subir_subtitulos.php"> Subir subtítulo</a></h3>
+							<a href="subir_subtitulos.php"><span><img width="304" height="236" class="rounded" src="resources/images/subir_subtitulos.jpg" alt="Subir subtítulo"></span></a>
 						</div>
 						<div class="6u 12u$(small)">
-							<h3>Añadir administrador</h3>
-							<a href="anadir_administrador.php"><span class="image fit"><img src="resources/images/administrador.jpg" alt=""></span></a>
+							<h3> <a href="anadir_administrador.php"> Añadir administrador</a></h3>
+							<a href="anadir_administrador.php"><span><img width="304" height="236" class="rounded" src="resources/images/administrador.jpg" alt="Añadir administrador"></span></a>
 						</div>
 					</div>
 				</section>

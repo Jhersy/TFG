@@ -128,7 +128,7 @@ $rol = isAdmin(); //Return session admin or null
 									<article >
 										<span class="<?=$icons[$i];?>"></span>
 										<div class="content">
-											<h3 ><a href="list_videos.php?categoria=<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . $category['nombre_categoria']?>"><?= $categoriaScraping ?  $category : $category['nombre_categoria']?></a></h3>
+											<h3 ><a href="list_videos.php?categoria=<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?= $categoriaScraping ?  $category : $category['nombre_categoria']?></a></h3>
 										</div>
 									</article>
 									<?php

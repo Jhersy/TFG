@@ -13,8 +13,8 @@ $categorias = array();
 $categorias =  $categories->getCategories();
 
 /* Scrapping: Se recogen los vídeos disponibles en el blog para categorizarlos */
-$videos = array();
-$videos = getAllIDsVideos();
+// $videos = array();
+// $videos = getAllIDsVideos();
 
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
@@ -90,8 +90,8 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
               data:  parametros,
               url:   'editar_categoria.php',
               type:  'post',
-              success:  function () {
-                  alert('Categoría procesada con éxito!');
+              success:  function (data) {
+                  alert(data);
                   window.location.href = "conjunto_categorias.php";
               }
             });

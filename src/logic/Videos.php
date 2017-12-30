@@ -27,10 +27,6 @@ Class Videos{
         }
     }
 
-    // function updateCategory(){
-    //     return $this->updateCategory();
-    // }
-
     function insertNewVideo($id_video, $title_video){
         // SI EL VÍDEO YA ESTABA EN LA BBDD NO HACE FALTA VOLVER A INSERTARLO
         if(empty($this->daoVideos->checkVideoById($id_video))){
