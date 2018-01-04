@@ -92,25 +92,20 @@ $rol = isAdmin(); //Return session admin or null
 				<?php require('includes/cabecera.php'); ?>
 				<!-- 		-->
 
-				<div style="padding: 30px 0px 0px 0px">
-					<div class="row uniform">
-							<div class="8u 12u$(small)" ></div>			
-
-							<!-- Buscador -->
-							<?php require('includes/buscador.php'); ?>
-							<!-- 		  -->
-					</div>
-
-				</div>
-
 				<!--Contenido Portada -->
 				<?php require('includes/contenido_portada.php'); ?>
 				<!-- -->
 				<!-- Section -->
 				<section>
-					<header class="major">
-						<h2>Categorías</h2>
-					</header>
+				<div style="padding: 0px 0px 60px 0px">
+					<div class="row uniform">
+						<div class="8u 12u$(small)"><h2>Categorías de los vídeos</h2></div>
+
+						<?php require('includes/buscador.php'); ?>
+					</div>
+				</div>
+
+
 					<div class="features">
 						
 							<?php

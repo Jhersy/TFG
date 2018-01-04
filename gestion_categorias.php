@@ -101,20 +101,19 @@ if(!is_null($rol)){
                                     $categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
                                     $j = 0;
                                     foreach ($categoriasVisibles as $category) { ?>
-                                        <form action="list_videos.php" method="POST">
                                             <article>
                                                 <span class="<?=$icons[$i];?>"></span>
 												<div class="content">
-													<h3 ><a href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria']?></a></h3>
+													<a class="titulo_video" href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria']?></a>
 												</div>
                                             </article>
-                                        </form>
                                         <?php
                                         $j++;
                                     }
                                 ?>
                         </div>
-                            <hr class="major" />
+					</section>
+					<section>
                             <div class="features">
                                 <article>
                                     <span class="icon fa fa-cog"></span>

@@ -24,13 +24,14 @@ if(!is_null($rol)){
     <script>
 
     function insertAdmin(){
-        var password = $("#password").val();
+        var password = $("#password1").val();
         var repeatPass = $("#confirm_password").val();
-        var usuario = $("#username").val().trim();
+        var usuario = $("#usernametext").val().trim();
         if(usuario == ""){
             alert('El usuario no puede ser vacío');
-        }
-        if(password != repeatPass){
+        }else if(password == "" || repeatPass == ""){
+            alert('Las contraseñas no pueden ser vacías');
+        }else if(password != repeatPass){
             alert('Las contraseñas no son iguales');
         }else{
             var parametros = {
@@ -70,11 +71,11 @@ if(!is_null($rol)){
                 </header>
                     <div class="4u 12u$(small)">
                         <!-- <form role="form" action="add_administrator.php" method="post"> -->
-                            <label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
-                            <input type="text"  id="username" name="name" >
+                            <label ><span class="glyphicon glyphicon-user"></span> Usuario</label>
+                            <input type="text"  id="usernametext" name="name" >
                             <br>
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input type="password" class="form-control" id="password1" name="password" required>
                             <br>
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Repetir contraseña</label>
                             <input type="password" class="form-control" id="confirm_password" name="password" required>

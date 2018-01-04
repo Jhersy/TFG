@@ -47,6 +47,8 @@ require_once("src/logic/Categorias.php");
 								<li><a href="gestion_categorias.php">Gestionar Categorías</a></li>
 								<li><a href="subir_subtitulos.php">Subir subtítulo</a></li>
 								<li><a href="anadir_administrador.php">Añadir adminsitrador</a></li>
+								<li><a href="subir_informacion.php">Subir información adicional</a></li>
+
 							</ul>
 						</li>
 						

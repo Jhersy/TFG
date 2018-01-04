@@ -3,6 +3,7 @@
 require_once("src/App.php");
 require_once("scraping.php");
 require_once("src/logic/Subtitulos.php");
+require_once("src/logic/Informacion.php");
 require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
@@ -213,30 +214,83 @@ $sesion = $_SESSION['sesion'];
                         $subtitulos = new Subtitulos();
                         if($subtitulos->existCaption($videoId)){ 
                             $idiomas =  $subtitulos->getLanguageCaption($videoId);                               
-                    ?>                        
-                    <p><strong>Descargar subtítulo: </strong></p>
-                    <form name="myform" method="post" action="download_subtitulo.php" onsubmit="download('<?=$videoId?>')">
-                        <div class="row uniform">
-                            <div class="3u 12u$(small)">
-                                <div class="select-wrapper">
-                                    <select id="select_idioma" name="idioma" style="height: 32px;">
-                                        <option value="<?=$idiomas[0]['idioma']?>">- Selecciona un idioma -</option>
-                                        <?php 
-                                        foreach($idiomas as $idioma){?>
-                                            <option value="<?=$idioma['idioma']?>"><?=$idioma['idioma']?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>                                           
-                                </div>
-                            </div>
-                            <div class="9u 12u$(small)">
-                                <input type="hidden" name="id_video" value="" />
-                                <input class="button small icon fa-download" type="submit" name="submit" value="Descargar" />
-                            </div>
-                        </div>                        
-                    </form>
+                    ?>
+
+
+                    <div class="row uniform">
+                        <div class="2u 12u$(small)">
+                            <p><strong>Descargar subtítulo: </strong></p>                        
+                        </div>
+
+                        <div class="9u 12u$(small)">
+                            <form name="myform" method="post" action="download_subtitulo.php" onsubmit="download('<?=$videoId?>')">
+                                <div class="row uniform">
+                                    <div class="3u 8u$(small)">
+                                        <div class="select-wrapper">
+                                            <select id="select_idioma" name="idioma" style="height: 32px;">
+                                                <option value="<?=$idiomas[0]['idioma']?>">- Selecciona un idioma -</option>
+                                                <?php 
+                                                foreach($idiomas as $idioma){?>
+                                                    <option value="<?=$idioma['idioma']?>"><?=$idioma['idioma']?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>                                           
+                                        </div>
+                                    </div>
+                                    <div class="9u 4u$(small)">
+                                        <input type="hidden" name="id_video" value="" />
+                                        <input class="button small icon fa-download" type="submit" name="submit" value="Descargar" />
+                                    </div>
+                                </div>                        
+                            </form>     
+                        </div>                                 
+                    </div>
+
                     <?php } ?>
+
+                    <?php
+                        $informacion = new Informacion();
+                        if($informacion->existInformation($videoId)){ 
+                            $tipos =  $informacion->getTypesInformation($videoId);        
+                    ?>
+
+                    
+                    <!-- DESCARGAR INFOMRACIÓN ADICIONAL -->
+                    <div class="row uniform">
+                        <div class="3u 12u$(small)">
+                            <p><strong>Descargar información adicional: </strong></p>                        
+                        </div>
+                        <div class="9u 12u$(small)">
+                            <!-- <form name="myform" method="post" onsubmit="download('<?php//$videoId?>')"> -->
+                                <!-- <div class="row uniform"> -->
+                                    <div class="4u 8u$(small)">
+                                        <!-- <div class="select-wrapper"> -->
+                                            <!-- <select id="select_tipo" name="tipo" style="height: 32px;">
+                                                <option value="<?php//$tipos[0]['tipo']?>">- Selecciona un tipo de archivo -</option>
+                                                <?php 
+                                                // foreach($tipos as $tipo){?>
+                                                //     <option value="<?php//$tipo['tipo']?>"><?php//$tipo['tipo']?></option>
+                                                <?php
+                                                // }
+                                                ?>
+                                            </select>                                            -->
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="8u 4u$(small)">
+                                        <a class="button small icon fa-download" download="<?php echo $videoSnippet['title'] . '.txt' ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
+                                        <!-- <input type="hidden" name="id_video" value="" />
+                                        <input class="button small icon fa-download" type="submit" name="submit" value="Descargar" /> -->
+                                    </div>
+                                <!-- </div>                         -->
+                            <!-- </form>      -->
+                        </div>                                 
+                    </div>
+                    <br>
+
+                    <?php } ?>
+
+
                     <p><?=$videoSnippet['description']?></p>
 
                     <p><strong>Publicado el: </strong><?=date("d-m-Y", strtotime(substr($videoSnippet['publishedAt'], 0,10)));?></p>
