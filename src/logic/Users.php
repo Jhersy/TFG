@@ -34,5 +34,21 @@ Class Users{
         }
         return !empty($insertado);
     }
+
+    function deleteUser($name) {
+        $user = $this->daoUsuarios->findUserByName($name);        
+        $eliminado = false;
+
+        if (!empty($user)) {
+            $eliminado = $this->daoUsuarios->delete($name);
+        }
+
+        return $eliminado;
+    }
+
+
+    function getAllAdmins($currentAdmin){
+        return  $this->daoUsuarios->getAllAdmins($currentAdmin);
+    }
 }
 ?>

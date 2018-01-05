@@ -176,8 +176,8 @@ $sesion = $_SESSION['sesion'];
             <!-- 		-->
             <div style="padding: 30px 0px 0px 0px">
                 <div class="row uniform">
-                    <div class="8u 12u$(small)" >
-                        <h3><?=$miga?></h3>
+                    <div class="8u 12u$(small)" style="padding-top:2em;" >
+                        <h4> <a href="index.php" class="logo">Zaragoza Lingüistica</a> / <?=$miga?></h4>
                     </div>			
 
                     <!-- Buscador -->
@@ -218,7 +218,7 @@ $sesion = $_SESSION['sesion'];
 
 
                     <div class="row uniform">
-                        <div class="2u 12u$(small)">
+                        <div class="2u 12u$(small)" style="padding-top:2em;">
                             <p><strong>Descargar subtítulo: </strong></p>                        
                         </div>
 
@@ -258,32 +258,13 @@ $sesion = $_SESSION['sesion'];
                     
                     <!-- DESCARGAR INFOMRACIÓN ADICIONAL -->
                     <div class="row uniform">
-                        <div class="3u 12u$(small)">
+                        <div class="3u 6u$(small)" style="padding-top:2em;">
                             <p><strong>Descargar información adicional: </strong></p>                        
                         </div>
-                        <div class="9u 12u$(small)">
-                            <!-- <form name="myform" method="post" onsubmit="download('<?php//$videoId?>')"> -->
-                                <!-- <div class="row uniform"> -->
-                                    <div class="4u 8u$(small)">
-                                        <!-- <div class="select-wrapper"> -->
-                                            <!-- <select id="select_tipo" name="tipo" style="height: 32px;">
-                                                <option value="<?php//$tipos[0]['tipo']?>">- Selecciona un tipo de archivo -</option>
-                                                <?php 
-                                                // foreach($tipos as $tipo){?>
-                                                //     <option value="<?php//$tipo['tipo']?>"><?php//$tipo['tipo']?></option>
-                                                <?php
-                                                // }
-                                                ?>
-                                            </select>                                            -->
-                                        <!-- </div> -->
-                                    </div>
-                                    <div class="8u 4u$(small)">
+                        <div class="9u 6u$(small)">
+
                                         <a class="button small icon fa-download" download="<?php echo $videoSnippet['title'] . '.txt' ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
-                                        <!-- <input type="hidden" name="id_video" value="" />
-                                        <input class="button small icon fa-download" type="submit" name="submit" value="Descargar" /> -->
-                                    </div>
-                                <!-- </div>                         -->
-                            <!-- </form>      -->
+
                         </div>                                 
                     </div>
                     <br>

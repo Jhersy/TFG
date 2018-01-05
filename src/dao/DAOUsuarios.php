@@ -36,5 +36,29 @@ Class DAOUsuarios{
         return $id;
     }
 
+    function delete($name){
+        try {
+            $sql = "DELETE FROM administradores WHERE name_admin = :usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["usuario" => $name]);
+          } catch(PDOException $e) {
+                return false;
+            }
+        return true;
+    }
+
+    function getAllAdmins($currentAdmin){
+        try {
+            $sql = "SELECT name_admin FROM administradores  WHERE name_admin != :administrador";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["administrador" => $currentAdmin]);
+            $res = $stmt->fetchAll();
+          } catch(PDOException $e) {
+            echo "ERROR EN DAOUsuario: " . $e->getMessage();
+            }
+        return $res;
+    }
+
+
 }
 ?>

@@ -45,11 +45,11 @@ if(!is_null($rol)){
 							<a href="gestion_categorias.php"><span><img width="304" height="236" class="rounded" src="resources/images/gestion_categorias.jpg" alt="Gestión de categorías"></span></a>
 						</div>
 						<div class="6u 12u$(small)">
-							<h3> <a href="anadir_administrador.php"> Añadir administrador</a></h3>
+							<h3> <a href="anadir_administrador.php"> Añadir/Eliminar administrador</a></h3>
 							<a href="anadir_administrador.php"><span><img width="304" height="236" class="rounded" src="resources/images/administrador.jpg" alt="Añadir administrador"></span></a>
 						</div>						
 						<div class="6u 12u$(small)">
-							<h3> <a href="subir_subtitulos.php"> Subir subtítulo</a></h3>
+							<h3> <a href="subir_subtitulos.php"> Subir/Eliminar subtítulo</a></h3>
 							<a href="subir_subtitulos.php"><span><img width="304" height="236" class="rounded" src="resources/images/subir_subtitulos.jpg" alt="Subir subtítulo"></span></a>
 						</div>
 						<div class="6u 12u$(small)">

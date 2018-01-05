@@ -39,9 +39,6 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
     <script>
 
         function guardarCategoria(){
-            /* Primero se verifica si los vídeos seleccionados tienen o no categoría asociada */
-
-
 
             /* Se pregunta si se desea continuar (esto podría actualizar la categoría del vídeo) */
             
