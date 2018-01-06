@@ -14,14 +14,14 @@ Class Categorias{
         return  $this->daoCategorias->getCategories();
     }
 
-    function setCategory($category){
+    function setCategory($category, $blog){
 
             $categoria =  str_replace(array("á","é","í","ó","ú","ñ","Á","É","Í","Ó","Ú","Ñ","´p"),
                                             array("&aacute","&eacute","&iacute","&oacute","&uacute","&ntilde",
                                                     "&Aacute","&Eacute","&Iacute","&Oacute","&Uacute","&Ntilde", "&Ntilde"), $category);    
 
 
-       return $this->daoCategorias->setNewCategory($categoria);        
+       return $this->daoCategorias->setNewCategory($categoria, $blog);        
     }
 
     function getCategoriesVisibles(){

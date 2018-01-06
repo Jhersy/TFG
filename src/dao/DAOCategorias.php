@@ -25,11 +25,11 @@ Class DAOCategorias{
         return $res;
     }
 
-    function setNewCategory($categoria){
+    function setNewCategory($categoria, $blog){
         try{
-            $sql = "INSERT INTO categorias (nombre_categoria) VALUES (:categoria)";
+            $sql = "INSERT INTO categorias (nombre_categoria, blog) VALUES (:categoria, :blog)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["categoria" => $categoria]);
+            $stmt->execute(["categoria" => $categoria, "blog" => $blog]);
             $id = $this->conn->lastInsertId();
           } catch(PDOException $e) {
                 echo "ERROR EN DAOCategorias: " . $e->getMessage();

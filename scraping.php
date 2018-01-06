@@ -27,6 +27,9 @@ function getAllCategories(){
 }
 
 /* Método que devuelve el nombre de una categoría específica */
+/***************************/
+    //NO SE USA
+/*****************************/
 function getNameCategory($idCategory){
     $allCategories = array();
     $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
@@ -53,10 +56,11 @@ function getIDsVideos($idCategory){
             $listVideos = $htmlCategory->find('div[class=entry-content] p a');
             foreach ($listVideos as $video) {
                 $urlVideo = $video->href;
+                $titleVideo = $video->innertext;
                 $htmlVideo = file_get_html($urlVideo);
                 foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
                     $cadena = explode("/", $element->content);
-                    array_push($IDsVideosCategory, $cadena[4]);
+                    array_push($IDsVideosCategory, array($cadena[4], $titleVideo));
                   }
             }
     }
@@ -64,6 +68,10 @@ function getIDsVideos($idCategory){
 }
 
 /* Devuelve TODOS los IDs de vídeo del blog */
+/***************************/
+    //NO SE USA
+
+/*****************************/
 function getAllIDsVideos(){
 
     $IDsVideosCategory = array();
