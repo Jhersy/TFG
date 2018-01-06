@@ -29,7 +29,7 @@ Class DAOSubtitulos{
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["id_video" => $idVideo, "archivo" => $archivo, "idioma" => $idioma]);
           } catch(PDOException $e) {
-                return null;
+                return false;
             }
         return true;
     }
@@ -106,6 +106,17 @@ Class DAOSubtitulos{
         return $res;
     }
 
+    function checkCaption($id_subtitulo, $idioma){
+        try {
+            $sql = "SELECT * FROM subtitulos WHERE id_subtitulo = :id_subtitulo  AND idioma = :idioma ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_subtitulo, "idioma" => $idioma]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulos: " . $e->getMessage();
+        }
+        return $res;
+    }
 
 }
 ?>

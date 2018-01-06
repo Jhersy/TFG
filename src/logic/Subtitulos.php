@@ -23,9 +23,14 @@ Class Subtitulos{
         return $result;
       }
 
+    //Insertar en tabla subtítulos
     function newCaption($idVideo, $archivo, $idioma) {
-        //Insertar en tabla subtítulos
-        return $this->daoSubtitulos->insert($idVideo, $archivo, $idioma);
+        $ok = false;
+        //Comprobar antes si ya existe el subtítulo con ese idioma
+        if(empty($this->daoSubtitulos->checkCaption($idVideo, $idioma))){
+           $ok = $this->daoSubtitulos->insert($idVideo, $archivo, $idioma);
+        }
+        return $ok;
     }
 
     function getCaption($id_video, $idioma){
@@ -53,5 +58,6 @@ Class Subtitulos{
     function getAll(){
         return  $this->daoSubtitulos->getAll();
     }
+
 }
 ?>

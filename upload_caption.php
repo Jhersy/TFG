@@ -140,8 +140,11 @@ if(!empty($eliminar_sub)){
                 $videos->insertNewVideo($id_video, $title_video);
 
                 $subtitulos = new Subtitulos();
-                $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma);
-                echo "Subtítulo subido con éxito";
+                if($subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma)){
+                    echo "Subtítulo subido con éxito";
+                }else{
+                    echo "El subtítulo no se ha podido subir porque ya existe ese subtítulo con ese idioma";
+                }
             }catch(MyException $e){
                 throw $e;
             }
