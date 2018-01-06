@@ -1,6 +1,7 @@
 <?php
 require_once("src/App.php");
 require_once("scraping.php");
+require_once("src/logic/Subtitulos.php");
 
 $rol = isAdmin(); //Return session admin or null
 try {
@@ -29,21 +30,13 @@ if(!is_null($rol)){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Subir subtítulo</title>
     <script>
-    function resetMeIfChecked(radio){           
-        if(radio.checked && radio.value == window.lastrv){
-            $(radio).removeAttr('checked');
-            window.lastrv = 0;
-        }
-        else
-            window.lastrv = radio.value;
-    }
 
     function verInformacion(){
         alert("La estructura de cada subtítulo es la siguiente:\n\nNúmero de subtítulo (En orden secuencial empezando en 1 para el primer subtítulo)\nTiempo inicial --> Tiempo final (En formato horas:minutos:segundos,milisegundos)\nTexto del subtítulo (Puede incluir una o varias líneas separadas por un salto de línea)\nLínea en blanco (Suele emplearse CRLF como salto de línea)\n\n Ejemplo archivo:\n1\n00:00:00,394 --> 00:00:03,031\n<i>Anteriormente en <font color='#FE00FE'>“Sons of Anarchy”</font></i>");
     }
 
     function subirSubtitulo(){
-        if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_idioma option:selected" ).val() == "" ){
+        if($("input:checkbox:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_idioma option:selected" ).val() == "" ){
             alert('Selecciona un vídeo, un idioma y adjunta un archivo .srt');
         }else{
             var id = "";
@@ -52,7 +45,7 @@ if(!is_null($rol)){
             var archivo = $("#videoUploadFile").prop('files')[0];
             var form_data = new FormData(); 
             form_data.append('file', archivo);
-            $("input:radio:checked").each(function(){    
+            $("input:checkbox:checked").each(function(){    
                   id = $(this).attr("id");         
                   title = $(this).next().text();   
             });
@@ -71,6 +64,36 @@ if(!is_null($rol)){
                 }
             });
         }
+    }
+
+
+    function deleteSubtitulo(){
+
+        if($("input:checkbox:checked").length < 0){
+            alert('No has seleccionado ningún subtítulo');
+        }else{
+            var subtitulos = "";
+            var idiomas = "";
+            $("input:checkbox:checked").each(function(){    
+                subtitulos += $(this).attr("id") + ',';     
+            });
+
+            var parametros = { 
+                "subtitulos" : subtitulos
+            }
+
+            $.ajax({
+                data:  parametros,
+                url:   'upload_caption.php',
+                type:  'post',
+                success:  function (data) {
+                    window.alert(data);
+                    window.location.href = "subir_subtitulos.php";
+                }
+            });
+            
+        }
+
     }
     </script>
 </head>
@@ -93,6 +116,12 @@ if(!is_null($rol)){
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
                                 <h4><a data-toggle="modal" data-target="#myModal2">Subir subtítulo</a></h4>
+                            </div>
+                        </article>
+                        <article>
+                            <span class="icon fa fa-minus small"></span>
+                            <div class="content">
+                                <h4><a data-toggle="modal" data-target="#myModal3">Eliminar subtítulo</a></h4>
                             </div>
                         </article>
                     </div>
@@ -118,7 +147,7 @@ if(!is_null($rol)){
                                             foreach($videos as $video){ 
                                         ?>
                                         <li>
-                                            <input type="radio" id="<?=$video[0]?>" name="<?=$video[0]?>" onclick="resetMeIfChecked(this)">
+                                            <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>" >
                                             <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>                                    
                                         </li>	                                        
                                         <?php
@@ -159,6 +188,48 @@ if(!is_null($rol)){
                 </div>
             </div>
         </div>
+
+
+        <!--  MODAL ELIMINAR SUBTITULO  -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="myModal3" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a type="button" class="close" data-dismiss="modal">&times;</a>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Eliminar subtítulo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="width:100%; height:22em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
+                            <ul class="alt">
+                                <?php 
+                                    /* LISTAMOS LOS SUBTÍTULOS DE LA BASE DE DATOS */
+                                    $captions = new Subtitulos();
+                                    $subtitulos = $captions->getAll();
+                                    if( sizeof($subtitulos) == 0){
+                                        echo 'No se han encontrado subtítulos en la base de datos';
+                                    }else{
+                                    foreach($subtitulos as $subtitulo){ 
+                                ?>
+                                <li>
+                                    <input type="checkbox" id="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma']; ?>" name="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma']; ?>"  />
+                                    <label style="width:100%" for="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma'];?>"> <?= $captions->getTitleCaption($subtitulo['id_subtitulo'])[0]['titulo'] . ' - ' . $subtitulo['idioma'] ;?></label>                                    
+                                </li>	                                        
+                                <?php
+                                    }
+                                }
+                                ?>						
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" onclick="deleteSubtitulo()"  class="button special small"<span class="glyphicon glyphicon-off"></span> Eliminar subtítulo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 		<!-- MENÚ ADMINSITRADOR -->
 		<?php require('includes/menu_administrador.php'); ?>

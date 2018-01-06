@@ -23,14 +23,7 @@ if(!is_null($rol)){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Subir subtítulo</title>
     <script>
-    function resetMeIfChecked(radio){           
-        if(radio.checked && radio.value == window.lastrv){
-            $(radio).removeAttr('checked');
-            window.lastrv = 0;
-        }
-        else
-            window.lastrv = radio.value;
-    }
+
 
     function insertAdmin(){
         var password = $("#password1").val();
@@ -62,11 +55,11 @@ if(!is_null($rol)){
 
     function deleteAdmin(){
 
-        if($("input:radio:checked").length < 0){
-            alert('Selecciona al menos un administrador a eliminar');
+        if($("input:checkbox:checked").length < 0){
+            alert('No has seleccionado ningún administrador');
         }else{
             var nameAdmins = "";
-            $("input:radio:checked").each(function(){    
+            $("input:checkbox:checked").each(function(){    
                 nameAdmins += $(this).attr("id") + '|';         
             });
 
@@ -177,7 +170,7 @@ if(!is_null($rol)){
                                         foreach($administradores as $admin){ 
                                     ?>
                                     <li>
-                                        <input type="radio" id="<?=$admin['name_admin']?>" name="<?=$admin['name_admin']?>" onclick="resetMeIfChecked(this)">
+                                        <input type="checkbox" id="<?=$admin['name_admin']?>" name="<?=$admin['name_admin']?>" >
                                         <label style="width:100%" for="<?=$admin['name_admin']?>"><?=$admin['name_admin']?></label>                                    
                                     </li>	                                        
                                     <?php
@@ -189,7 +182,7 @@ if(!is_null($rol)){
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" onclick="deleteAdmin()"  class="button special small"<span class="glyphicon glyphicon-off"></span> Añadir usuario</button>
+                            <button type="submit" onclick="deleteAdmin()"  class="button special small"<span class="glyphicon glyphicon-off"></span> Eliminar administrador</button>
                         </div>
                     </div>
                 </div>

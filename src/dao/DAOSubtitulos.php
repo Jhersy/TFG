@@ -60,7 +60,7 @@ Class DAOSubtitulos{
 
     function existCaption($id_subtitulo){
         try {
-            $sql = "SELECT id_subtitulo FROM subtitulos WHERE id_subtitulo = :id_subtitulo";
+            $sql = "SELECT id_subtitulo, idioma FROM subtitulos WHERE id_subtitulo = :id_subtitulo";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["id_subtitulo" => $id_subtitulo]);
             $res = $stmt->fetchAll();
@@ -81,6 +81,31 @@ Class DAOSubtitulos{
         }
         return $res;
     }
+
+
+    function delete($id_subtitulo, $idioma){
+        try {
+            $sql = "DELETE FROM subtitulos WHERE id_subtitulo = :id_subtitulo AND idioma = :idioma";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_subtitulo" => $id_subtitulo, "idioma" => $idioma]);
+          } catch(PDOException $e) {
+                return false;
+            }
+        return true;
+    }
+
+    function getAll(){
+        try {
+            $sql = "SELECT id_subtitulo, idioma FROM subtitulos";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+          } catch(PDOException $e) {
+            echo "ERROR EN DAOSubtitulo: " . $e->getMessage();
+            }
+        return $res;
+    }
+
 
 }
 ?>

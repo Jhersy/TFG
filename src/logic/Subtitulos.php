@@ -43,5 +43,15 @@ Class Subtitulos{
     function getLanguageCaption($id_subtitulo){
         return $this->daoSubtitulos->getLanguageCaption($id_subtitulo);
     }
+
+
+    function deleteCaption($id_subtitulo, $idioma) {
+        return $this->daoSubtitulos->delete($id_subtitulo, $idioma);
+    }
+
+
+    function getAll(){
+        return  $this->daoSubtitulos->getAll();
+    }
 }
 ?>

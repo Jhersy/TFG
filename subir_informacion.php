@@ -28,16 +28,9 @@ if(!is_null($rol)){
     <title>Subir información adicional</title>
 
     <script>
-        function resetMeIfChecked(radio){           
-            if(radio.checked && radio.value == window.lastrv){
-                $(radio).removeAttr('checked');
-                window.lastrv = 0;
-            }
-            else
-                window.lastrv = radio.value;
-        }
+
         function subirInformacion(){
-            if($("input:radio:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_tipo option:selected" ).val() == "" ){
+            if($("input:checkbox:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_tipo option:selected" ).val() == "" ){
                 alert('Selecciona un vídeo y un tipo de archivo');
             }else{
                 var id = "";
@@ -46,7 +39,7 @@ if(!is_null($rol)){
                 var archivo = $("#videoUploadFile").prop('files')[0];
                 var form_data = new FormData(); 
                 form_data.append('file', archivo);
-                $("input:radio:checked").each(function(){    
+                $("input:checkbox:checked").each(function(){    
                     id = $(this).attr("id");         
                     title = $(this).next().text();   
                 });
@@ -116,7 +109,7 @@ if(!is_null($rol)){
                                             foreach($videos as $video){ 
                                         ?>
                                         <li>
-                                            <input type="radio" id="<?=$video[0]?>" name="<?=$video[0]?>" onclick="resetMeIfChecked(this)">
+                                            <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>" >
                                             <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>                                    
                                         </li>	                                        
                                         <?php
