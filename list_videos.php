@@ -2,28 +2,30 @@
 <?php
 
 require_once("src/App.php");
-require_once("scraping.php");
+// require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 $rol = isAdmin(); //Return session admin or null
 
 
-// $categoria = explode( "|", $_GET["category"]);
-$categoria = explode( "|", $_GET["categoria"]);
+// $categoria = explode( "|", $_GET["categoria"]);
+$categoria =  $_GET["categoria"];
 
-$catBBDD = false;
-if(count($categoria) > 1){
+// $catBBDD = false;
+// if(count($categoria) > 1){
 	// [0] ID categoría [1] Nombre de la categoría
 	$catBBDD = true;
 	$categoriasBBDD = new Categorias();
-	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
+	$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria);	
+
 	
-} else if(count($categoria) == 1){
-	$categoryName = getNameCategory($categoria[0]);
-	$IdsVideos = getIDsVideos($categoria[0]);
-} else{
-	// $categoryName = "NO HAY VÍDEOS";
-	// $IdsVideos = getIDsVideos($categoria[0]);
-}
+// } 
+// else if(count($categoria) == 1){
+// 	$categoryName = getNameCategory($categoria[0]);
+// 	$IdsVideos = getIDsVideos($categoria[0]);
+// } else{
+// 	// $categoryName = "NO HAY VÍDEOS";
+// 	// $IdsVideos = getIDsVideos($categoria[0]);
+// }
 
 
 $videos = array();
@@ -127,7 +129,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 				<div style="padding: 30px 0px 60px 0px">
 					<div class="row uniform">
 						<div class="8u 12u$(small)" >
-							<h3><?php echo $catBBDD ?  $categoria[1] : $categoryName;?></h3>
+							<h3><?= $categoriasBBDD->getNameCategory($categoria)[0]['nombre_categoria']?></h3>
 						</div>			
 						
 						<!-- Buscador -->

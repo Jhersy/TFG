@@ -14,7 +14,7 @@ Class DAOCategorias{
 
     function getCategories(){
         try {
-            $sql = "SELECT * FROM categorias";
+            $sql = "SELECT * FROM categorias WHERE blog = '0'";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $res = $stmt->fetchAll();
@@ -25,6 +25,18 @@ Class DAOCategorias{
         return $res;
     }
 
+    function getCategoriesBlog(){
+        try {
+            $sql = "SELECT * FROM categorias WHERE blog = '1'";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOCategorias: " . $e->getMessage();
+        }
+        return $res;
+    }
     function setNewCategory($categoria, $blog){
         try{
             $sql = "INSERT INTO categorias (nombre_categoria, blog) VALUES (:categoria, :blog)";
@@ -82,6 +94,19 @@ Class DAOCategorias{
             return null;
             }
           return true;
+    }
+
+    function getNameCategory($id_categoria){
+        try {
+            $sql = "SELECT nombre_categoria FROM categorias WHERE id_categoria = :id_categoria";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["id_categoria" => $id_categoria]);
+            $res = $stmt->fetchAll();
+            
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOCategorias: " . $e->getMessage();
+        }
+        return $res;
     }
 }
 ?>

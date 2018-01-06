@@ -14,6 +14,10 @@ Class Categorias{
         return  $this->daoCategorias->getCategories();
     }
 
+    function getCategoriesBlog(){
+        return  $this->daoCategorias->getCategoriesBlog();
+    }
+
     function setCategory($category, $blog){
 
             $categoria =  str_replace(array("á","é","í","ó","ú","ñ","Á","É","Í","Ó","Ú","Ñ","´p"),
@@ -38,6 +42,10 @@ Class Categorias{
 
     function disableCategories(){
         return $this->daoCategorias->disableCategories();
+    }
+
+    function getNameCategory($id_categoria){
+        return $this->daoCategorias->getNameCategory($id_categoria);
     }
 }
 ?>

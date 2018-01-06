@@ -39,5 +39,9 @@ Class Videos{
             $this->daoVideos->setVideosWithCategory($id_video, utf8_decode($title_video), "0");
         }
     }
+
+    function getAllVideos(){
+        return $this->daoVideos->getAllVideos();
+    }
 }
 ?>

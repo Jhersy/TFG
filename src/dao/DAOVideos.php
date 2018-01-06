@@ -60,5 +60,17 @@ Class DAOVideos{
             }
           return $id;
     }
+
+    function getAllVideos() {
+        try {
+            $sql = "SELECT id_video, titulo FROM videos WHERE id_categoria =  (:categoria) ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(["categoria" => $categoria]);
+            $res = $stmt->fetchAll();
+        } catch(PDOException $e) {
+            echo "ERROR EN DAOVideos: " . $e->getMessage();
+        }
+        return $res;
+    }
 }
 ?>
