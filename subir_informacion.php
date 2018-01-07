@@ -27,7 +27,9 @@ if(!is_null($rol)){
     <title>Subir información adicional</title>
 
     <script>
-
+        function ayuda(){
+            alert('Recuerde que solo se puede subir un archivo. Se podrán subir archivos de menos de 130 MB y de formato (.jpg, .png, .pdf, .txt, .zip)');
+        }
         function subirInformacion(){
             if($("input:checkbox:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_tipo option:selected" ).val() == "" ){
                 alert('Selecciona un vídeo y un tipo de archivo');
@@ -101,6 +103,7 @@ if(!is_null($rol)){
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
                                 <label for="elegir">Selecciona un vídeo:</label>
+                                <label  style="float:right;" onclick="ayuda()"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</label>
                                 <br>
                                 <div style="width:100%; height:22em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
                                     <ul class="alt">
@@ -117,7 +120,7 @@ if(!is_null($rol)){
                                     </ul>
                                 </div>
                                 <br>
-                                <div class="12u$">
+                                <!-- <div class="12u$">
                                     <div class="select-wrapper">
                                         <select id="select_tipo" name="tipo">
                                             <option value="">- Selecciona tipo de archivo -</option>
@@ -125,17 +128,20 @@ if(!is_null($rol)){
                                             <option value="imagen">Imagen (.img)</option>
                                         </select>                                           
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <br>
-                                <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg" required/>
+                                <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg, .pdf, .zip, .jpg, .png" required/>
+
 
                             </div>
+                            
+                            
                         </form>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="button" data-dismiss="modal">Cancelar</button>
-                            <button onclick="subirInformacion()" type="button" class="button special">Subir</button>
+                            <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
+                            <button onclick="subirInformacion()" type="button" class="button small special">Subir</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>

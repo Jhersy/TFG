@@ -253,7 +253,7 @@ $sesion = $_SESSION['sesion'];
                         </div>
                         <div class="9u 6u$(small)">
 
-                                        <a class="button small " download="<?php echo $videoSnippet['title'] . '.txt' ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
+                            <a class="button small " download="<?php echo $videoSnippet['title'] . getTipoDescarga($tipos[0]['tipo']) ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
 
                         </div>                                 
                     </div>

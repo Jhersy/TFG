@@ -81,38 +81,6 @@
             echo 'ERROR AL INSERTAR';    
         }
 
-// }
-    // } catch (PDOException $e) {
-    //     print "¡Error!: " . $e->getMessage() . "<br/>";
-    //     die();
-    // }
-    
-    // $filename = "yourfile.mp3";
-    // $content = file_get_contents($_FILES['file']['tmp_name']);
-    // $f = fopen($filename, 'w');
-    // fwrite($f, $content);
-    // fclose($f);
-    
-    // header("Cache-Control: public");
-    // header("Content-Description: File Transfer");
-    // header("Content-Length: ". filesize("$filename").";");
-    // header("Content-Disposition: attachment; filename=$filename");
-    // header("Content-Type: application/octet-stream; "); 
-    // header("Content-Transfer-Encoding: binary");
-    
-    // readfile($filename);
- 
-    //         $videos = new Videos();
-    //         $videos->insertNewVideo($id_video, $title_video);
-
-    //         $subtitulos = new Subtitulos();
-    //         $subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma);
-    //         echo "Subtítulo subido con éxito";
-
-// }else{
-//     echo  $message;
-// }
-
 
 
 ?>

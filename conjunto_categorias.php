@@ -37,7 +37,9 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
     <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
     <script>
-
+        function ayuda(){
+            alert('Si se selecciona vídeos que estaban en otra categoría, éstos pasarán a formar parte de la nueva categoría.');
+        }
         function guardarCategoria(){
 
             /* Se pregunta si se desea continuar (esto podría actualizar la categoría del vídeo) */
@@ -171,6 +173,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label" >Nombre de la categoría:</label>
+                                <label  style="float:right;" onclick="ayuda()"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</label>
                                 <input type="text" class="form-control" name="nameCategory" id="nombreCategoria" required>
                             </div>
                             <div class="form-group">
@@ -194,8 +197,8 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         </form>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="button" data-dismiss="modal">Cancelar</button>
-                            <button onclick="guardarCategoria()" type="button" class="button special">Aceptar</button>
+                            <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
+                            <button onclick="guardarCategoria()" type="button" class="button  small special">Aceptar</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>

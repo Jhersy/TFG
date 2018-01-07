@@ -27,13 +27,13 @@ require_once("src/App.php");
             <div class="modal-content">
                 <div class="modal-header">
                     <a type="button" class="close" data-dismiss="modal">&times;</a>
-                    <h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión</h3>
+                    <h3><span class="glyphicon glyphicon-lock"></span> Iniciar sesión como administrador</h3>
                 </div>
                 <div class="modal-body">
                     <form role="form" action="login.php" method="post">
                         <div class="form-group">
                             <label for="username"><span class="glyphicon glyphicon-user"></span> Usuario</label>
-                            <input type="text" class="form-control" id="username" name="name" placeholder="Introduce identificador de usuario">
+                            <input type="text" class="form-control" id="username" name="name" placeholder="Introduce un identificador de administrador">
                         </div>
                         <div class="form-group">
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>

@@ -53,4 +53,30 @@ function formato_utf8($cadena){
 }
 
 
+function getTipoDescarga($tipo_archivo){
+    $tipo_descarga = "";
+    switch ($tipo_archivo) {
+        case 'application/pdf':
+                $tipo_descarga = ".pdf";
+            break;
+        case 'text/plain':
+            $tipo_descarga = ".txt";
+        break;     
+        case 'application/x-zip-compressed':
+            $tipo_descarga = ".zip";
+        break;  
+        case 'image/jpeg':
+            $tipo_descarga = ".jpg";
+        break;  
+        case 'image/png':
+            $tipo_descarga = ".png";
+        break;  
+        default:
+            $tipo_descarga = ".txt";
+        break;
+    }
+
+    return $tipo_descarga;
+}
+
 ?>

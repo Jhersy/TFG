@@ -212,7 +212,7 @@ if(!is_null($rol)){
                                 ?>
                                 <li>
                                     <input type="checkbox" id="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma']; ?>" name="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma']; ?>"  />
-                                    <label style="width:100%" for="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma'];?>"> <?= $captions->getTitleCaption($subtitulo['id_subtitulo'])[0]['titulo'] . ' - ' . $subtitulo['idioma'] ;?></label>                                    
+                                    <label style="width:100%" for="<?= $subtitulo['id_subtitulo'] . '|' . $subtitulo['idioma'];?>"> <?= $captions->getTitleCaption($subtitulo['id_subtitulo'])[0]['titulo'] . ' - ' . strtoupper($subtitulo['idioma']) ;?></label>                                    
                                 </li>	                                        
                                 <?php
                                     }
