@@ -207,7 +207,7 @@ $sesion = $_SESSION['sesion'];
 
 
                     <div class="row uniform">
-                        <div class="2u 12u$(small)" style="padding-top:2em;">
+                        <div class="1.5u 12u$(small)" style="padding-top:2em;">
                             <p><strong>Descargar subtítulo: </strong></p>                        
                         </div>
 
@@ -248,12 +248,12 @@ $sesion = $_SESSION['sesion'];
                     
                     <!-- DESCARGAR INFOMRACIÓN ADICIONAL -->
                     <div class="row uniform">
-                        <div class="3u 6u$(small)" style="padding-top:2em;">
+                        <div class="2.5u 6u$(small)" style="padding-top:2em;">
                             <p><strong>Descargar información adicional: </strong></p>                        
                         </div>
                         <div class="9u 6u$(small)">
 
-                                        <a class="button small icon fa-download" download="<?php echo $videoSnippet['title'] . '.txt' ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
+                                        <a class="button small " download="<?php echo $videoSnippet['title'] . '.txt' ?>" href="data:text/plain;base64, <?php echo base64_encode($tipos[0]['archivo'])?>"> Descargar </a>
 
                         </div>                                 
                     </div>

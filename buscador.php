@@ -13,7 +13,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   
   require_once("src/logic/Subtitulos.php");
   require_once("src/App.php");
-  
+  require_once("src/logic/Informacion.php");
   $rol = isAdmin(); //Return session admin or null
   $query = quitar_tildes($_GET['query']); 
   $query = strtolower($query);
@@ -342,7 +342,24 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                             <li>
                                                 <p><i class="fa fa-television" aria-hidden="true"> </i> <?= $arrayVideosSubtitulos[$i]->definicion?></p>
                                             </li>
-                                        <?php } ?>
+                                        <?php } 
+                                            $subtitulos = new Subtitulos();
+                                            if($subtitulos->existCaption($arrayVideosSubtitulos[$i]->idVideo)){ 
+                                        ?>
+                                            <li>
+                                                <strong><p><i class="fa fa-file-o" aria-hidden="true"></i></i> Subtítulo</p></strong>
+                                            </li>
+                                        <?php
+                                            } 
+                                            $informacion = new Informacion();
+                                            if($informacion->existInformation($arrayVideosSubtitulos[$i]->idVideo)){ 
+                                        ?>
+                                            <li>
+                                                <strong><p><i class="fa fa-paperclip" aria-hidden="true"></i> Info extra</p></strong>
+                                            </li>
+                                        <?php
+                                            } 
+                                        ?>
                                     </ul>
 									
 
@@ -371,10 +388,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                        }else{
                                                             $lineaInfo .=  $infoSubtitulo[$i] . " (...)\"";
                                                        }
-                                                        
-                                                        // for ($i=0; $i < count($info); $i++) { 
-                                                        //     echo '<a class="button small">' .  $info[$i] . '</a>';
-                                                        // }
                                                     }
                                                     $lineaInfo .= "</a> <br>";
                                                     echo $lineaInfo;
@@ -442,7 +455,24 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                             <li>
                                                 <p><i class="fa fa-television" aria-hidden="true"> </i> <?= $resultYoutube->definicion?></p>
                                             </li>
-                                        <?php } ?>
+                                        <?php } 
+                                                $subtitulos = new Subtitulos();
+                                                if($subtitulos->existCaption($resultYoutube->idVideo)){ 
+                                            ?>
+                                                <li>
+                                                    <strong><p><i class="fa fa-file-o" aria-hidden="true"></i></i> Subtítulo</p></strong>
+                                                </li>
+                                            <?php
+                                                } 
+                                                $informacion = new Informacion();
+                                                if($informacion->existInformation($resultYoutube->idVideo)){ 
+                                            ?>
+                                                <li>
+                                                    <strong><p><i class="fa fa-paperclip" aria-hidden="true"></i> Info extra</p></strong>
+                                                </li>
+                                            <?php
+                                                } 
+                                            ?>
                                     </ul>
 
 
@@ -470,9 +500,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                            }else{
                                                                 $lineaInfo .=  $infoSubtitulo[$i] . " (...)\"";
                                                            }
-                                                        // for ($i=0; $i < count($info); $i++) { 
-                                                        //     echo '<a class="button small">' .  $info[$i] . '</a>';
-                                                        // }
                                                     }
                                                     $lineaInfo .= "</a> <br>";
                                                     echo $lineaInfo;

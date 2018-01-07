@@ -13,7 +13,7 @@ Class DAOVideos{
 
       function getVideosOfCategory($categoria) {
         try {
-            $sql = "SELECT id_video, titulo FROM videos WHERE id_categoria =  (:categoria) ";
+            $sql = "SELECT id_video, titulo FROM videos WHERE id_categoria =  (:categoria) ORDER BY titulo";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["categoria" => $categoria]);
             $res = $stmt->fetchAll();

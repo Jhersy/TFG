@@ -3,6 +3,8 @@
 
 require_once("src/App.php");
 require_once("src/logic/Categorias.php");
+require_once("src/logic/Informacion.php");
+require_once("src/logic/Subtitulos.php");
 $rol = isAdmin(); //Return session admin or null
 
 $categoria =  $_GET["categoria"];
@@ -171,7 +173,24 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 													<li>
 														<p><i class="fa fa-television" aria-hidden="true"> </i> <?= strtoupper($videos[$i]['contentDetails']['definition']);?></p>
 													</li>
-												<?php } ?>
+												<?php } 
+													$subtitulos = new Subtitulos();
+													if($subtitulos->existCaption($videos[$i]['id'])){ 
+												?>
+													<li>
+														<strong><p><i class="fa fa-file-o" aria-hidden="true"></i></i> Subtítulo</p></strong>
+													</li>
+												<?php
+													} 
+													$informacion = new Informacion();
+													if($informacion->existInformation($videos[$i]['id'])){ 
+												?>
+													<li>
+													<strong><p><i class="fa fa-paperclip" aria-hidden="true"></i> Info extra</p></strong>
+													</li>
+												<?php
+													} 
+												?>
 											</ul>
 									</td>
 								</tr>
