@@ -1,7 +1,7 @@
 <?php
-require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 require_once("src/App.php");
+require_once("src/logic/Videos.php");
 
 $rol = isAdmin(); //Return session admin or null
 
@@ -12,9 +12,9 @@ $categories = new Categorias();
 $categorias = array();
 $categorias =  $categories->getCategories();
 
-/* Scrapping: Se recogen los vídeos disponibles en el blog para categorizarlos */
+$videosBBDD = new Videos();
 $videos = array();
-$videos = getAllIDsVideos();
+$videos = $videosBBDD->getAllVideos();
 
 
 $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
@@ -181,8 +181,8 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                             foreach($videos as $video){ 
                                         ?>
                                         <li>
-                                        <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>">
-                                        <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>
+                                        <input type="checkbox" id="<?=$video['id_video']?>" name="<?=$video['id_video']?>">
+                                        <label style="width:100%" for="<?=$video['id_video']?>"><?=$video['titulo']?></label>
                                         </li>	
                                         
                                         <?php

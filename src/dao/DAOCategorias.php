@@ -39,7 +39,7 @@ Class DAOCategorias{
     }
     function setNewCategory($categoria, $blog){
         try{
-            $sql = "INSERT INTO categorias (nombre_categoria, blog) VALUES (:categoria, :blog)";
+            $sql = "INSERT INTO categorias (nombre_categoria, visible, blog) VALUES (:categoria, 1 , :blog)";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["categoria" => $categoria, "blog" => $blog]);
             $id = $this->conn->lastInsertId();

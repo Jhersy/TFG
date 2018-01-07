@@ -1,13 +1,13 @@
 <?php
 require_once("src/App.php");
-require_once("scraping.php");
 require_once("src/logic/Subtitulos.php");
+require_once("src/logic/Videos.php");
 
 $rol = isAdmin(); //Return session admin or null
 try {
-    //Scraping
+    $videosBBDD = new Videos();
     $videos = array();
-    $videos = getAllIDsVideos();
+    $videos = $videosBBDD->getAllVideos();
 } catch (Exception $e) {
     redirect("subir_subtitulos.php");
 }
@@ -147,8 +147,8 @@ if(!is_null($rol)){
                                             foreach($videos as $video){ 
                                         ?>
                                         <li>
-                                            <input type="checkbox" id="<?=$video[0]?>" name="<?=$video[0]?>" >
-                                            <label style="width:100%" for="<?=$video[0]?>"><?=$video[1]?></label>                                    
+                                            <input type="checkbox" id="<?=$video['id_video']?>" name="<?=$video['id_video']?>" >
+                                            <label style="width:100%" for="<?=$video['id_video']?>"><?=$video['titulo']?></label>                                    
                                         </li>	                                        
                                         <?php
                                         }
@@ -181,8 +181,8 @@ if(!is_null($rol)){
                         <a onclick="verInformacion()">Ver formato del archivo del subtítulo (.srt)</a>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="button" data-dismiss="modal">Cancelar</button>
-                            <button onclick="subirSubtitulo()" type="button" class="button special">Subir</button>
+                            <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
+                            <button onclick="subirSubtitulo()" type="button" class="button special small">Subir subtítulo</button>
                         </div>
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                 </div>

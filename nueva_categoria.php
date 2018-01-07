@@ -24,7 +24,7 @@ if(!is_null($rol)){
     $categorias = new Categorias();
     $videos = new Videos();
 
-    $id_categoria = $categorias->setCategory($category);
+    $id_categoria = $categorias->setCategory($category, '0');
     $videos->setVideosWithCategory($id_categoria, $array_ids, $array_name_videos);
 
     /*

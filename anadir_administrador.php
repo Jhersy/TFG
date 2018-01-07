@@ -141,7 +141,7 @@ if(!is_null($rol)){
                         </div>
                             <div class="modal-footer">
                                 <button type="button" class="button small" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" onclick="insertAdmin()"  class="button special small"<span class="glyphicon glyphicon-off"></span> Añadir usuario</button>
+                                <button type="submit" onclick="insertAdmin()"  class="button special small"<span class="glyphicon glyphicon-off"></span> Añadir administrador</button>
                             </div>
                             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
                     </div>

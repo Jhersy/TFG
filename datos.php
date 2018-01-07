@@ -2,6 +2,7 @@
 require_once('scraping.php');
 require_once('src/logic/Categorias.php');
 require_once('src/logic/Videos.php');
+require_once('src/App.php');
 
 $categorias = array();
 $categorias = getAllCategories();
@@ -29,4 +30,7 @@ foreach ($categorias as $categoria) {
     $j++;
 }
 
+
+
+redirect('index.php');
 ?>

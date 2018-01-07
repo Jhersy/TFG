@@ -1,6 +1,5 @@
 <?php
 require_once("src/App.php");
-// require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 
 $icons = array('icon fa fa-users', 'icon fa fa-language', 'icon fa fa-comments', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
@@ -113,18 +112,16 @@ $rol = isAdmin(); //Return session admin or null
 								//SI SE MUESTRA CATEGORIAS DE LA BBDD, PASAR EN VALUE OTRO CAMPO INDICANDO QUE SE MIRE EN LA BBDD
 								$categoriasBBDD = new Categorias();
 								$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
-								$categoriaScraping = false;
+								
 								if(empty($categoriasVisibles)){
-									// $categoriasVisibles = getAllCategories();
 									$categoriasVisibles = $categoriasBBDD->getCategoriesBlog();
-									// $categoriaScraping = true;
 								}
 
 								foreach ($categoriasVisibles as $category) { ?>
 									<article >
 										<span class="<?=$icons[$i];?>"></span>
 										<div class="content">
-											<h3 ><a href="list_videos.php?categoria=<?= $i//$categoriaScraping ?  $i : $category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria'] //$categoriaScraping ?  $category : $category['nombre_categoria']?></a></h3>
+											<h3 ><a href="list_videos.php?categoria=<?= $i?>"><?=$category['nombre_categoria']?></a></h3>
 										</div>
 									</article>
 									<?php

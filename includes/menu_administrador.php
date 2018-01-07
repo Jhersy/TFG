@@ -1,6 +1,5 @@
 <?php
 require_once("src/App.php");
-require_once("scraping.php");
 require_once("src/logic/Categorias.php");
 ?>
 <!-- Sidebar -->
@@ -21,16 +20,14 @@ require_once("src/logic/Categorias.php");
 						//SI SE MUESTRA CATEGORIAS DE LA BBDD, PASAR EN VALUE OTRO CAMPO INDICANDO QUE SE MIRE EN LA BBDD
 						$categoriasBBDD = new Categorias();
 						$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
-						$categoriaScraping = false;
 
 						//Si no hay categorías visibles, recoge vía scrapping las del blog
 						if(empty($categoriasVisibles)){
-							$categoriasVisibles = getAllCategories();
-							$categoriaScraping = true;
+							$categoriasVisibles = $categoriasBBDD->getCategoriesBlog();
 						}
 
 						foreach ($categoriasVisibles as $category) { ?>
-									<li><a href="list_videos.php?categoria=<?=$categoriaScraping ?  $i : $category['id_categoria'] . "|" . $category['nombre_categoria']?>"><?= $categoriaScraping ?  $category : $category['nombre_categoria']?></a></li>
+									<li><a href="list_videos.php?categoria=<?=$i?>"><?=$category['nombre_categoria'] ?></a></li>
 							<?php
 							$i++;
 						}

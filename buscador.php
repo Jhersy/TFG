@@ -15,8 +15,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   require_once("src/App.php");
   
   $rol = isAdmin(); //Return session admin or null
-  $query = strtolower($_GET['query']); 
-  
+  $query = quitar_tildes($_GET['query']); 
+  $query = strtolower($query);
 //   if(!is_null($query/*$_GET['query']*/)){
   
     //  session_start();
@@ -154,12 +154,15 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                         $sub->text = $subText;
                         $subText = '';
                         $state = SRT_STATE_SUBNUMBER;
-                        $palabraBusqueda = "/" . quitar_tildes($query) . "\b/";  //Expresión regular para buscar palabra exacta
-                        $linea_texto = quitar_tildes($sub->text);
+                        $palabraBusqueda = "/" . $query . "\b/";  //Expresión regular para buscar palabra exacta
+                        $linea_texto = $sub->text;
 
-
+                        //Se retiran las etiquetas HTML
+                        $linea_busqueda = strip_tags($linea_texto);
+                        //La búsqueda se realiza comparando caracteres sin tildes                        
+                        $linea_busqueda = quitar_tildes($linea_busqueda);
                         
-                        if(preg_match($palabraBusqueda ,  strip_tags($linea_texto))){
+                        if(preg_match($palabraBusqueda ,  $linea_busqueda)){
                             $captions[] = explode(",", $sub->startTime)[0] . "|" .  strip_tags($sub->text);
                         }
                     } else{
@@ -346,8 +349,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
                                     <?php if($arrayVideosSubtitulos[$i]->subtitulos){ 
                                         ?>
-                                        <p> <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
-                                            <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
+                                        <p> <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
+                                            <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
                                             <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a; font-size:18px"></i>
                                             </a>
                                             </strong> 

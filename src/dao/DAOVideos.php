@@ -63,9 +63,9 @@ Class DAOVideos{
 
     function getAllVideos() {
         try {
-            $sql = "SELECT id_video, titulo FROM videos WHERE id_categoria =  (:categoria) ";
+            $sql = "SELECT id_video, titulo FROM videos ORDER BY titulo";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["categoria" => $categoria]);
+            $stmt->execute();
             $res = $stmt->fetchAll();
         } catch(PDOException $e) {
             echo "ERROR EN DAOVideos: " . $e->getMessage();

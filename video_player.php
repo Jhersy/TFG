@@ -1,7 +1,6 @@
 <?php
 
 require_once("src/App.php");
-require_once("scraping.php");
 require_once("src/logic/Subtitulos.php");
 require_once("src/logic/Informacion.php");
 require_once("src/logic/Categorias.php");
@@ -11,25 +10,16 @@ $videoId = $_GET['id_video'];
 
 $categoria = "";
 
-$catBBDD = false;
 $busqueda = false;
 $miga = "";
 $segundos = 0;
 if(count($_GET) == 2){
-    if(!is_null($_GET['categoria'])){
+    if(isset($_GET['categoria'])){
         $categoria = $_GET['categoria'];
-    }
-    $categoria = explode( "|", $categoria);
-
-    if(count($categoria) > 1){
-        $catBBDD = true;
+    
         $categoriasBBDD = new Categorias();
-        $IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria[0]);	
-        $miga = "<a href='list_videos.php?categoria=" . implode("|" , $categoria ) . "' >"  . $categoria[1] . " </a>";
-        
-    } else{
-        $miga = "<a href='list_videos.php?categoria=" .  $categoria[0] . "' >"  . getNameCategory($categoria[0]) . " </a>";
-        $IdsVideos = getIDsVideos($categoria[0]);
+        $IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria);	
+        $miga = "<a href='list_videos.php?categoria=" . $categoria  . "' >"  . $categoriasBBDD->getNameCategory($categoria)[0]['nombre_categoria'] . " </a>";
     }
 
 }else if(count($_GET)> 2){
@@ -44,7 +34,6 @@ if(count($_GET) == 2){
     }
 }
 
-// list($videoId, $categoria) =  explode( ",", $_POST["datos_video"]);
 
 $sesion = $_SESSION['sesion'];
 
@@ -92,7 +81,7 @@ $sesion = $_SESSION['sesion'];
         $videos = array();
         foreach ($IdsVideos as $videoBusqueda) {        
             $carrusel = $youtube->videos->listVideos("snippet",
-            array('id' => $catBBDD ? $videoBusqueda['id_video'] : $videoBusqueda));
+            array('id' => $videoBusqueda['id_video']));
             array_push($videos, $carrusel[0]);
         }
     }
@@ -136,7 +125,7 @@ $sesion = $_SESSION['sesion'];
 
         $(document).ready(function() {
             $('#Carousel').carousel({
-                interval: 100000
+                interval: 10000
             })
             $('[data-toggle="tooltip"]').tooltip();   
         });
@@ -246,6 +235,7 @@ $sesion = $_SESSION['sesion'];
                             </form>     
                         </div>                                 
                     </div>
+                    <br>
 
                     <?php } ?>
 
@@ -391,11 +381,7 @@ $sesion = $_SESSION['sesion'];
                                 if($busqueda){
                                     $parametros = "&query=" . $query  . "&segundos=" . $segundos;
                                 }else{
-                                    if($catBBDD){
-                                        $parametros = "&categoria=" . implode("|" , $categoria);
-                                    }else{
-                                        $parametros = "&categoria=" . $categoria[0];
-                                    }                                  
+                                    $parametros = "&categoria=" . $categoria;
                                 }
                             ?>
                             <li style="float:right; padding: 0 0 0 0.5em;"><a onclick="insertComment(<?php echo "'" . $videoId . "','" . $parametros . "'"; ?>)" class="button special small">Comentar</a></li>
@@ -409,7 +395,7 @@ $sesion = $_SESSION['sesion'];
                     
                     foreach ($videoCommentThreads as $comment) { ?>
                         <dt><img class="img-circle" src="<?=$comment['snippet']['topLevelComment']['snippet']['authorProfileImageUrl']?>" alt="foto perfil usuario comentario"> <?=$comment['snippet']['topLevelComment']['snippet']['authorDisplayName']?></dt>
-                        <dd>
+                        <dd style="padding-bottom:1em;">
                             <p><?=$comment['snippet']['topLevelComment']['snippet']['textDisplay']?></p>
                         </dd>           
 
