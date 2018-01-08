@@ -40,18 +40,15 @@ if( !$message ) {
     $videos->insertNewVideo($id_video, $title_video);
 
     $informacion_adicional = new Informacion();
-    $informacion_adicional->newInformation($id_video, file_get_contents($_FILES['file']['tmp_name']), $fileType, $filesize);
-    echo "Información adicional subido con éxito.";
-
-
-    // $texto = base64_encode($res[0]['audio']);
-
-
-    //  echo '<a download="file_downloaded_via_data_URL.txt" href="data:text/plain;base64,' . $texto . '">
-    //      Download text file
-    //  </a>';        
-
+    //Comprueba si ya se había subido un archivo de información extra
+    if(!$informacion_adicional->existInformation($id_video)){
+        $informacion_adicional->newInformation($id_video, file_get_contents($_FILES['file']['tmp_name']), $fileType, $filesize);
+        echo "Información adicional subido con éxito.";       
     }else{
-        echo $message;
+        echo 'Ya existe información adicional adjuntada a este vídeo';
     }
+
+}else{
+    echo $message;
+}
 ?>

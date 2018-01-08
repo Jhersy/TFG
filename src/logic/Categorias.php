@@ -47,5 +47,9 @@ Class Categorias{
     function getNameCategory($id_categoria){
         return $this->daoCategorias->getNameCategory($id_categoria);
     }
+
+    function resetAutoIncrement(){
+        $this->daoCategorias->resetAutoIncrement();
+    }
 }
 ?>

@@ -394,7 +394,7 @@ $sesion = $_SESSION['sesion'];
                     <?php 
                     
                     foreach ($videoCommentThreads as $comment) { ?>
-                        <dt><img class="img-circle" src="<?=$comment['snippet']['topLevelComment']['snippet']['authorProfileImageUrl']?>" alt="foto perfil usuario comentario"> <?=$comment['snippet']['topLevelComment']['snippet']['authorDisplayName']?></dt>
+                        <dt><img class="img-circle" src="<?=$comment['snippet']['topLevelComment']['snippet']['authorProfileImageUrl']?>" alt="foto perfil  "> <?=$comment['snippet']['topLevelComment']['snippet']['authorDisplayName']?></dt>
                         <dd style="padding-bottom:1em;">
                             <p><?=$comment['snippet']['topLevelComment']['snippet']['textDisplay']?></p>
                         </dd>           

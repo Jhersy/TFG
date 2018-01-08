@@ -43,5 +43,9 @@ Class Videos{
     function getAllVideos(){
         return $this->daoVideos->getAllVideos();
     }
+
+    function resetAutoIncrement(){
+        $this->daoVideos->resetAutoIncrement();
+    }
 }
 ?>

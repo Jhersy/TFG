@@ -28,7 +28,7 @@ if(!is_null($rol)){
 
     <script>
         function ayuda(){
-            alert('Recuerde que solo se puede subir un archivo. Se podrán subir archivos de menos de 130 MB y de formato (.jpg, .png, .pdf, .txt, .zip)');
+            alert('Recuerde que solo se puede subir un archivo por vídeo. Se podrán subir archivos de menos de 130 MB y de formato (.jpg, .png, .pdf, .txt, .zip)');
         }
         function subirInformacion(){
             if($("input:checkbox:checked").length != 1 || $("#videoUploadFile")[0].files.length == 0 || $( "#select_tipo option:selected" ).val() == "" ){

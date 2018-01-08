@@ -108,5 +108,14 @@ Class DAOCategorias{
         }
         return $res;
     }
+    function resetAutoIncrement(){
+        try{
+            $sql = 'ALTER TABLE categorias AUTO_INCREMENT = 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+          } catch(PDOException $e) {
+                echo "ERROR EN DAOCategorias: " . $e->getMessage();
+            }
+    }
 }
 ?>

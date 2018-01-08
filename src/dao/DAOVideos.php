@@ -72,5 +72,15 @@ Class DAOVideos{
         }
         return $res;
     }
+
+    function resetAutoIncrement(){
+        try{
+            $sql = 'ALTER TABLE videos AUTO_INCREMENT = 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+          } catch(PDOException $e) {
+                echo "ERROR EN DAOVideos: " . $e->getMessage();
+            }
+    }
 }
 ?>
