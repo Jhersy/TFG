@@ -21,9 +21,8 @@ require_once("src/logic/Categorias.php");
 						$categoriasBBDD = new Categorias();
 						$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
 
-						//Si no hay categorías visibles, recoge vía scrapping las del blog
 						if(empty($categoriasVisibles)){
-							$categoriasVisibles = $categoriasBBDD->getCategoriesBlog();
+							$categoriasVisibles = $categoriasBBDD->getCategories('1');
 						}
 
 						foreach ($categoriasVisibles as $category) { ?>

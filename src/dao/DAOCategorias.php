@@ -12,11 +12,11 @@ Class DAOCategorias{
         $this->conn = \Connection::getInstance()->getconnection();
       }
 
-    function getCategories(){
+    function getCategories($blog){
         try {
-            $sql = "SELECT * FROM categorias WHERE blog = '0'";
+            $sql = "SELECT * FROM categorias WHERE blog = :blog";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
+            $stmt->execute(["blog" => $blog]);
             $res = $stmt->fetchAll();
             
         } catch(PDOException $e) {
@@ -25,18 +25,6 @@ Class DAOCategorias{
         return $res;
     }
 
-    function getCategoriesBlog(){
-        try {
-            $sql = "SELECT * FROM categorias WHERE blog = '1'";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $res = $stmt->fetchAll();
-            
-        } catch(PDOException $e) {
-            echo "ERROR EN DAOCategorias: " . $e->getMessage();
-        }
-        return $res;
-    }
     function setNewCategory($categoria, $blog){
         try{
             $sql = "INSERT INTO categorias (nombre_categoria, visible, blog) VALUES (:categoria, 1 , :blog)";
@@ -108,6 +96,7 @@ Class DAOCategorias{
         }
         return $res;
     }
+
     function resetAutoIncrement(){
         try{
             $sql = 'ALTER TABLE categorias AUTO_INCREMENT = 1';
@@ -117,5 +106,18 @@ Class DAOCategorias{
                 echo "ERROR EN DAOCategorias: " . $e->getMessage();
             }
     }
+
+    // function checkCategory($nombre_categoria){
+    //     try {
+    //         $sql = "SELECT nombre_categoria FROM categorias WHERE nombre_categoria = :nombre_categoria";
+    //         $stmt = $this->conn->prepare($sql);
+    //         $stmt->execute(["nombre_categoria" => $nombre_categoria]);
+    //         $res = $stmt->fetchAll();
+            
+    //     } catch(PDOException $e) {
+    //         echo "ERROR EN DAOCategorias: " . $e->getMessage();
+    //     }
+    //     return $res;
+    // }
 }
 ?>

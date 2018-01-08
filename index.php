@@ -114,7 +114,7 @@ $rol = isAdmin(); //Return session admin or null
 								$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
 								
 								if(empty($categoriasVisibles)){
-									$categoriasVisibles = $categoriasBBDD->getCategoriesBlog();
+									$categoriasVisibles = $categoriasBBDD->getCategories('1');
 								}
 
 								foreach ($categoriasVisibles as $category) { ?>

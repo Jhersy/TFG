@@ -10,13 +10,10 @@ Class Categorias{
         $this->daoCategorias = new DAOCategorias();
     }
 
-    function getCategories(){
-        return  $this->daoCategorias->getCategories();
+    function getCategories($blog){
+        return  $this->daoCategorias->getCategories($blog);
     }
 
-    function getCategoriesBlog(){
-        return  $this->daoCategorias->getCategoriesBlog();
-    }
 
     function setCategory($category, $blog){
 
@@ -51,5 +48,9 @@ Class Categorias{
     function resetAutoIncrement(){
         $this->daoCategorias->resetAutoIncrement();
     }
+
+    // function checkCategory($nombre_categoria){
+    //     return empty($this->daoCategorias->checkCategory($nombre_categoria));
+    // }
 }
 ?>

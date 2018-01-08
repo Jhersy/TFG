@@ -15,22 +15,22 @@ Class Videos{
         return $listVideos;
     }
 
-
+    //Cuando se crea una nueva categoría con uno o más vídeos
     function setVideosWithCategory($category, $IdsVideos, $nameVideo){
         for ($i=0; $i < count($IdsVideos) - 1; $i++) { 
             if(empty($this->daoVideos->checkVideoById($IdsVideos[$i]))){
-                echo 'INSERTO EN Videos.php';
                 $this->daoVideos->setVideosWithCategory($IdsVideos[$i], utf8_decode($nameVideo[$i]), $category);
             }else{
                 // Actualiza el id de la categoría del vídeo
-                echo 'No inserto en Videos.php';
                 $this->daoVideos->updateCategory($IdsVideos[$i], $category);
             }
         }
     }
     
     function setVideosCategory($category, $id_video, $title_video){
-        $this->daoVideos->setVideosWithCategory($id_video, $title_video, $category);
+        if(empty($this->daoVideos->checkVideoById($id_video))){
+            $this->daoVideos->setVideosWithCategory($id_video, $title_video, $category);
+        }
     }
 
     function insertNewVideo($id_video, $title_video){
@@ -47,5 +47,6 @@ Class Videos{
     function resetAutoIncrement(){
         $this->daoVideos->resetAutoIncrement();
     }
+
 }
 ?>

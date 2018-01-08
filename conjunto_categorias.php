@@ -10,7 +10,7 @@ if(!is_null($rol)){
 /* Se recogen las categorías creadas en la base de datos*/
 $categories = new Categorias();
 $categorias = array();
-$categorias =  $categories->getCategories();
+$categorias =  $categories->getCategories('0');
 
 $videosBBDD = new Videos();
 $videos = array();
