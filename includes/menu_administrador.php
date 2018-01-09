@@ -44,7 +44,7 @@ require_once("src/logic/Categorias.php");
 						<li><a href="subir_informacion.php">Subir información adicional</a></li>
 					</ul>
 				</li>
-				
+				<li><a onclick="Ejecutar('actualizar')" href="#">Actualizar la información del Blog</a></li>
 			</ul>
 		</nav>
 	</div>
