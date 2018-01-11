@@ -12,6 +12,7 @@ Class DAOCategorias{
         $this->conn = \Connection::getInstance()->getconnection();
       }
 
+    /* Función para mostrar las categorías que son o no del blog */
     function getCategories($blog){
         try {
             $sql = "SELECT * FROM categorias WHERE blog = :blog";
@@ -25,6 +26,7 @@ Class DAOCategorias{
         return $res;
     }
 
+    /* Añadir una nueva categoría */
     function setNewCategory($categoria, $blog){
         try{
             $sql = "INSERT INTO categorias (nombre_categoria, visible, blog) VALUES (:categoria, 1 , :blog)";
@@ -36,6 +38,8 @@ Class DAOCategorias{
           }
           return $id;
     }
+
+    /*Obtener las categorías visibles en la página web */
     function getCategoriesVisible(){
         try {
             $sql = "SELECT id_categoria, nombre_categoria FROM categorias WHERE visible = '1'";
@@ -49,6 +53,7 @@ Class DAOCategorias{
         return $res;
     }
 
+    /*Obtiene todos los vídeos que pertenecen a una categoría */
     function getVideosOfCategory($id_categoria){
         try {
             $sql = "SELECT video.id_video FROM `categorias` AS cat , videos AS video WHERE cat.visible='1' and cat.id_categoria = '$id_categoria' and video.id_categoria = '$id_categoria'";
@@ -62,6 +67,7 @@ Class DAOCategorias{
         return $res;
     }
 
+    /* Hacer visible o no a una categoría */
     function updateCategory($id_categoria, $visible){
         try {
             $sql = "UPDATE categorias SET visible = ". $visible ." WHERE id_categoria = " . $id_categoria .  " ";
@@ -73,17 +79,7 @@ Class DAOCategorias{
           return true;
     }
 
-    function disableCategories(){
-        try {
-            $sql = "UPDATE categorias SET visible = 0 ";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-          } catch(PDOException $e) {
-            return null;
-            }
-          return true;
-    }
-
+    /* Obtener nombre de una categoría */
     function getNameCategory($id_categoria){
         try {
             $sql = "SELECT nombre_categoria FROM categorias WHERE id_categoria = :id_categoria";
@@ -97,6 +93,7 @@ Class DAOCategorias{
         return $res;
     }
 
+    /* Resetear auto increment de las categorías */
     function resetAutoIncrement(){
         try{
             $sql = 'ALTER TABLE categorias AUTO_INCREMENT = 1';

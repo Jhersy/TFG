@@ -17,7 +17,7 @@ require_once("src/logic/Categorias.php");
 					<ul>
 						<?php
 						$i = 0;
-						//SI SE MUESTRA CATEGORIAS DE LA BBDD, PASAR EN VALUE OTRO CAMPO INDICANDO QUE SE MIRE EN LA BBDD
+						// SE MUESTRAN LAS CATEGORÍAS VISIBLES QUE ESTÁN EN LA BASE DE DATOS
 						$categoriasBBDD = new Categorias();
 						$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
 

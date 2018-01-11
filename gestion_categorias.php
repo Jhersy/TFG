@@ -30,23 +30,8 @@ if(!is_null($rol)){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+	<script src="resources/assets/js/loading.js" ></script>
 
-	<script>
-		function visibleCategoriasBlog(){
-			var parametros = {
-			"visibleBlog" : "1"
-			}
-			$.ajax({
-			data:  parametros,
-			url:   'editar_categoria.php',
-			type:  'post',
-			success:  function (data) {
-				alert(data);
-				window.location.href = "gestion_categorias.php";
-			}
-			});
-		}
-	</script>
 </head>
 
 <body>
@@ -61,39 +46,10 @@ if(!is_null($rol)){
 				<!-- Header -->
 				<?php require('includes/cabecera.php'); ?>
 				<!-- 		-->
-				
-				<!-- Content -->
-				<section>
-                    <header class="main">
-						<h4>Categorías del Blog:</h4>								
-                    </header>
-                        <div class="features">
-                            
-                                <?php
-                                    $i = 0;
-                                    foreach ($categories as $category) { ?>
-                                            <article>
-                                                <span class="<?=$icons[$i];?>"></span>
-												<div class="content">
-													<a class="titulo_video" href="list_videos.php?categoria=<?=$i?>"><?=$category?></a>
-												</div>
-                                            </article>
-                                        <?php
-                                        $i++;
-                                    }
-                                ?>                            
-						</div>
-						<div class="9u 12u$(small)"></div>
-						<div class="3u 12u$(small)" style="float:right;">
-							<button class="button special small" onclick="visibleCategoriasBlog()">Usar este conjunto de categorías</button>		
-						</div>
-						<br>
-					</section>
-					
 					<section>
-                    <header class="main">
-						<h4>Categorías creadas y visibles:</h4>
-                    </header>
+						<header class="main">
+							<h4>Categorías creadas y visibles:</h4>
+						</header>
                         <div class="features">
                             
                                 <?php
@@ -102,7 +58,7 @@ if(!is_null($rol)){
                                     $j = 0;
                                     foreach ($categoriasVisibles as $category) { ?>
                                             <article>
-                                                <span class="<?=$icons[$i];?>"></span>
+                                                <span class="<?=$icons[$j];?>"></span>
 												<div class="content">
 													<a class="titulo_video" href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria']?></a>
 												</div>
@@ -124,7 +80,6 @@ if(!is_null($rol)){
                             </div>
 
 					</section>
-
 
 			</div>
 		</div>

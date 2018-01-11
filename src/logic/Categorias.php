@@ -37,10 +37,6 @@ Class Categorias{
         return $this->daoCategorias->updateCategory($id_categoria, $visible);
     }
 
-    function disableCategories(){
-        return $this->daoCategorias->disableCategories();
-    }
-
     function getNameCategory($id_categoria){
         return $this->daoCategorias->getNameCategory($id_categoria);
     }

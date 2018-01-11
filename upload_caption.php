@@ -134,10 +134,6 @@ if(!empty($eliminar_sub)){
                     $sub->text = $subText;
                     $subs[] = $sub;
                 }
-                // print_r($subs);
-                $videos = new Videos();
-                //Si no está el video lo inserto, sino no lo actualizo
-                $videos->insertNewVideo($id_video, $title_video);
 
                 $subtitulos = new Subtitulos();
                 if($subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma)){

@@ -369,8 +369,8 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                         <p> <a data-toggle="collapse" href="#collapseExample<?=$i?>" aria-expanded="false" aria-controls="collapseExample">
                                             <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
                                             <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a; font-size:18px"></i>
-                                            </a>
                                             </strong> 
+                                            </a>
                                         </p>
                                         <p class="collapse" id="collapseExample<?=$i?>">
 											<br>
@@ -478,11 +478,12 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 
                                         <?php if(!empty($resultYoutube->subtitulos)){ ?>
-                                            <p> <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
+                                            <p> 
                                                 <a data-toggle="collapse" href="#collapseExample<?=$filas?>" aria-expanded="false" aria-controls="collapseExample">
+                                                <strong>Este término se ha pronunciado en el vídeo en los siguientes momentos:
                                                 <i class="fa fa-hand-o-down" aria-hidden="true" style="color: #f56a6a; font-size:18px"></i>
-                                                </a>
                                                 </strong> 
+                                                </a>
                                             </p>
                                                 <p class="collapse" id="collapseExample<?=$filas?>">
 											<br>

@@ -11,6 +11,7 @@ Class DAOVideos{
         $this->conn = \Connection::getInstance()->getconnection();
       }
 
+      /* Obtiene los vídeos de una categoría */
       function getVideosOfCategory($categoria) {
         try {
             $sql = "SELECT id_video, titulo FROM videos WHERE id_categoria =  (:categoria) ORDER BY titulo";
@@ -23,7 +24,7 @@ Class DAOVideos{
         return $res;
     }
 
-
+    /* Relaciona los vídeos a una categoría */
     function setVideosWithCategory($id_video, $titulo, $categoria){
         try{
             $sql = "INSERT INTO videos (id_video, titulo, id_categoria) VALUES (:id_video, :titulo, :categoria)";
@@ -37,6 +38,7 @@ Class DAOVideos{
           return $id;
     }
 
+    /* Comprueba que existe un vídeo */
     function checkVideoById($id_video){
         try {
             $sql = "SELECT id_video FROM videos WHERE id_video =  (:video) ";
@@ -48,6 +50,8 @@ Class DAOVideos{
         }
         return $res;
     }
+
+    /* Actualiza la categoría de un vídeo */
     function updateCategory($id_video, $categoria){
         try{
             $sql = "UPDATE videos SET id_categoria = :categoria WHERE id_video = :id_video";
@@ -61,6 +65,7 @@ Class DAOVideos{
           return $id;
     }
 
+    /* Obtiene todos los vídeos de la BBDD */
     function getAllVideos() {
         try {
             $sql = "SELECT id_video, titulo FROM videos ORDER BY titulo";
@@ -73,6 +78,7 @@ Class DAOVideos{
         return $res;
     }
 
+    /* Resetea el auto incremente de la tabla */
     function resetAutoIncrement(){
         try{
             $sql = 'ALTER TABLE videos AUTO_INCREMENT = 1';

@@ -10,7 +10,7 @@ if(!is_null($rol)){
 /* Se recogen las categorías creadas en la base de datos*/
 $categories = new Categorias();
 $categorias = array();
-$categorias =  $categories->getCategories('0');
+$categorias =  $categories->getCategories("0");
 
 $videosBBDD = new Videos();
 $videos = array();
@@ -36,6 +36,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
     <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
+    <script src="resources/assets/js/loading.js" ></script>
     <script>
         function ayuda(){
             alert('Si se selecciona vídeos que estaban en otra categoría, éstos pasarán a formar parte de la nueva categoría.');
@@ -126,12 +127,11 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <div class="features">
 
                             <?php
-                                $i = 0;
                                 // foreach ($categorias as $categoria) {
-                                    for ($j=1; $j < count($categorias); $j++) { 
+                                    for ($j=0; $j < count($categorias); $j++) { 
                             ?>
                                 <article>
-                                    <span class="<?= $icons[$i]?>"></span>
+                                    <span class="<?= $icons[$j]?>"></span>
                                     <div class="content">
                                         <h4><a id= "<?=$categorias[$j]['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
                                         <button class="button special small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
@@ -139,7 +139,6 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                     </div>
                                 </article>
                             <?php
-                                $i++;
                             }
                             ?>
 

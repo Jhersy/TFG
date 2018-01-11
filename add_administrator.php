@@ -10,8 +10,6 @@ if(!is_null($rol)){
     isset($_POST['user']) ? $user = $_POST['user'] : $user = "";
     isset($_POST['pass']) ? $password = $_POST['pass'] : $password = "";
     isset($_POST['nameAdmins']) ? $deleteAdmins = $_POST['nameAdmins'] : $deleteAdmins = "";
-    
-    
 
     //Insertamos en la base de datos
     $usuarios = new Users();
@@ -39,10 +37,6 @@ if(!is_null($rol)){
             }
         }
     }
-
-
-
-
 }else{
     redirect("index.php");
 }

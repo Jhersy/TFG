@@ -28,6 +28,7 @@ if(!is_null($rol)){
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="resources/assets/js/loading.js" ></script>
     <title>Subir subtítulo</title>
     <script>
 
@@ -91,10 +92,11 @@ if(!is_null($rol)){
                     window.location.href = "subir_subtitulos.php";
                 }
             });
-            
         }
-
     }
+    function ayuda(){
+            alert('Seleccione un único vídeo, el lenguaje, y adjunte un subtítulo (archivo con extensión .srt)');
+        }
     </script>
 </head>
 <body>
@@ -140,6 +142,7 @@ if(!is_null($rol)){
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
                                 <label for="elegir">Selecciona un vídeo:</label>
+                                <label  style="float:right;" onclick="ayuda()"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</label>
                                 <br>
                                 <div style="width:100%; height:22em;  border:solid 0.5px #FAFAFA;   overflow:auto;">
                                     <ul class="alt">

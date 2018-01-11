@@ -10,7 +10,7 @@ $titleCaption = $subtitulos->getTitleCaption($id_subtitulo);
 
 $caracteres = array("?", "¿");
 $titulo = str_replace($caracteres, "", $titleCaption[0]['titulo']);
-$filename = str_replace( " ",  "_", $titulo) . ".srt"; // "yourfile.srt";
+$filename = str_replace( array(" ", ","),  "_", $titulo) . ".srt"; // "yourfile.srt";
 $f = fopen($filename, 'w');
 fwrite($f, $content[0]['archivo']);
 fclose($f);

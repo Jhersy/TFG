@@ -23,7 +23,7 @@ require_once("src/App.php");
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
 
-            <!-- Modal content-->
+            <!-- Modal AÑADIR ADMINISTRADOR -->
             <div class="modal-content">
                 <div class="modal-header">
                     <a type="button" class="close" data-dismiss="modal">&times;</a>

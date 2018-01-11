@@ -34,11 +34,6 @@ switch( $fileError ) {
 
 if( !$message ) { 
 
-
-    $videos = new Videos();
-    //Si no está el video lo inserto, sino no lo actualizo
-    $videos->insertNewVideo($id_video, $title_video);
-
     $informacion_adicional = new Informacion();
     //Comprueba si ya se había subido un archivo de información extra
     if(!$informacion_adicional->existInformation($id_video)){
