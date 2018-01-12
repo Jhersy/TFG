@@ -16,11 +16,16 @@ if(!is_null($rol)){
 
     $categorias = new Categorias();
     
-    if(!empty($category) && !empty($accion) ){
+    if($category != '' && $accion != '' ){
         //Actualiza la categoría a Visible o No Visible en la web en la base de datos        
         $categorias->updateCategory($category, $accion);
-        echo 'Categoría visible en la página principal';
+        if($accion == '0'){
+            echo 'Categoría no visible en la página principal';
+        }else{
+            echo 'Categoría visible en la página principal';
+        }
     }
+    
 
 }else{
     redirect("index.php");

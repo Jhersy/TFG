@@ -85,7 +85,7 @@ if(!is_null($rol)){
                         <article>
                             <span class="icon fa fa-plus small"></span>
                             <div class="content">
-                                <h4><a data-toggle="modal" data-target="#myModal2">Subir información adicional</a></h4>
+                                <h4><a data-toggle="modal" data-target="#myModal2">Subir información</a></h4>
                             </div>
                         </article>
                     </div>
@@ -98,7 +98,7 @@ if(!is_null($rol)){
                 <div class="modal-content">
                     <div class="modal-header">
                         <a type="button" class="close" data-dismiss="modal">&times;</a>
-                        <h4 class="modal-title" id="gridSystemModalLabel">Subir información adicional</h4>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Subir información</h4>
                     </div>
                     <div class="modal-body">
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
@@ -121,18 +121,9 @@ if(!is_null($rol)){
                                     </ul>
                                 </div>
                                 <br>
-                                <!-- <div class="12u$">
-                                    <div class="select-wrapper">
-                                        <select id="select_tipo" name="tipo">
-                                            <option value="">- Selecciona tipo de archivo -</option>
-                                            <option value="texto">Texto (.txt)</option>
-                                            <option value="imagen">Imagen (.img)</option>
-                                        </select>                                           
-                                    </div>
-                                </div> -->
 
                                 <br>
-                                <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg, .pdf, .zip, .jpg, .png" required/>
+                                <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg, .pdf, .zip, .png" required/>
 
 
                             </div>
