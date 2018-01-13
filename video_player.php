@@ -47,22 +47,25 @@ $sesion = $_SESSION['sesion'];
   $client->setClientId($OAUTH2_CLIENT_ID);
   $client->setClientSecret($OAUTH2_CLIENT_SECRET);
   
- 
   $client->setScopes('https://www.googleapis.com/auth/youtube.force-ssl');
   $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
       FILTER_SANITIZE_URL);
   $client->setRedirectUri($redirect);
   
+
+  
   // Define an object that will be used to make all API requests.
   $youtube = new Google_Service_YouTube($client);
   
     if (isset($_SESSION['sesion'])) {
-	    $client->setAccessToken($_SESSION['sesion']);
+        $client->setAccessToken($_SESSION['sesion']);
+        
+    }else{
+        echo 'NO HAYASD SESION';
     }
   
   if ($client->getAccessToken()) {
-      //$videoId = "wisbrPN9fbI";
-  
+      // ESTADÍSTICAS DE UN VÍDEO
       $listResponse = $youtube->videos->listVideos("snippet, statistics, player",array('id' => $videoId));
       
       $video = $listResponse[0];

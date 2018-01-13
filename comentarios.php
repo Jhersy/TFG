@@ -29,24 +29,26 @@ $youtube = new Google_Service_YouTube($client);
 // Check to ensure that the access token was successfully acquired.
 if ($client->getAccessToken()) {
   try {
-    /**#########################*/
+    // AÑADE EL TEXTO A COMENTARMENTAR
     $commentSnippet = new Google_Service_YouTube_CommentSnippet();
     $commentSnippet->setTextOriginal($TEXT);
     
-    # Create a top-level comment with snippet.
+    # Crea un comentario raiz
     $topLevelComment = new Google_Service_YouTube_Comment();
     $topLevelComment->setSnippet($commentSnippet);
-    # Create a comment thread snippet with channelId and top-level comment.
+
+    # Crea un hilo de comentarios
     $commentThreadSnippet = new Google_Service_YouTube_CommentThreadSnippet();
     $commentThreadSnippet->setChannelId($CHANNEL_ID);
     $commentThreadSnippet->setTopLevelComment($topLevelComment);
+
     # Create a comment thread with snippet.
     $commentThread = new Google_Service_YouTube_CommentThread();
     $commentThread->setSnippet($commentThreadSnippet);
     $commentThreadSnippet->setVideoId($VIDEO_ID);
-    // Call the YouTube Data API's commentThreads.insert method to create a comment.
+
+    // Inserta el nuevo comentario
     $videoCommentInsertResponse = $youtube->commentThreads->insert('snippet', $commentThread);
-    /**#########################*/
   
   } catch (Google_Service_Exception $e) {
       $htmlBody = "";

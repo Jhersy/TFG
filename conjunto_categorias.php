@@ -42,42 +42,39 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
             alert('Si se selecciona vídeos que estaban en otra categoría, éstos pasarán a formar parte de la nueva categoría.');
         }
         function guardarCategoria(){
-
-            /* Se pregunta si se desea continuar (esto podría actualizar la categoría del vídeo) */
-            
-                if($('#nombreCategoria').val().trim() == ""){
-                    alert("El nombre de la categoría no puede ser vacía");
-                }else if ($("input:checkbox:checked").length == 0){
-                    alert("Seleccione un vídeo para crear la categoría")
-                }else{
-                    var aceptar = confirm("Recuerda que puede haber vídeos que pertenezcan a otra categoría. En este caso, los vídeos seleccionados pasarán a formar parte de la nueva");
-                    if(aceptar){
-                        var $ids = "";
-                        var $names = "";
-                        $("input:checkbox:checked").each(function(){    
-                        var $this = $(this);    
-                            $ids += $this.attr("id") + "|";
-                            $names += $this.next().text() + "|";                    
-                        });
-        
-                        var parametros = {
-                                "nombreCategoria" : $('#nombreCategoria').val().trim(),
-                                "IdsVideos" : $ids,
-                                "nombreVideo" : $names
-                        };
-                        $.ajax({
-                                data:  parametros,
-                                url:   'nueva_categoria.php',
-                                type:  'post',
-                                success:  function () {
-                                    $('#myModal').hide();
-                                    alert('Categoría creada con éxito!');
-                                    window.location.href = "conjunto_categorias.php";
-                                }
-                        });
-                    }
-                    
+ 
+            if($('#nombreCategoria').val().trim() == ""){
+                alert("El nombre de la categoría no puede ser vacía");
+            }else if ($("input:checkbox:checked").length == 0){
+                alert("Seleccione un vídeo para crear la categoría")
+            }else{
+                var aceptar = confirm("Recuerda que puede haber vídeos que pertenezcan a otra categoría. En este caso, los vídeos seleccionados pasarán a formar parte de la nueva");
+                if(aceptar){
+                    var $ids = "";
+                    var $names = "";
+                    $("input:checkbox:checked").each(function(){    
+                    var $this = $(this);    
+                        $ids += $this.attr("id") + "|";
+                        $names += $this.next().text() + "|";                    
+                    });
+    
+                    var parametros = {
+                            "nombreCategoria" : $('#nombreCategoria').val().trim(),
+                            "IdsVideos" : $ids,
+                            "nombreVideo" : $names
+                    };
+                    $.ajax({
+                            data:  parametros,
+                            url:   'nueva_categoria.php',
+                            type:  'post',
+                            success:  function () {
+                                $('#myModal').hide();
+                                alert('Categoría creada con éxito!');
+                                window.location.href = "conjunto_categorias.php";
+                            }
+                    });
                 }
+            }
         }
 
 

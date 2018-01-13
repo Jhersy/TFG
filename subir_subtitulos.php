@@ -60,8 +60,6 @@ if(!is_null($rol)){
                     $('#myModal').hide();
                      window.alert(data);
                      window.location.href = "subir_subtitulos.php";
-                    // var newWindow = window.open("", "new window", "width=800, height=800");
-                    // newWindow.document.write(data);
                 }
             });
         }

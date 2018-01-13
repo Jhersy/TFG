@@ -6,8 +6,6 @@ class ExcepcionArchivo extends Exception { }
 require_once("src/logic/Subtitulos.php");
 require_once("src/logic/Videos.php");
 
-
-
 isset($_POST["subtitulos"]) ? $eliminar_sub = $_POST["subtitulos"] : $eliminar_sub = "";
 
 
@@ -16,13 +14,12 @@ if(!empty($eliminar_sub)){
     $errorEliminados = false;
     $subs = explode(",", $eliminar_sub);
     foreach ($subs as $sub) {
-            if(!empty($sub)){
-                $caption = explode("|", $sub);
-                if(!$subtitulos->deleteCaption($caption[0], $caption[1])){
-                    $errorEliminados = true;
-                }
+        if(!empty($sub)){
+            $caption = explode("|", $sub);
+            if(!$subtitulos->deleteCaption($caption[0], $caption[1])){
+                $errorEliminados = true;
             }
-
+        }
     }
     if($errorEliminados)
         echo 'Error al eliminar';
@@ -35,20 +32,9 @@ if(!empty($eliminar_sub)){
     isset($_GET["title"]) ? $title_video = $_GET["title"] : $title_video = "";
     isset($_GET["idioma"]) ? $idioma = $_GET["idioma"] : $idioma = "";
 
-
-    // $id_video = $_GET["id"];
-    // $title_video = $_GET["title"];
-    // $idioma = $_GET["idioma"];
-
-
     $fileName = $_FILES['file']['name'];
     $fileType = $_FILES['file']['type'];
     $fileError = $_FILES['file']['error'];
-    // $fileId = $_FILES['id_video'];
-    // $fileContent = file_get_contents($_FILES['file']['tmp_name']);
-    //$lines = file($_FILES['file']['tmp_name']);
-
-
 
     $message = "";
 
@@ -105,23 +91,14 @@ if(!empty($eliminar_sub)){
                             break;
 
                         case SRT_STATE_TEXT:
-                            if (trim($line) == '') {                             
-
-                                    // try{
-                                        $sub = new stdClass;
-                                        $sub->number = $subNum;    
-                                        list($sub->startTime, $sub->stopTime) = explode(' --> ', $subTime);
-                                        $sub->text   = $subText;
-                                        $subText     = '';
-                                        $state       = SRT_STATE_SUBNUMBER;    
-                                        $subs[]      = $sub;
-                                        
-                                    // } catch(Exception $e){
-                                    //     throw new ExcepcionArchivo('Línea ' .  $numLine . ' no tiene formato de segundos!');
-                                    //     throw $e;
-                                    // }
-
-
+                            if (trim($line) == '') {          
+                                $sub = new stdClass;
+                                $sub->number = $subNum;    
+                                list($sub->startTime, $sub->stopTime) = explode(' --> ', $subTime);
+                                $sub->text   = $subText;
+                                $subText     = '';
+                                $state       = SRT_STATE_SUBNUMBER;    
+                                $subs[]      = $sub;
                             } else {
                                 $subText .= $line;
                             }
@@ -136,6 +113,7 @@ if(!empty($eliminar_sub)){
                 }
 
                 $subtitulos = new Subtitulos();
+                
                 if($subtitulos->newCaption($id_video, file_get_contents($_FILES['file']['tmp_name']), $idioma)){
                     echo "Subtítulo subido con éxito";
                 }else{
@@ -151,8 +129,6 @@ if(!empty($eliminar_sub)){
     }else{
         echo  $message;
     }
-
-
     
 }
 ?>

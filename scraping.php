@@ -26,22 +26,6 @@ function getAllCategories(){
     return $allCategories;
 }
 
-/* Método que devuelve el nombre de una categoría específica */
-/***************************/
-    //NO SE USA
-/*****************************/
-function getNameCategory($idCategory){
-    $allCategories = array();
-    $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
-    $html = file_get_html( $url );
-    $categories = $html->find('div[class=entry-content] ol li');
-    $title = "";
-        $link = $categories[$idCategory]->find('a',0);
-        $title = $link->innertext; // NOMBRE DE LAS CATEGORÍAS
-    return $title;
-}
-
-
 /* Método que devuelve los IDs de vídeos  de una categoría del blog */
 function getIDsVideos($idCategory){
     $IDsVideosCategory = array();
@@ -66,40 +50,4 @@ function getIDsVideos($idCategory){
     }
     return $IDsVideosCategory;
 }
-
-/* Devuelve TODOS los IDs de vídeo del blog */
-/***************************/
-    //NO SE USA
-
-/*****************************/
-function getAllIDsVideos(){
-
-    $IDsVideosCategory = array();
-    $url = 'https://zaragozalinguistica.wordpress.com/charlas-de-zl-en-video/';
-    $html = file_get_html( $url );
-    $categories = $html->find('div[class=entry-content] ol li');
-
-    foreach( $categories as $category ){
-            $link = $category->find('a', 0);
-            $href = $link->href; // ENLACES DE CADA CATEGORÍA
-            $htmlCategory = file_get_html($href);
-            $listVideos = $htmlCategory->find('div[class=entry-content] p a');
-            foreach ($listVideos as $video) {
-                $urlVideo = $video->href;
-                $titleVideo = $video->innertext;
-
-                $htmlVideo = file_get_html($urlVideo);
-
-                foreach ($htmlVideo->find('meta[property=og:image]') as $element) {
-                    $cadena = explode("/", $element->content);
-                    array_push($IDsVideosCategory, array($cadena[4], $titleVideo));
-                }
-            }
-    }
-
-    return $IDsVideosCategory;
-}
-
-
-
 ?>

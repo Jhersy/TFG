@@ -17,9 +17,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   $rol = isAdmin(); //Return session admin or null
   $query = quitar_tildes($_GET['query']); 
   $query = strtolower($query);
-//   if(!is_null($query/*$_GET['query']*/)){
-  
-    //  session_start();
       
       $OAUTH2_CLIENT_ID = '88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com';
       $OAUTH2_CLIENT_SECRET = '4xobKsbsIv2nFo7XOhcadA6V';
@@ -43,50 +40,40 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     }
       
       if ($client->getAccessToken()) {
-          //$videoId = "wisbrPN9fbI";
-      
-          $searchResponse = $youtube->search->listSearch('id,snippet', array(
-            'q' => $query,
-            'channelId' => 'UCG_fXqOLea9FSTLoWZieaqw',
-            'maxResults' => '25',
-          ));
-  
-          
-          $resultSearchYoutube = array();
-          $arrayBBDD = array();
-          $arrayBBDD = buscarSubtitulos($query); // SE TRAE LOS VIDEOS EN LOS QUE LA PALABRA APARECE EN SU SUBTITULO
-      
-          // Add each result to the appropriate list, and then display the lists of
-          // matching videos, channels, and playlists.
-          foreach ($searchResponse['items'] as $searchResult) {
+        //LLAMADA AL MÉTODO DE LA API QUE REALIZA LA BÚSQUEDA
+        $searchResponse = $youtube->search->listSearch('id,snippet', array(
+        'q' => $query,
+        'channelId' => 'UCG_fXqOLea9FSTLoWZieaqw',
+        ));
+        
+        //BÚSQUEDA EN LOS SUBTÍTULOS
+        $resultSearchYoutube = array();
+        $arrayBBDD = array();
+        $arrayBBDD = buscarSubtitulos($query); // SE TRAE LOS VIDEOS EN LOS QUE EL TÉRMINO APARECE EN EL SUBTITULO
+    
+        foreach ($searchResponse['items'] as $searchResult) {
             switch ($searchResult['id']['kind']) {
-              case 'youtube#video':
-                /*Información que no devuelve el método search de la API*/
-                $videos = new stdClass();
-                $listResponseSearch = $youtube->videos->listVideos("snippet, contentDetails, statistics",
-                array('id' => $searchResult['id']['videoId']));
+                case 'youtube#video':
+                    $videos = new stdClass();
+                    //SE OBTIENEN LOS DATOS DE CADA VÍDEO RESULTANTE DE LA BÚSQUEDA DE YOUTUBE
+                    $listResponseSearch = $youtube->videos->listVideos("snippet, contentDetails, statistics",
+                    array('id' => $searchResult['id']['videoId']));
 
-                $videos->visualizaciones = $listResponseSearch[0]['statistics']['viewCount'];
-                $videos->comentarios = $listResponseSearch[0]['statistics']['commentCount'];
-                $videos->likes = $listResponseSearch[0]['statistics']['likeCount'];
-                $videos->duracion = getDuration($listResponseSearch[0]['contentDetails']['duration']);
-                $videos->definicion = strtoupper($listResponseSearch[0]['contentDetails']['definition']);
+                    $videos->visualizaciones = $listResponseSearch[0]['statistics']['viewCount'];
+                    $videos->comentarios = $listResponseSearch[0]['statistics']['commentCount'];
+                    $videos->likes = $listResponseSearch[0]['statistics']['likeCount'];
+                    $videos->duracion = getDuration($listResponseSearch[0]['contentDetails']['duration']);
+                    $videos->definicion = strtoupper($listResponseSearch[0]['contentDetails']['definition']);                
+                    $videos->thumnail = $searchResult['snippet']['thumbnails']['default']['url'];
+                    $videos->title = $searchResult['snippet']['title'];
+                    $videos->idVideo = $searchResult['id']['videoId'];
 
-                /* Información que devuelve el método SEARCH de la API */                
-                $videos->thumnail = $searchResult['snippet']['thumbnails']['default']['url'];
-                $videos->title = $searchResult['snippet']['title'];
-                $videos->idVideo = $searchResult['id']['videoId'];
-
-                $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
-                array_push($resultSearchYoutube , $videos);
+                    //SE AÑADEN LOS INSTANTES EN LOS QUE SE HA ENCONTRADO LA BÚSQUEDA DEL USUARIO EN UN SUBTÍTULO
+                    $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
+                    array_push($resultSearchYoutube , $videos);
                 break;
             }
-          }
-      
-        //   $htmlBody =   "<h3>Videos</h3><ul>$videos</ul>";
-
-
-        //    var_dump($resultSearchYoutube);
+        }
 
         $arrayVideosSubtitulos = array();
          foreach ($arrayBBDD as $videoBBDD) {
@@ -105,7 +92,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
             $datosVideo->idVideo = $videoBBDD->idVideo;
             array_push($arrayVideosSubtitulos, $datosVideo);
           }
-        //var_dump($arrayBBDD);
 
       }else{
           $state = mt_rand();
@@ -238,15 +224,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
 </head>
-<script>
-    function verVideo(idVideo, query, segundos){
-		$("#id_video").val(idVideo);
-		$("#query").val(query);
-        $('#segundos').val(segundos);
-		$("#viewVideo").submit();
-	}
-
-</script>
 
 <body>
 
@@ -380,7 +357,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                   /* $lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $id_video_subtitulo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
                                                    $lineaInfo = "<a style='text-decoration:none;' href='video_player.php?id_video=" . $id_video_subtitulo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                    for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                        if($i == 0){
@@ -493,7 +469,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
                                                 foreach ($subtitulos as $subtitulo) {
                                                     $infoSubtitulo = array();
                                                     $infoSubtitulo =  explode("|" , $subtitulo);
-                                                    /*$lineaInfo = "<a href='#' onclick=" . "\"verVideo('" . $resultYoutube->idVideo . "' , '" .  $_GET["query"] . "' , '" . getSeconds($infoSubtitulo[0]) . "')\">";*/
                                                    $lineaInfo = "<a c href='video_player.php?id_video=" . $resultYoutube->idVideo . "&query=" .  $_GET["query"] . "&segundos= " . getSeconds($infoSubtitulo[0]) . "'\>";
                                                     for($i = 0; $i< count($infoSubtitulo); $i++) {
                                                         if($i == 0){
