@@ -14,12 +14,13 @@ class Connection {
 
   static function createConnection() {
 
-    $servername = "localhost";
-    $username = "user_tfg";
-    $password = "user_tfg";
+    $servername = 'localhost';
+    $username = 'jhersy';
+    $password ='jhersy';
+    $dbname = 'prueba';
     
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=tfg;charset=utf8", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
     catch(PDOException $e)

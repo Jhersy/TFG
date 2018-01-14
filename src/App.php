@@ -1,6 +1,22 @@
 <?php
-
+// require_once dirname(__DIR__) . "/config/config.php";
 session_start();
+
+// function getHostDB(){
+//     return DB_HOST;
+// }
+
+// function getUserDB(){
+//     return DB_USER;
+// }
+
+// function getUserPassDB(){
+//     return DB_USER_PASS;
+// }
+
+// function getNameDB(){
+//     return DB_NAME;
+// }
 
 function sessionLogin($name, $role, $id) {
     $_SESSION["name"] = $name;

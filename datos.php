@@ -3,12 +3,61 @@ require_once('scraping.php');
 require_once('src/logic/Categorias.php');
 require_once('src/logic/Videos.php');
 require_once('src/App.php');
+require_once('config/config.php');
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 // Archivo para realizar el scraping y llenar la bbdd de todos los contenidos del blog
 // También se edita el upload_max_filesize para tratar con archivos de mayor tamaño
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+    /*************************************************************************/
+        /* CREACIÓN DE LA BASE DE DATOS */
+    /*************************************************************************/
+    if(isset($_POST['ejecutar'])){
+        if($_POST['ejecutar'] == 'recopilar'){
+            try {
+                $dbh = new PDO("mysql:host=" . DB_HOST , DB_ROOT, DB_ROOT_PASS);
+            
+                $dbh->exec("CREATE DATABASE " . DB_NAME . ";
+                        GRANT ALL PRIVILEGES ON " . DB_NAME .".* TO '" . DB_USER ."'@'localhost' IDENTIFIED BY '" .  DB_USER_PASS ."';
+                        FLUSH PRIVILEGES;") 
+                or die(print_r($dbh->errorInfo(), true));
+            
+            } catch (PDOException $e) {
+                die("DB ERROR: ". $e->getMessage());
+            }
+            
+    /*************************************************************************/
+        /* IMPORTACIÓN DE LAS TABLAS EN LA BASE DE DATOS */
+    /*************************************************************************/
+            $connection = mysqli_connect(DB_HOST, DB_USER, DB_USER_PASS, DB_NAME);
+            if (mysqli_connect_errno())
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            // Temporary variable, used to store current query
+            $templine = '';
+            // Read in entire file
+            $fp = fopen(DB_FILE, 'r');
+            // Loop through each line
+            while (($line = fgets($fp)) !== false) {
+                // Skip it if it's a comment
+                if (substr($line, 0, 2) == '--' || $line == '')
+                    continue;
+                // Add this line to the current segment
+                $templine .= $line;
+                // If it has a semicolon at the end, it's the end of the query
+                if (substr(trim($line), -1, 1) == ';') {
+                    // Perform the query
+                    if(!mysqli_query($connection, $templine)){
+                        print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+                    }
+                    // Reset temp variable to empty
+                    $templine = '';
+                }
+            }
+            mysqli_close($connection);
+            fclose($fp);
+        }
+    }
     /*************************************************************************/
     /* SCRAPING PARA RELLENAR LAS TABLAS DE VÍDEOS Y CATEGORÍAS DE LA BASE DE DATOS */
 

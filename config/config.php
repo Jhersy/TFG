@@ -1,9 +1,12 @@
 <?php
 
 define("DB_HOST", "localhost");
-define("DB_NAME", "tfg");
-define("DB_USER", "user_tfg");
-define("DB_PASS", "user_tfg");
+define("DB_ROOT", "root");
+define("DB_ROOT_PASS", "");
+define("DB_NAME", "prueba");
+define("DB_USER", "jhersy");
+define("DB_USER_PASS", "jhersy");
+define("DB_FILE", "sql/tfg.sql");
 
 /************************************/
 define("BASE_URL", "/TFG/");
