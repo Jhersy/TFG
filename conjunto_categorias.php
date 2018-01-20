@@ -17,7 +17,10 @@ $videos = array();
 $videos = $videosBBDD->getAllVideos();
 
 
-$icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
+$icons = array('icon fa fa-users small', 'icon fa fa-language small', 
+            'icon fa fa-comments small', 'icon fa-pencil-square-o small', 
+            'icon fa fa-users small', 'icon fa fa-language small', 
+            'icon fa fa-comments small', 'icon fa-pencil-square-o small');
 
 ?>
 <!DOCTYPE HTML>
@@ -64,7 +67,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                                 <article>
                                     <span class="<?= $icons[$j]?>"></span>
                                     <div class="content">
-                                        <h4><a id= "<?=$categorias[$j]['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
+                                        <h4><a id="<?=$categorias[$j]['id_categoria']?>" href="list_videos.php?categoria=<?=$categorias[$j]['id_categoria']?>"><?=$categorias[$j]['nombre_categoria']?></a></h4>
                                         <button class="button special small" onclick="editarCategoria(<?=$categorias[$j]['id_categoria'] . ", 1"?>)">Activar categoría</button>
                                         <button class="button small"  onclick="editarCategoria(<?=$categorias[$j]['id_categoria']  . ", 0"?>)">Desactivar categoría</button>     
                                     </div>

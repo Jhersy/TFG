@@ -2,7 +2,13 @@
 require_once("src/App.php");
 require_once("src/logic/Categorias.php");
 
-$icons = array('icon fa fa-users', 'icon fa fa-language', 'icon fa fa-comments', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o');
+$icons = array('icon fa fa-users small', 'icon fa fa-language small', 
+            'icon fa fa-comments small', 'icon fa-pencil-square-o small', 
+            'icon fa fa-users small', 'icon fa fa-language small', 
+			'icon fa fa-comments small', 'icon fa-pencil-square-o small',
+			'icon fa fa-users small', 'icon fa fa-language small', 
+			'icon fa fa-comments small', 'icon fa-pencil-square-o small');
+			
 $rol = isAdmin(); //Return session admin or null
 
 /* INICIO DE LA APLICACIÓN */

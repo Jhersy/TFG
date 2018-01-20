@@ -8,8 +8,10 @@ $rol = isAdmin(); //Return session admin or null
 
 $categories = getAllCategories();
 
-$icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa fa-comments small', 'icon fa-pencil-square-o small', 'icon fa-pencil-square-o', 'icon fa-pencil-square-o' , 'icon fa fa-comments small');
-
+$icons = array('icon fa fa-users small', 'icon fa fa-language small', 
+            'icon fa fa-comments small', 'icon fa-pencil-square-o small', 
+            'icon fa fa-users small', 'icon fa fa-language small', 
+            'icon fa fa-comments small', 'icon fa-pencil-square-o small');
 
 if(!is_null($rol)){
 ?>
@@ -43,40 +45,41 @@ if(!is_null($rol)){
 				<!-- Header -->
 				<?php require('includes/cabecera.php'); ?>
 				<!-- 		-->
-					<section>
-						<header class="main">
-							<h4>Categorías creadas y visibles:</h4>
-						</header>
-                        <div class="features">
-                            
-                                <?php
-                                    $categoriasBBDD = new Categorias();
-                                    $categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
-                                    $j = 0;
-                                    foreach ($categoriasVisibles as $category) { ?>
-                                            <article>
-                                                <span class="<?=$icons[$j];?>"></span>
-												<div class="content">
-													<a class="titulo_video" href="list_videos.php?categoria=<?=$category['id_categoria'] . "|" . formato_utf8($category['nombre_categoria'])?>"><?=$category['nombre_categoria']?></a>
-												</div>
-                                            </article>
-                                        <?php
-                                        $j++;
-                                    }
-                                ?>
-                        </div>
-					</section>
-					<section>
-                            <div class="features">
-                                <article>
-                                    <span class="icon fa fa-cog"></span>
-                                    <div class="content">
-                                        <h4><a href="conjunto_categorias.php">Administrar categorías</a></h4>
-                                    </div>
-                                </article>
-                            </div>
+				<section>
+					<div class="features">
+						<article>
+							<span class="icon fa fa-cog"></span>
+							<div class="content">
+								<h4><a href="conjunto_categorias.php">Administrar categorías</a></h4>
+							</div>
+						</article>
+					</div>
 
-					</section>
+				</section>
+				<section>
+					<header class="main">
+						<h4>Categorías creadas y visibles:</h4>
+					</header>
+					<div class="features">
+						
+						<?php
+							$categoriasBBDD = new Categorias();
+							$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
+							$j = 0;
+							foreach ($categoriasVisibles as $category) { ?>
+									<article>
+										<span class="<?=$icons[$j];?>"></span>
+										<div class="content">
+											<a class="titulo_video" href="list_videos.php?categoria=<?=$category['id_categoria']?>"><?=$category['nombre_categoria']?></a>
+										</div>
+									</article>
+								<?php
+								$j++;
+							}
+						?>
+					</div>
+				</section>
+
 
 			</div>
 		</div>

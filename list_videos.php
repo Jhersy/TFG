@@ -38,12 +38,19 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     }
 
   if ($client->getAccessToken()) {
+	
+	if($client->isAccessTokenExpired()) {
+		$client->refreshToken('refresh-token');
+		session_destroy();
+       	header('Location: index.php');
+	}else{  
       // ESTADÍSTICAS DE UN VÍDEO
       foreach ($IdsVideos as $videoId) {
         $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
         array('id' => $videoId['id_video']));
         array_push($videos, $listResponse[0]);
-      }
+	  }
+	}
       
   }else{
 		$state = mt_rand();
