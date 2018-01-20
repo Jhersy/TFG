@@ -1,6 +1,5 @@
 
 <?php
-
 require_once("src/App.php");
 require_once("src/logic/Categorias.php");
 require_once("src/logic/Informacion.php");
@@ -10,17 +9,16 @@ $rol = isAdmin(); //Return session admin or null
 $categoria =  $_GET["categoria"];
 
 $categoriasBBDD = new Categorias();
-$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria);	
+$IdsVideos = $categoriasBBDD->getVideosOfCategory($categoria);    
 
 $videos = array();
 
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-	throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
+    throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
   }
   
   require_once __DIR__ . '/vendor/autoload.php';
-//   session_start();
   
   $OAUTH2_CLIENT_ID = "88517581272-gu071qtdg26cg9oqbu8v3pmifgg6jogv.apps.googleusercontent.com";
   $OAUTH2_CLIENT_SECRET = "4xobKsbsIv2nFo7XOhcadA6V";
@@ -30,47 +28,42 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   $client->setClientSecret($OAUTH2_CLIENT_SECRET);
   $client->setScopes('https://www.googleapis.com/auth/youtube.force-ssl');
   $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
-	FILTER_SANITIZE_URL);
+    FILTER_SANITIZE_URL);
   $client->setRedirectUri($redirect);
   
   $youtube = new Google_Service_YouTube($client);
 
-	if (isset($_SESSION['sesion'])) {
-		$client->setAccessToken($_SESSION['sesion']);
-	}
-  
+    if (isset($_SESSION['sesion'])) {
+        $client->setAccessToken($_SESSION['sesion']);
+    }
+
   if ($client->getAccessToken()) {
-	  // $videoId = "wisbrPN9fbI";  
-
-	  // ESTADÍSTICAS DE UN VÍDEO
-	  foreach ($IdsVideos as $videoId) {
-		   
-		$listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
-		array('id' => $videoId['id_video']));
-		array_push($videos, $listResponse[0]);
-	  }
-
-	  
+      // ESTADÍSTICAS DE UN VÍDEO
+      foreach ($IdsVideos as $videoId) {
+        $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
+        array('id' => $videoId['id_video']));
+        array_push($videos, $listResponse[0]);
+      }
+      
   }else{
-	  $state = mt_rand();
-	  $client->setState($state);
-	  $_SESSION['state'] = $state;
-  
-	  $authUrl = $client->createAuthUrl();
-	  echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
-	  redirect($authUrl);
-  
+		$state = mt_rand();
+		$client->setState($state);
+		$_SESSION['state'] = $state;
+	
+		$authUrl = $client->createAuthUrl();
+		echo "<h3>Authorization Required</h3><p>You need to <a href=" . $authUrl . ">authorize access</a> before proceeding.<p>";
+		redirect($authUrl);
+	 
   }
 
   function getDuration($duration){
-	// PT1H25M38S
+    // PT1H25M38S
+    $parametros = array("PT", "H", "M","S");
+    $salida   = array("", "h ", "m ", "s");
 
-	$parametros = array("PT", "H", "M","S");
-	$salida   = array("", "h ", "m ", "s");
+    $newDuration = str_replace($parametros, $salida, $duration);
 
-	$newDuration = str_replace($parametros, $salida, $duration);
-
-	return $newDuration;
+    return $newDuration;
 
   }
 ?>
@@ -83,18 +76,13 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<title>Filosofía y Linguistica</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- ESTILO PERSONALIZADO -->
 	<link rel="stylesheet" href="resources/assets/css/style.css" />
-	<!-- #################### -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
-	<!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
-
 </head>
 
 <body>
@@ -210,7 +198,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 	<script src="resources/assets/js/jquery.min.js"></script>
 	<script src="resources/assets/js/skel.min.js"></script>
 	<script src="resources/assets/js/util.js"></script>
-	<!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="resources/assets/js/main.js"></script>
 
 </body>

@@ -1,6 +1,8 @@
 <?php
 require 'simple_html_dom.php';
 
+/* SCRAPING DE LA APLICACIÓN */
+
 set_time_limit(300);
 
 function multiexplode ($delimiters,$string) {    
@@ -8,8 +10,6 @@ function multiexplode ($delimiters,$string) {
     $launch = explode($delimiters[0], $ready);
     return  $launch;
 }
-
-
 
 /* Método que devuelve todas las categorías del blog */
 function getAllCategories(){

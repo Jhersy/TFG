@@ -12,7 +12,7 @@ require_once('config/config.php');
 
     /*************************************************************************/
         /* CREACIÓN DE LA BASE DE DATOS */
-    /*************************************************************************/
+        
     if(isset($_POST['ejecutar'])){
         if($_POST['ejecutar'] == 'recopilar'){
             try {
@@ -29,7 +29,7 @@ require_once('config/config.php');
             
     /*************************************************************************/
         /* IMPORTACIÓN DE LAS TABLAS EN LA BASE DE DATOS */
-    /*************************************************************************/
+
             $connection = mysqli_connect(DB_HOST, DB_USER, DB_USER_PASS, DB_NAME);
             if (mysqli_connect_errno())
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -95,16 +95,13 @@ require_once('config/config.php');
          $j++;
      }
 
-    /*************************************************************************/
-
-    /*************************************************************************/
+     /*************************************************************************/
     /* EDICIÓN DEL UPLOAD_MAX_FILE_SIZE PARA TRATAR CON ARCHIVOS DE MAYOR TAMAÑO */
-
 
     if(isset($_POST['ejecutar'])){
         if($_POST['ejecutar'] == 'recopilar'){
             // Obtener cada línea en un array:
-            $aLineas = file("../../php/php_test.ini");
+            $aLineas = file("../../php/php.ini");
             // Mostrar el contenido del archivo:
             $i = 0;
             $j = 0;
@@ -120,7 +117,7 @@ require_once('config/config.php');
                 // Borrar el tercer elemento del array (la tercera línea):
                 array_splice($aLineas, $j , 1 , 'upload_max_filesize=130M ');
                 // Abrir el archivo:
-                $archivo = fopen("../../php/php_test.ini", "w+b");
+                $archivo = fopen("../../php/php.ini", "w+b");
                 // Guardar los cambios en el archivo:
                 foreach( $aLineas as $linea ){
                     fwrite($archivo, $linea);
@@ -129,11 +126,6 @@ require_once('config/config.php');
         }
 
     }
-
-    /*************************************************************************/
-
-
-
     
 ?>
 

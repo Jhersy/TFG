@@ -1,5 +1,5 @@
 <?php
-/* Se insertará el comentario que ha realizado el usuario */
+/* SE INSERTARÁ EL COMENTARIO QUE AÑADA EL USUARIO */
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');

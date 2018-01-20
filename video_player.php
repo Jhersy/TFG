@@ -4,15 +4,17 @@ require_once("src/App.php");
 require_once("src/logic/Subtitulos.php");
 require_once("src/logic/Informacion.php");
 require_once("src/logic/Categorias.php");
+
+/* VISUALIZACIÓN DE UN VIDEO */
+
 $rol = isAdmin(); //Return session admin or null
 
 $videoId = $_GET['id_video'];
-
 $categoria = "";
-
 $busqueda = false;
 $miga = "";
 $segundos = 0;
+
 if(count($_GET) == 2){
     if(isset($_GET['categoria'])){
         $categoria = $_GET['categoria'];
@@ -100,8 +102,6 @@ $sesion = $_SESSION['sesion'];
 
 ?>
 
-
-
 <!DOCTYPE HTML>
 <html>
 
@@ -109,60 +109,22 @@ $sesion = $_SESSION['sesion'];
     <title><?=$videoSnippet['title']?></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
     <link rel="stylesheet" href="resources/assets/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- ESTILO PERSONALIZADO -->
 	<link rel="stylesheet" href="resources/assets/css/style.css" />
-	<!-- #################### -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
-    <script>
-        function download(id_video){
-            document.myform.id_video.value = id_video;
-            return true;
-        }
-
-        $(document).ready(function() {
-            $('#Carousel').carousel({
-                interval: 10000
-            })
-            $('[data-toggle="tooltip"]').tooltip();   
-        });
-
-        function insertComment(id_video, param){
-            var parametros = {
-                "id_video" : id_video,
-                "textComment" : $('#textarea').val()
-            };
-            $.ajax({
-                    data:  parametros,
-                    url:   'comentarios.php',
-                    type:  'post',
-                    success:  function () {
-                        window.location.href = "video_player.php?id_video=" + id_video + param;
-                    }
-            });
-        }
-
-        function cancelComment(){
-            $('#textarea').val("");
-        }
-    </script>
+    <script src="resources/assets/js/user.js"></script>
 </head>
 
 <body>
-
     <!-- Wrapper -->
     <div id="wrapper">
-
         <!-- Main -->
         <div id="main">
             <div class="inner">
-
             <!-- Header -->
             <?php require('includes/cabecera.php'); ?>
             <!-- 		-->
@@ -371,9 +333,6 @@ $sesion = $_SESSION['sesion'];
 
                 <?php } ?>
 
-
-
-
                     <h4><strong> <?=$videoCommentThreads['pageInfo']['totalResults']?> Comentarios</strong></h4>
 
                     <div class="12u 12u$(small)" style="padding-bottom: 1em;">
@@ -415,13 +374,6 @@ $sesion = $_SESSION['sesion'];
         </div>
 
     </div>
-
-    <!-- Scripts -->
-    <!-- <script src="resources/assets/js/jquery.min.js"></script>
-    <script src="resources/assets/js/skel.min.js"></script>
-    <script src="resources/assets/js/util.js"></script>
-    <!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
-    <!-- <script src="resources/assets/js/main.js"></script> -->
 
 </body>
 

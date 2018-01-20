@@ -25,93 +25,28 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 <html>
 
 <head>
-	<title>Modificar Categorías</title>
+	<title>Crear Categoría</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<!--[if lte IE 8]><script src="resources/assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!--[if lte IE 9]><link rel="stylesheet" href="resources/assets/css/ie9.css" /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="resources/assets/css/ie8.css" /><![endif]-->
     <script src="resources/assets/js/loading.js" ></script>
-    <script>
-        function ayuda(){
-            alert('Si se selecciona vídeos que estaban en otra categoría, éstos pasarán a formar parte de la nueva categoría.');
-        }
-        function guardarCategoria(){
- 
-            if($('#nombreCategoria').val().trim() == ""){
-                alert("El nombre de la categoría no puede ser vacía");
-            }else if ($("input:checkbox:checked").length == 0){
-                alert("Seleccione un vídeo para crear la categoría")
-            }else{
-                var aceptar = confirm("Recuerda que puede haber vídeos que pertenezcan a otra categoría. En este caso, los vídeos seleccionados pasarán a formar parte de la nueva");
-                if(aceptar){
-                    var $ids = "";
-                    var $names = "";
-                    $("input:checkbox:checked").each(function(){    
-                    var $this = $(this);    
-                        $ids += $this.attr("id") + "|";
-                        $names += $this.next().text() + "|";                    
-                    });
-    
-                    var parametros = {
-                            "nombreCategoria" : $('#nombreCategoria').val().trim(),
-                            "IdsVideos" : $ids,
-                            "nombreVideo" : $names
-                    };
-                    $.ajax({
-                            data:  parametros,
-                            url:   'nueva_categoria.php',
-                            type:  'post',
-                            success:  function () {
-                                $('#myModal').hide();
-                                alert('Categoría creada con éxito!');
-                                window.location.href = "conjunto_categorias.php";
-                            }
-                    });
-                }
-            }
-        }
-
-
-        function editarCategoria($id_categoria, $accion){
-            var parametros = {
-              "id_categoria" : $id_categoria,
-              "accion" : $accion
-            }
-            $.ajax({
-              data:  parametros,
-              url:   'editar_categoria.php',
-              type:  'post',
-              success:  function (data) {
-                  alert(data);
-                  window.location.href = "conjunto_categorias.php";
-              }
-            });
-        }
-    </script>
-
-
+    <script src="resources/assets/js/admin.js" ></script>
 </head>
 
 <body>
-
 	<!-- Wrapper -->
 	<div id="wrapper">
-
 		<!-- Main -->
 		<div id="main">
 			<div class="inner">
-
 				<!-- Cabecera -->
 				<?php require('includes/cabecera.php'); ?>
 				<!-- 		-->
-
-				<!-- Content -->
+				<!-- Contenido -->
 				<section>
 
                 <?php 
@@ -124,8 +59,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <div class="features">
 
                             <?php
-                                // foreach ($categorias as $categoria) {
-                                    for ($j=0; $j < count($categorias); $j++) { 
+                                for ($j=0; $j < count($categorias); $j++) { 
                             ?>
                                 <article>
                                     <span class="<?= $icons[$j]?>"></span>
@@ -141,7 +75,6 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 
                         </div>
                     <hr class="major" />
-                        
                     <?php                    
                     }
                     ?>
@@ -169,7 +102,7 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
                         <form enctype='multipart/form-data' method='GET' action='submitFormTo.php' id="formCategory">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label" >Nombre de la categoría:</label>
-                                <label  style="float:right;" onclick="ayuda()"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</label>
+                                <label  style="float:right;" onclick="ayudaCategoria()"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</label>
                                 <input type="text" class="form-control" name="nameCategory" id="nombreCategoria" required>
                             </div>
                             <div class="form-group">
@@ -211,7 +144,6 @@ $icons = array('icon fa fa-users small', 'icon fa fa-language small', 'icon fa f
 	<script src="resources/assets/js/jquery.min.js"></script>
 	<script src="resources/assets/js/skel.min.js"></script>
 	<script src="resources/assets/js/util.js"></script>
-	<!--[if lte IE 8]><script src="resources/assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="resources/assets/js/main.js"></script>
 
 </body>
