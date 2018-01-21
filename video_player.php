@@ -67,27 +67,33 @@ $sesion = $_SESSION['sesion'];
     }
   
   if ($client->getAccessToken()) {
-      // ESTADÍSTICAS DE UN VÍDEO
-      $listResponse = $youtube->videos->listVideos("snippet, statistics, player",array('id' => $videoId));
-      
-      $video = $listResponse[0];
-      $videoSnippet = $video['snippet'];
-      $videoStatistics = $video['statistics'];
-      $videoPlayer = $video['player'];
+    if($client->isAccessTokenExpired()) {
+		$client->refreshToken('refresh-token');
+		session_destroy();
+       	header('Location: index.php');
+	}else{  
+        // ESTADÍSTICAS DE UN VÍDEO
+        $listResponse = $youtube->videos->listVideos("snippet, statistics, player",array('id' => $videoId));
+        
+        $video = $listResponse[0];
+        $videoSnippet = $video['snippet'];
+        $videoStatistics = $video['statistics'];
+        $videoPlayer = $video['player'];
 
-      // COMENTARIOS DE UN VÍDEO
-      $videoCommentThreads = $youtube->commentThreads->listCommentThreads('snippet, replies', array(
-        'videoId' => $videoId,
-        'textFormat' => 'plainText',
-        ));
+        // COMENTARIOS DE UN VÍDEO
+        $videoCommentThreads = $youtube->commentThreads->listCommentThreads('snippet, replies', array(
+            'videoId' => $videoId,
+            'textFormat' => 'plainText',
+            ));
 
-    /* CARRUSEL DE VIDEOS DE LA MISMA CATEGORÍA*/
-    if(!$busqueda){
-        $videos = array();
-        foreach ($IdsVideos as $videoBusqueda) {        
-            $carrusel = $youtube->videos->listVideos("snippet",
-            array('id' => $videoBusqueda['id_video']));
-            array_push($videos, $carrusel[0]);
+        /* CARRUSEL DE VIDEOS DE LA MISMA CATEGORÍA*/
+        if(!$busqueda){
+            $videos = array();
+            foreach ($IdsVideos as $videoBusqueda) {        
+                $carrusel = $youtube->videos->listVideos("snippet",
+                array('id' => $videoBusqueda['id_video']));
+                array_push($videos, $carrusel[0]);
+            }
         }
     }
 

@@ -43,57 +43,63 @@ if (isset($_SESSION['sesion'])) {
 }
     
     if ($client->getAccessToken()) {
-    //LLAMADA AL MÉTODO DE LA API QUE REALIZA LA BÚSQUEDA
-    $searchResponse = $youtube->search->listSearch('id,snippet', array(
-    'q' => $query,
-    'channelId' => 'UCG_fXqOLea9FSTLoWZieaqw',
-    ));
-    
-    //BÚSQUEDA EN LOS SUBTÍTULOS
-    $resultSearchYoutube = array();
-    $arrayBBDD = array();
-    $arrayBBDD = buscarSubtitulos($query); // SE TRAE LOS VIDEOS EN LOS QUE EL TÉRMINO APARECE EN EL SUBTITULO
-
-    foreach ($searchResponse['items'] as $searchResult) {
-        switch ($searchResult['id']['kind']) {
-            case 'youtube#video':
-                $videos = new stdClass();
-                //SE OBTIENEN LOS DATOS DE CADA VÍDEO RESULTANTE DE LA BÚSQUEDA DE YOUTUBE
-                $listResponseSearch = $youtube->videos->listVideos("snippet, contentDetails, statistics",
-                array('id' => $searchResult['id']['videoId']));
-
-                $videos->visualizaciones = $listResponseSearch[0]['statistics']['viewCount'];
-                $videos->comentarios = $listResponseSearch[0]['statistics']['commentCount'];
-                $videos->likes = $listResponseSearch[0]['statistics']['likeCount'];
-                $videos->duracion = getDuration($listResponseSearch[0]['contentDetails']['duration']);
-                $videos->definicion = strtoupper($listResponseSearch[0]['contentDetails']['definition']);                
-                $videos->thumnail = $searchResult['snippet']['thumbnails']['default']['url'];
-                $videos->title = $searchResult['snippet']['title'];
-                $videos->idVideo = $searchResult['id']['videoId'];
-
-                //SE AÑADEN LOS INSTANTES EN LOS QUE SE HA ENCONTRADO LA BÚSQUEDA DEL USUARIO EN UN SUBTÍTULO
-                $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
-                array_push($resultSearchYoutube , $videos);
-            break;
-        }
-    }
-
-    $arrayVideosSubtitulos = array();
-        foreach ($arrayBBDD as $videoBBDD) {
-        $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
-        array('id' => $videoBBDD->idVideo));
-        $datosVideo  = new stdClass();
-        $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
-        $datosVideo->titulo = $listResponse[0]['snippet']['title'];
-        $datosVideo->visualizaciones = $listResponse[0]['statistics']['viewCount'];
-        $datosVideo->comentarios = $listResponse[0]['statistics']['commentCount'];
-        $datosVideo->likes = $listResponse[0]['statistics']['likeCount'];
-        $datosVideo->duracion = getDuration($listResponse[0]['contentDetails']['duration']);
-        $datosVideo->definicion = strtoupper($listResponse[0]['contentDetails']['definition']);
+        if($client->isAccessTokenExpired()) {
+            $client->refreshToken('refresh-token');
+            session_destroy();
+            header('Location: index.php');
+        }else{  
+        //LLAMADA AL MÉTODO DE LA API QUE REALIZA LA BÚSQUEDA
+        $searchResponse = $youtube->search->listSearch('id,snippet', array(
+        'q' => $query,
+        'channelId' => 'UCG_fXqOLea9FSTLoWZieaqw',
+        ));
         
-        $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
-        $datosVideo->idVideo = $videoBBDD->idVideo;
-        array_push($arrayVideosSubtitulos, $datosVideo);
+        //BÚSQUEDA EN LOS SUBTÍTULOS
+        $resultSearchYoutube = array();
+        $arrayBBDD = array();
+        $arrayBBDD = buscarSubtitulos($query); // SE TRAE LOS VIDEOS EN LOS QUE EL TÉRMINO APARECE EN EL SUBTITULO
+
+        foreach ($searchResponse['items'] as $searchResult) {
+            switch ($searchResult['id']['kind']) {
+                case 'youtube#video':
+                    $videos = new stdClass();
+                    //SE OBTIENEN LOS DATOS DE CADA VÍDEO RESULTANTE DE LA BÚSQUEDA DE YOUTUBE
+                    $listResponseSearch = $youtube->videos->listVideos("snippet, contentDetails, statistics",
+                    array('id' => $searchResult['id']['videoId']));
+
+                    $videos->visualizaciones = $listResponseSearch[0]['statistics']['viewCount'];
+                    $videos->comentarios = $listResponseSearch[0]['statistics']['commentCount'];
+                    $videos->likes = $listResponseSearch[0]['statistics']['likeCount'];
+                    $videos->duracion = getDuration($listResponseSearch[0]['contentDetails']['duration']);
+                    $videos->definicion = strtoupper($listResponseSearch[0]['contentDetails']['definition']);                
+                    $videos->thumnail = $searchResult['snippet']['thumbnails']['default']['url'];
+                    $videos->title = $searchResult['snippet']['title'];
+                    $videos->idVideo = $searchResult['id']['videoId'];
+
+                    //SE AÑADEN LOS INSTANTES EN LOS QUE SE HA ENCONTRADO LA BÚSQUEDA DEL USUARIO EN UN SUBTÍTULO
+                    $videos->subtitulos = searchInCaption($videos->idVideo, $arrayBBDD);
+                    array_push($resultSearchYoutube , $videos);
+                break;
+            }
+        }
+
+        $arrayVideosSubtitulos = array();
+            foreach ($arrayBBDD as $videoBBDD) {
+            $listResponse = $youtube->videos->listVideos("snippet, contentDetails, statistics",
+            array('id' => $videoBBDD->idVideo));
+            $datosVideo  = new stdClass();
+            $datosVideo->thumbnail =  $listResponse[0]['snippet']['thumbnails']['default']['url'];
+            $datosVideo->titulo = $listResponse[0]['snippet']['title'];
+            $datosVideo->visualizaciones = $listResponse[0]['statistics']['viewCount'];
+            $datosVideo->comentarios = $listResponse[0]['statistics']['commentCount'];
+            $datosVideo->likes = $listResponse[0]['statistics']['likeCount'];
+            $datosVideo->duracion = getDuration($listResponse[0]['contentDetails']['duration']);
+            $datosVideo->definicion = strtoupper($listResponse[0]['contentDetails']['definition']);
+            
+            $datosVideo->subtitulos = searchInCaption($videoBBDD->idVideo, $arrayBBDD);
+            $datosVideo->idVideo = $videoBBDD->idVideo;
+            array_push($arrayVideosSubtitulos, $datosVideo);
+            }
         }
 
     }else{

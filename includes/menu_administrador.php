@@ -16,7 +16,7 @@ require_once("src/logic/Categorias.php");
 					<span class="opener">Categorías</span>
 					<ul>
 						<?php
-						$i = 0;
+						$i = 1;
 						// SE MUESTRAN LAS CATEGORÍAS VISIBLES QUE ESTÁN EN LA BASE DE DATOS
 						$categoriasBBDD = new Categorias();
 						$categoriasVisibles = $categoriasBBDD->getCategoriesVisibles();
