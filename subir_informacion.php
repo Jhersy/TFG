@@ -77,7 +77,7 @@ if(!is_null($rol)){
                                         </ul>
                                     </div>
                                     <br><br>
-                                    <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg, .pdf, .zip, .png" required/>
+                                    <input id="videoUploadFile" name="videoUploadFile" type="file" accept=".txt, .jpg, .pdf, .zip, .png, .ppt, .doc, .docx, .pptx, .xls" required/>
                                 </div>
                                 
                                 

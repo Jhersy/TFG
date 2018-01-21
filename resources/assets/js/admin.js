@@ -150,5 +150,5 @@ function subirInformacion(){
 }
 
 function ayudaInformacion(){
-    alert('Recuerde que solo se puede subir un archivo por vídeo. Se podrán subir archivos de menos de 130 MB y de formato (.jpg, .png, .pdf, .txt, .zip)');
+    alert('Recuerde que solo se puede subir un archivo por vídeo. Se podrán subir archivos de menos de 1 MB y de formato (.txt, .jpg, .pdf, .zip, .png, .ppt, .doc, .docx, .pptx, .xls)');
 }

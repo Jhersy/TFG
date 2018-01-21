@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-01-2018 a las 17:13:55
+-- Tiempo de generación: 21-01-2018 a las 21:48:47
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.10
 
@@ -108,6 +108,12 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
+-- Indices de la tabla `informacion_adicional`
+--
+ALTER TABLE `informacion_adicional`
+  ADD KEY `id_informacion` (`id_informacion`);
+
+--
 -- Indices de la tabla `subtitulos`
 --
 ALTER TABLE `subtitulos`
@@ -129,7 +135,7 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT de la tabla `administradores`
 --
 ALTER TABLE `administradores`
-  MODIFY `id_admin` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_admin` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -140,6 +146,12 @@ ALTER TABLE `categorias`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `informacion_adicional`
+--
+ALTER TABLE `informacion_adicional`
+  ADD CONSTRAINT `informacion_adicional_ibfk_1` FOREIGN KEY (`id_informacion`) REFERENCES `videos` (`id_video`);
 
 --
 -- Filtros para la tabla `subtitulos`

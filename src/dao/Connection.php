@@ -15,9 +15,9 @@ class Connection {
   static function createConnection() {
 
     $servername = 'localhost';
-    $username = 'jhersy';
-    $password ='jhersy';
-    $dbname = 'prueba';
+    $username = 'user';
+    $password ='user';
+    $dbname = 'tfg';
     
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);

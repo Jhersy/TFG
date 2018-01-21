@@ -1,22 +1,5 @@
 <?php
-// require_once dirname(__DIR__) . "/config/config.php";
 session_start();
-
-// function getHostDB(){
-//     return DB_HOST;
-// }
-
-// function getUserDB(){
-//     return DB_USER;
-// }
-
-// function getUserPassDB(){
-//     return DB_USER_PASS;
-// }
-
-// function getNameDB(){
-//     return DB_NAME;
-// }
 
 function sessionLogin($name, $role, $id) {
     $_SESSION["name"] = $name;
@@ -87,6 +70,21 @@ function getTipoDescarga($tipo_archivo){
         case 'image/png':
             $tipo_descarga = ".png";
         break;  
+        case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+            $tipo_descarga = '.pptx';
+        break;
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            $tipo_descarga = '.docx';
+        break;
+        case 'application/vnd.ms-excel':
+            $tipo_descarga = '.xls';
+        break;
+        case 'application/vnd.ms-powerpoint':
+            $tipo_descarga = '.ppt';
+        break;
+        case 'application/msword':
+            $tipo_descarga = '.doc';
+        break;
         default:
             $tipo_descarga = ".txt";
         break;
