@@ -15,8 +15,8 @@ class Connection {
   static function createConnection() {
 
     $servername = 'localhost';
-    $username = 'user';
-    $password ='user';
+    $username = 'userTFG';
+    $password ='userTFG';
     $dbname = 'tfg';
     
     try {

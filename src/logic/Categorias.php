@@ -45,8 +45,5 @@ Class Categorias{
         $this->daoCategorias->resetAutoIncrement();
     }
 
-    // function checkCategory($nombre_categoria){
-    //     return empty($this->daoCategorias->checkCategory($nombre_categoria));
-    // }
 }
 ?>

@@ -12,16 +12,25 @@ require_once('config/config.php');
 
     /*************************************************************************/
         /* CREACIÓN DE LA BASE DE DATOS */
+    $existDB = "";
         
     if(isset($_POST['ejecutar'])){
         if($_POST['ejecutar'] == 'recopilar'){
             try {
                 $dbh = new PDO("mysql:host=" . DB_HOST , DB_ROOT, DB_ROOT_PASS);
-            
-                $dbh->exec("CREATE DATABASE " . DB_NAME . ";
-                        GRANT ALL PRIVILEGES ON " . DB_NAME .".* TO '" . DB_USER ."'@'localhost' IDENTIFIED BY '" .  DB_USER_PASS ."';
-                        FLUSH PRIVILEGES;") 
-                or die(print_r($dbh->errorInfo(), true));
+
+                $queryExistDB = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . DB_NAME . "'";
+                $stmt = $dbh->prepare($queryExistDB);
+                $stmt->execute();
+                $existDB = $stmt->fetch();
+
+                if(!$existDB){
+                    $dbh->exec("CREATE DATABASE " . DB_NAME . ";
+                            GRANT ALL PRIVILEGES ON " . DB_NAME .".* TO '" . DB_USER ."'@'localhost' IDENTIFIED BY '" .  DB_USER_PASS ."';
+                            FLUSH PRIVILEGES;") 
+                    or die(print_r($dbh->errorInfo(), true));
+
+                }
             
             } catch (PDOException $e) {
                 die("DB ERROR: ". $e->getMessage());
@@ -30,32 +39,34 @@ require_once('config/config.php');
     /*************************************************************************/
         /* IMPORTACIÓN DE LAS TABLAS EN LA BASE DE DATOS */
 
-            $connection = mysqli_connect(DB_HOST, DB_USER, DB_USER_PASS, DB_NAME);
-            if (mysqli_connect_errno())
-                echo "Failed to connect to MySQL: " . mysqli_connect_error();
-            // Temporary variable, used to store current query
-            $templine = '';
-            // Read in entire file
-            $fp = fopen(DB_FILE, 'r');
-            // Loop through each line
-            while (($line = fgets($fp)) !== false) {
-                // Skip it if it's a comment
-                if (substr($line, 0, 2) == '--' || $line == '')
-                    continue;
-                // Add this line to the current segment
-                $templine .= $line;
-                // If it has a semicolon at the end, it's the end of the query
-                if (substr(trim($line), -1, 1) == ';') {
-                    // Perform the query
-                    if(!mysqli_query($connection, $templine)){
-                        print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+            if(!$existDB){
+                $connection = mysqli_connect(DB_HOST, DB_USER, DB_USER_PASS, DB_NAME);
+                if (mysqli_connect_errno())
+                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                // Temporary variable, used to store current query
+                $templine = '';
+                // Read in entire file
+                $fp = fopen(DB_FILE, 'r');
+                // Loop through each line
+                while (($line = fgets($fp)) !== false) {
+                    // Skip it if it's a comment
+                    if (substr($line, 0, 2) == '--' || $line == '')
+                        continue;
+                    // Add this line to the current segment
+                    $templine .= $line;
+                    // If it has a semicolon at the end, it's the end of the query
+                    if (substr(trim($line), -1, 1) == ';') {
+                        // Perform the query
+                        if(!mysqli_query($connection, $templine)){
+                            print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+                        }
+                        // Reset temp variable to empty
+                        $templine = '';
                     }
-                    // Reset temp variable to empty
-                    $templine = '';
                 }
+                mysqli_close($connection);
+                fclose($fp);
             }
-            mysqli_close($connection);
-            fclose($fp);
         }
     }
     /*************************************************************************/
@@ -79,7 +90,7 @@ require_once('config/config.php');
      foreach ($categorias as $categoria) {
          //Inserta las categorías del blog 
          if(isset($_POST['ejecutar'])){
-             if($_POST['ejecutar'] == 'recopilar')
+             if($_POST['ejecutar'] == 'recopilar' && !$existDB)
                 $categoriaBBDD->setCategory($categoria, '1');
          }
 
