@@ -80,7 +80,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 <html>
 
 <head>
-	<title>Filosofía y Linguistica</title>
+	<title><?=$categoriasBBDD->getNameCategory($categoria)[0]['nombre_categoria']?></title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="icon" href="https://secure.gravatar.com/blavatar/3455840a986cc52bce4a312622afb6b5?s=32" type="image/x-icon">

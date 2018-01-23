@@ -63,7 +63,7 @@ $rol = isAdmin(); //Return session admin or null
 <html>
 
 <head>
-	<title>Filosofía y Linguistica</title>
+	<title>Zaragoza Linguistica a la carta</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="resources/assets/css/main.css" />
