@@ -103,18 +103,5 @@ Class DAOCategorias{
                 echo "ERROR EN DAOCategorias: " . $e->getMessage();
             }
     }
-
-    // function checkCategory($nombre_categoria){
-    //     try {
-    //         $sql = "SELECT nombre_categoria FROM categorias WHERE nombre_categoria = :nombre_categoria";
-    //         $stmt = $this->conn->prepare($sql);
-    //         $stmt->execute(["nombre_categoria" => $nombre_categoria]);
-    //         $res = $stmt->fetchAll();
-            
-    //     } catch(PDOException $e) {
-    //         echo "ERROR EN DAOCategorias: " . $e->getMessage();
-    //     }
-    //     return $res;
-    // }
 }
 ?>
